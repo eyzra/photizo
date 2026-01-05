@@ -33,11 +33,16 @@
                     },
                     animation: {
                         'slide-down': 'slideDown 0.5s ease-out forwards',
+                        'fire-pulse': 'firePulse 2s infinite',
                     },
                     keyframes: {
                         slideDown: {
                             '0%': { transform: 'translateY(-100%)' },
                             '100%': { transform: 'translateY(0)' },
+                        },
+                        firePulse: {
+                            '0%, 100%': { boxShadow: '0 0 20px #FF4500, 0 0 40px #FFD700' },
+                            '50%': { boxShadow: '0 0 40px #FF4500, 0 0 80px #FFD700' }
                         }
                     }
                 }
@@ -48,6 +53,55 @@
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; overflow-x: hidden; background-color: #fff; }
+
+        /* PRELOADER STYLES */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 100;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .globe-loader {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #001F3F, #000);
+            position: relative;
+            box-shadow: inset 0 0 20px #001F3F, 0 0 20px #001F3F;
+            animation: ignite 3s forwards;
+        }
+        .globe-loader::before {
+            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            background: transparent;
+            box-shadow: 0 0 0px transparent;
+            animation: fireBurn 2s 1.5s infinite alternate;
+        }
+        .reveal-text {
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: transparent;
+            background: linear-gradient(to right, #FFD700, #FF4500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            opacity: 0;
+            letter-spacing: 5px;
+            animation: textFadeIn 1s 2s forwards;
+        }
+
+        @keyframes ignite {
+            0% { background: radial-gradient(circle at 30% 30%, #001F3F, #000); box-shadow: 0 0 10px #001F3F; transform: scale(0.8); }
+            40% { background: radial-gradient(circle at 30% 30%, #4a90e2, #001F3F); box-shadow: 0 0 30px #4a90e2; transform: scale(1.1); }
+            60% { background: radial-gradient(circle at 30% 30%, #FFD700, #FF4500); box-shadow: 0 0 50px #FF4500; }
+            100% { background: radial-gradient(circle at 30% 30%, #fff, #FFD700); box-shadow: 0 0 80px #FF4500, 0 0 120px #FFD700; transform: scale(1); }
+        }
+        @keyframes fireBurn {
+            0% { box-shadow: 0 0 20px #FF4500; }
+            100% { box-shadow: 0 0 60px #FFD700, 0 0 100px #FF4500; }
+        }
+        @keyframes textFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* Curtain Effect */
         .hero-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 1; }
@@ -104,38 +158,46 @@
         .menu-bar-1, .menu-bar-2 { background-color: white; }
     </style>
 </head>
-<body class="text-dark antialiased">
+<body class="text-dark antialiased overflow-hidden"> <!-- Initially hidden overflow for preloader -->
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="globe-loader"></div>
+        <h1 class="reveal-text">PHOTIZO</h1>
+    </div>
 
     <!-- NAVIGATION BAR (Trigger) -->
     <!-- Fixed z-index ensures it sits on top of everything -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 glass-nav py-6 transition-all duration-300">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="text-2xl font-black tracking-widest text-white uppercase flex items-center gap-2 relative z-50">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 glass-nav py-4 md:py-6 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <!-- Smaller Text on Mobile (text-lg) -->
+            <a href="#" class="text-lg md:text-2xl font-black tracking-widest text-white uppercase flex items-center gap-2 relative z-50">
                 <span class="text-accent">Photizo</span> Global
             </a>
             
             <!-- Menu Trigger Button -->
-            <button id="menu-toggle" class="text-white flex items-center gap-3 group focus:outline-none relative z-50 cursor-pointer">
-                <span id="menu-text" class="text-sm font-bold tracking-widest uppercase group-hover:text-accent transition">Menu</span>
-                <div class="space-y-1.5">
-                    <span class="block w-8 h-0.5 bg-white group-hover:bg-accent transition transform origin-right menu-bar-1"></span>
-                    <span class="block w-6 h-0.5 bg-white group-hover:bg-accent transition ml-auto menu-bar-2"></span>
+            <!-- Smaller Text/Icon on Mobile -->
+            <button id="menu-toggle" class="text-white flex items-center gap-2 md:gap-3 group focus:outline-none relative z-50 cursor-pointer">
+                <span id="menu-text" class="text-xs md:text-sm font-bold tracking-widest uppercase group-hover:text-accent transition">Menu</span>
+                <div class="space-y-1 md:space-y-1.5">
+                    <span class="block w-6 md:w-8 h-0.5 bg-white group-hover:bg-accent transition transform origin-right menu-bar-1"></span>
+                    <span class="block w-4 md:w-6 h-0.5 bg-white group-hover:bg-accent transition ml-auto menu-bar-2"></span>
                 </div>
             </button>
         </div>
     </nav>
 
-    <!-- FULL SCREEN NAVIGATION OVERLAY (UPDATED: Deep Blue BG, Smaller Text) -->
+    <!-- FULL SCREEN NAVIGATION OVERLAY -->
     <div id="nav-overlay" class="fixed inset-0 bg-deepblue z-40 flex flex-col pt-24 pb-8 px-6 md:px-20 overflow-y-auto lg:overflow-hidden">
         <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 h-full items-center">
             <!-- Left: Links -->
             <div class="flex flex-col justify-center space-y-4 border-l-4 border-accent pl-8 md:pl-12">
-                <a href="#about" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">ABOUT</a>
-                <a href="#who-we-are" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">WHO WE ARE</a>
-                <a href="#vision" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">VISION</a>
-                <a href="#pillars" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">PILLARS</a>
-                <a href="#give" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">GIVE</a>
-                <a href="#contact" class="nav-link text-3xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">CONTACT</a>
+                <a href="#about" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">ABOUT</a>
+                <a href="#who-we-are" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">WHO WE ARE</a>
+                <a href="#vision" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">VISION</a>
+                <a href="#pillars" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">PILLARS</a>
+                <a href="#give" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">GIVE</a>
+                <a href="#contact" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">CONTACT</a>
             </div>
 
             <!-- Right: Quick Connect Form -->
@@ -283,7 +345,7 @@
         <section id="vision" class="py-24 relative overflow-hidden bg-black">
             <!-- Background Video -->
             <video autoplay loop muted playsinline class="video-bg opacity-30">
-                <source src="https://cdn.pixabay.com/video/2019/04/20/22908-331622395_large.mp4" type="video/mp4">
+                <source src="img/bgvideo.mp4" type="video/mp4">
             </video>
             
             <div class="container mx-auto px-6 relative z-10">
@@ -394,7 +456,7 @@
                     </div>
                 </div>
 
-                <!-- Expressions -->
+                <!-- Expressions (UPDATED: Stacked on mobile) -->
                 <div class="bg-deepblue text-white rounded-3xl p-8 md:p-16 reveal-on-scroll">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
@@ -430,17 +492,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="relative h-full min-h-[400px]">
-                            <!-- Image Collage -->
-                            <img src="img/6.jpg" class="absolute top-0 right-0 w-3/4 rounded-lg shadow-2xl z-10 border-4 border-deepblue" alt="Worship">
-                            <img src="img/22.jpg" class="absolute bottom-0 left-0 w-3/4 rounded-lg shadow-2xl grayscale hover:grayscale-0 transition duration-500" alt="Teaching">
+                        <div class="relative h-auto md:h-full md:min-h-[400px] flex flex-col gap-4 md:block">
+                            <!-- Image Collage (Stacked on Mobile, Collage on Desktop) -->
+                            <img src="img/6.jpg" class="relative w-full md:absolute md:top-0 md:right-0 md:w-3/4 rounded-lg shadow-2xl z-10 border-4 border-deepblue" alt="Worship">
+                            <img src="img/22.jpg" class="relative w-full md:absolute md:bottom-0 md:left-0 md:w-3/4 rounded-lg shadow-2xl grayscale hover:grayscale-0 transition duration-500" alt="Teaching">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. FOUNDER SECTION (UPDATED: Smaller Pic, New Text) -->
+        <!-- 7. FOUNDER SECTION -->
         <section id="founder" class="py-24 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center gap-12">
@@ -469,7 +531,7 @@
             </div>
         </section>
 
-        <!-- 8. STATEMENT OF FAITH (UPDATED) -->
+        <!-- 8. STATEMENT OF FAITH -->
         <section class="py-24 bg-dark text-white">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center mb-4 text-accent reveal-on-scroll">STATEMENT OF FAITH</h2>
@@ -610,6 +672,17 @@
 
     <!-- JavaScript -->
     <script>
+        // 0. PRELOADER
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            // Wait for animation to mostly finish
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.transform = 'translateY(-100%)';
+                document.body.style.overflow = 'auto'; // Re-enable scroll
+            }, 3500);
+        });
+
         // 1. MENU OVERLAY TOGGLE
         const menuToggle = document.getElementById('menu-toggle');
         const navOverlay = document.getElementById('nav-overlay');
