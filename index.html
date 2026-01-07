@@ -34,6 +34,7 @@
                     animation: {
                         'slide-down': 'slideDown 0.5s ease-out forwards',
                         'fire-pulse': 'firePulse 2s infinite',
+                        'glow': 'glow 3s infinite alternate',
                     },
                     keyframes: {
                         slideDown: {
@@ -43,6 +44,10 @@
                         firePulse: {
                             '0%, 100%': { boxShadow: '0 0 20px #FF4500, 0 0 40px #FFD700' },
                             '50%': { boxShadow: '0 0 40px #FF4500, 0 0 80px #FFD700' }
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 10px #FFD700' },
+                            'to': { boxShadow: '0 0 30px #FFD700, 0 0 10px #FFD700' }
                         }
                     }
                 }
@@ -51,8 +56,8 @@
     </script>
 
     <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; overflow-x: hidden; background-color: #fff; }
+        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        body { font-family: 'Montserrat', sans-serif; overflow-x: hidden; background-color: #fff; width: 100%; position: relative; }
 
         /* PRELOADER STYLES */
         #preloader {
@@ -75,19 +80,6 @@
             box-shadow: 0 0 0px transparent;
             animation: fireBurn 2s 1.5s infinite alternate;
         }
-        .reveal-text {
-            margin-top: 30px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 2rem;
-            color: transparent;
-            background: linear-gradient(to right, #FFD700, #FF4500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            opacity: 0;
-            letter-spacing: 5px;
-            animation: textFadeIn 1s 2s forwards;
-        }
 
         @keyframes ignite {
             0% { background: radial-gradient(circle at 30% 30%, #001F3F, #000); box-shadow: 0 0 10px #001F3F; transform: scale(0.8); }
@@ -98,9 +90,6 @@
         @keyframes fireBurn {
             0% { box-shadow: 0 0 20px #FF4500; }
             100% { box-shadow: 0 0 60px #FFD700, 0 0 100px #FF4500; }
-        }
-        @keyframes textFadeIn {
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Curtain Effect */
@@ -156,28 +145,42 @@
         
         /* Hamburger Icon Lines */
         .menu-bar-1, .menu-bar-2 { background-color: white; }
+
+        /* View Switching Helper */
+        .hidden-view { display: none !important; }
+        
+        /* Glassmorphism Card Glow */
+        .mission-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        .mission-glass:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.1);
+            border-color: #FFD700;
+            transform: translateY(-5px);
+        }
     </style>
 </head>
-<body class="text-dark antialiased overflow-hidden"> <!-- Initially hidden overflow for preloader -->
+<body class="text-dark antialiased overflow-hidden">
 
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="globe-loader"></div>
-        <h1 class="reveal-text">PHOTIZO</h1>
     </div>
 
-    <!-- NAVIGATION BAR (Trigger) -->
-    <!-- Fixed z-index ensures it sits on top of everything -->
+    <!-- NAVIGATION BAR -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 glass-nav py-4 md:py-6 transition-all duration-300">
-        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
-            <!-- Smaller Text on Mobile (text-lg) -->
-            <a href="#" class="text-lg md:text-2xl font-black tracking-widest text-white uppercase flex items-center gap-2 relative z-50">
-                <span class="text-accent">Photizo</span> Global
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-start md:items-center">
+            <a href="#" onclick="switchView('home')" class="group flex flex-col relative z-50 cursor-pointer">
+                <span class="text-lg md:text-2xl font-black tracking-widest text-white uppercase flex items-center gap-2">
+                    <span class="text-accent">Photizo</span> Global
+                </span>
+                <span class="text-[10px] md:text-xs text-gray-300 italic tracking-wide font-light group-hover:text-accent transition-colors duration-300">Revealing Jesus...</span>
             </a>
             
-            <!-- Menu Trigger Button -->
-            <!-- Smaller Text/Icon on Mobile -->
-            <button id="menu-toggle" class="text-white flex items-center gap-2 md:gap-3 group focus:outline-none relative z-50 cursor-pointer">
+            <button id="menu-toggle" class="text-white flex items-center gap-2 md:gap-3 group focus:outline-none relative z-50 cursor-pointer mt-1 md:mt-0">
                 <span id="menu-text" class="text-xs md:text-sm font-bold tracking-widest uppercase group-hover:text-accent transition">Menu</span>
                 <div class="space-y-1 md:space-y-1.5">
                     <span class="block w-6 md:w-8 h-0.5 bg-white group-hover:bg-accent transition transform origin-right menu-bar-1"></span>
@@ -190,500 +193,535 @@
     <!-- FULL SCREEN NAVIGATION OVERLAY -->
     <div id="nav-overlay" class="fixed inset-0 bg-deepblue z-40 flex flex-col pt-24 pb-8 px-6 md:px-20 overflow-y-auto lg:overflow-hidden">
         <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 h-full items-center">
-            <!-- Left: Links -->
             <div class="flex flex-col justify-center space-y-4 border-l-4 border-accent pl-8 md:pl-12">
-                <a href="#about" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">ABOUT</a>
-                <a href="#who-we-are" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">WHO WE ARE</a>
-                <a href="#vision" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">VISION</a>
-                <a href="#pillars" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">PILLARS</a>
-                <a href="#give" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">GIVE</a>
-                <a href="#contact" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu()">CONTACT</a>
+                <a href="#about" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('about')">ABOUT</a>
+                <a href="#who-we-are" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('home')">WHO WE ARE</a>
+                <a href="#mandate" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('home')">THE MANDATE</a>
+                <a href="#dna" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('home')">DNA</a>
+                <a href="#" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('expressions')">EXPRESSIONS</a>
+                <a href="#give" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('home')">GIVE</a>
+                <a href="#contact" class="nav-link text-2xl md:text-5xl font-black text-gray-400 hover:text-white transition-all duration-300 cursor-pointer" onclick="toggleMenu(); switchView('home')">CONTACT</a>
             </div>
-
-            <!-- Right: Quick Connect Form -->
+            
             <div class="bg-white p-8 rounded-xl shadow-xl flex flex-col justify-center max-w-md w-full mx-auto lg:mx-0">
                 <h3 class="text-xl font-bold text-deepblue mb-1">Quick Connect</h3>
                 <p class="text-gray-500 mb-6 text-xs">Send us a message directly.</p>
                 <form class="space-y-3">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Name</label>
-                        <input type="text" class="w-full bg-gray-50 border border-gray-200 p-2 rounded focus:outline-none focus:border-deepblue transition text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Email</label>
-                        <input type="email" class="w-full bg-gray-50 border border-gray-200 p-2 rounded focus:outline-none focus:border-deepblue transition text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Message</label>
-                        <textarea rows="3" class="w-full bg-gray-50 border border-gray-200 p-2 rounded focus:outline-none focus:border-deepblue transition text-sm"></textarea>
-                    </div>
+                    <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Name</label><input type="text" class="w-full bg-gray-50 border border-gray-200 p-2 rounded text-sm"></div>
+                    <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Email</label><input type="email" class="w-full bg-gray-50 border border-gray-200 p-2 rounded text-sm"></div>
+                    <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Message</label><textarea rows="3" class="w-full bg-gray-50 border border-gray-200 p-2 rounded text-sm"></textarea></div>
                     <button type="button" class="w-full bg-deepblue text-white font-bold py-3 hover:bg-black transition text-sm">SEND MESSAGE</button>
                 </form>
-                
-                <div class="mt-6 pt-6 border-t border-gray-200">
-                    <h4 class="font-bold text-dark mb-3 text-sm">Quick Links</h4>
-                    <div class="flex flex-wrap gap-3 text-xs text-gray-500">
-                        <a href="#" class="hover:text-deepblue">Sermons</a>
-                        <a href="#" class="hover:text-deepblue">Events</a>
-                        <a href="#" class="hover:text-deepblue">Store</a>
-                        <a href="#" class="hover:text-deepblue">Blog</a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- 1. HERO SECTION (Fixed Curtain) -->
-    <header class="hero-curtain flex items-center justify-center">
-        <!-- Background Slideshow -->
-        <div class="absolute inset-0 w-full h-full overflow-hidden bg-black">
-            <div class="slide active" style="background-image: url('img/1.jpg');"></div>
-            <div class="slide" style="background-image: url('img/2.jpg');"></div>
-            <div class="slide" style="background-image: url('img/3.jpg');"></div>
-            <div class="slide-overlay"></div>
-        </div>
-
-        <!-- Hero Content -->
-        <div class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-            <div class="max-w-5xl">
-                <p class="text-accent font-bold tracking-[0.3em] mb-6 uppercase animate-pulse">Revealing Jesus</p>
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
-                    We are the <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Light</span> of the World.
-                </h1>
-                <p class="text-lg md:text-2xl text-gray-200 font-light border-l-4 border-accent pl-6 mb-10 max-w-3xl leading-relaxed shadow-black drop-shadow-md">
-                    We refuse to blend into the shadows of culture. We shine as light to reveal truth; we burn as fire to consume chaff.
-                </p>
-            </div>
-
-            <div class="absolute bottom-10 left-6 md:left-20">
-                <p class="text-lg md:text-xl text-white font-medium">
-                    At Photizo, <span id="dynamic-text" class="text-accent font-bold"></span><span class="cursor">|</span>
-                </p>
-            </div>
-            
-            <div class="absolute bottom-10 right-6 md:right-20 animate-bounce cursor-pointer" onclick="document.querySelector('.content-layer').scrollIntoView()">
-                <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center p-1">
-                    <div class="w-1 h-3 bg-accent rounded-full"></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- CONTENT LAYER STARTS HERE -->
-    <main class="content-layer">
+    <!-- MAIN CONTENT CONTAINER -->
+    <div id="main-content">
         
-        <!-- 2. DEFINITION (WHAT IS PHOTIZO?) -->
-        <section id="about" class="py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    <div class="reveal-on-scroll">
-                        <h4 class="text-deepblue font-bold tracking-widest uppercase mb-2">The Definition</h4>
-                        <h2 class="text-5xl md:text-6xl font-black text-dark mb-8 leading-none">
-                            NOT A NOUN.<br>
-                            <span class="text-accent">A VERB.</span>
-                        </h2>
-                        <div class="h-1 w-20 bg-deepblue mb-8"></div>
-                        <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                            Photizo (Greek: <i>phōtizō</i>) does not merely describe the presence of light, but the <strong>aggressive action of illumination</strong>.
-                        </p>
-                        <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                            At Photizo Global, we do not just inform; we Illuminate. We believe information fills the head, but illumination transforms the spirit. We refuse to traffic in theories of a God we have not encountered; we traffic in the revelation of His person.
-                        </p>
-                    </div>
-                    <div class="reveal-on-scroll relative">
-                        <div class="absolute -top-10 -left-10 w-full h-full border-2 border-accent hidden md:block z-0"></div>
-                        <img src="img/5.jpg" alt="Illumination" class="relative z-10 w-full shadow-2xl grayscale hover:grayscale-0 transition duration-700">
-                        <div class="absolute bottom-10 -right-10 bg-deepblue p-8 shadow-xl hidden md:block z-20 max-w-sm">
-                            <p class="text-white italic font-light">"We have a mandate to turn men from darkness to light and from the power of Satan to the power of God."</p>
-                        </div>
-                    </div>
+        <!-- === HOME VIEW === -->
+        <div id="home-view">
+            <!-- 1. HERO SECTION -->
+            <header class="hero-curtain flex items-center justify-center">
+                <div class="absolute inset-0 w-full h-full overflow-hidden bg-black">
+                    <div class="slide active" style="background-image: url('img/1.jpg');"></div>
+                    <div class="slide" style="background-image: url('img/2.jpg');"></div>
+                    <div class="slide" style="background-image: url('img/3.jpg');"></div>
+                    <div class="slide-overlay"></div>
                 </div>
-            </div>
-        </section>
-
-        <!-- 3. WHO WE ARE (New Section) -->
-        <section id="who-we-are" class="py-24 bg-offwhite">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <!-- Column 1: Title & Main Statement -->
-                    <div class="reveal-on-scroll bg-deepblue text-white p-10 rounded-lg shadow-xl lg:mt-0 relative overflow-hidden">
-                         <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-accent rounded-full opacity-20"></div>
-                        <h4 class="text-accent font-bold tracking-widest uppercase mb-4">Who We Are</h4>
-                        <h2 class="text-3xl font-black mb-6">We are a City Set on a Hill that cannot be hidden.</h2>
-                        <p class="font-light leading-relaxed mb-6">
+                <div class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
+                    <div class="max-w-5xl">
+                        <p class="text-accent font-bold tracking-[0.3em] mb-6 uppercase animate-pulse">Revealing Jesus</p>
+                        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
+                            We are the <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Light</span> of the World.
+                        </h1>
+                        <p class="text-lg md:text-2xl text-gray-200 font-light border-l-4 border-accent pl-6 mb-10 max-w-3xl leading-relaxed shadow-black drop-shadow-md">
                             We refuse to blend into the shadows of culture. We shine as light to reveal truth; we burn as fire to consume chaff.
                         </p>
-                        <div class="h-1 w-20 bg-accent"></div>
                     </div>
-
-                    <!-- Column 2: Content Part 1 -->
-                    <div class="reveal-on-scroll delay-100 py-4">
-                        <h3 class="text-xl font-bold text-deepblue mb-4">A City Set on a Hill</h3>
-                        <p class="text-gray-600 leading-relaxed mb-6">
-                            Photizo Global is a didactic and systematic teaching ministry founded by Apostle Ezra Anya. Our vision is to make all men see Jesus, turning hearts from darkness to light and compelling believers into the fullness of their divine ordination.
-                        </p>
-                        <p class="text-gray-600 leading-relaxed">
-                            Our services are patterned after the Apostolic model, where sound doctrine meets the supernatural. We do not just explain God; we experience Him.
+                    <div class="absolute bottom-10 left-6 md:left-20">
+                        <p class="text-lg md:text-xl text-white font-medium">
+                            At Photizo, <span id="dynamic-text" class="text-accent font-bold"></span><span class="cursor">|</span>
                         </p>
                     </div>
-
-                    <!-- Column 3: Content Part 2 -->
-                    <div class="reveal-on-scroll delay-200 py-4">
-                        <h3 class="text-xl font-bold text-deepblue mb-4">Illuminating the Spirit</h3>
-                        <p class="text-gray-600 leading-relaxed mb-6">
-                            At Photizo, we are committed to not just informing the mind, but illuminating the spirit. We emphasize the supremacy of Jesus in doctrine, the steadfastness of Jesus in discipleship, the sufficiency of Jesus in devotion, and the superiority of Jesus in the demonstration of power.
-                        </p>
-                        <p class="text-gray-600 leading-relaxed border-l-4 border-accent pl-4 italic">
-                            "We stand as the light of the world... darkness is exposed, chains are broken, and men are transformed into the very image of the Son."
-                        </p>
+                    <div class="absolute bottom-10 right-6 md:right-20 animate-bounce cursor-pointer" onclick="document.querySelector('.content-layer').scrollIntoView()">
+                        <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center p-1">
+                            <div class="w-1 h-3 bg-accent rounded-full"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </header>
 
-        <!-- 4. VISION & MISSION (Refactored) -->
-        <section id="vision" class="py-24 relative overflow-hidden bg-black">
-            <!-- Background Video -->
-            <video autoplay loop muted playsinline class="video-bg opacity-30">
-                <source src="img/bgvideo.mp4" type="video/mp4">
-            </video>
-            
-            <div class="container mx-auto px-6 relative z-10">
-                <!-- Header -->
-                <div class="text-center mb-16 reveal-on-scroll">
-                    <h2 class="text-4xl font-black text-white mb-4">THE MANDATE</h2>
-                    <p class="text-gray-300 max-w-2xl mx-auto">Restoring the centrality of Christ in every area of life.</p>
-                </div>
-
-                <!-- Vision Card (Centered) -->
-                <div class="max-w-4xl mx-auto bg-white p-10 shadow-2xl border-t-4 border-deepblue reveal-on-scroll mb-20 text-center">
-                    <div class="w-16 h-16 bg-deepblue rounded-full flex items-center justify-center mb-6 text-accent text-2xl mx-auto">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h3 class="text-3xl font-bold text-dark mb-4">The Vision</h3>
-                    <p class="text-xl text-gray-700 font-serif italic mb-6">"To make all men see Jesus."</p>
-                    <p class="text-gray-500 text-sm">Lifting the veil of religious ambiguity so that the nature, character, and finished work of Christ are perceived with absolute clarity.</p>
-                </div>
-
-                <!-- Missions (4 Separate Cards) -->
-                <h3 class="text-3xl font-bold text-white text-center mb-10 reveal-on-scroll">The Mission: A Four-Fold Mandate</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Card 1 -->
-                    <div class="bg-deepblue/90 backdrop-blur-md p-8 border border-white/10 hover:border-accent hover:-translate-y-2 transition duration-300 rounded-lg reveal-on-scroll">
-                        <div class="text-yellow-200 text-4xl mb-4 font-black">01</div>
-                        <h4 class="font-bold text-xl mb-4 text-white">Supremacy in Doctrine</h4>
-                        <p class="text-sm text-gray-300 leading-relaxed">Establishing Christ as the absolute center of scriptural interpretation. Deconstructing error to reconstruct truth.</p>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="bg-deepblue/90 backdrop-blur-md p-8 border border-white/10 hover:border-accent hover:-translate-y-2 transition duration-300 rounded-lg reveal-on-scroll delay-100">
-                        <div class="text-yellow-200 text-4xl mb-4 font-black">02</div>
-                        <h4 class="font-bold text-xl mb-4 text-white">Steadfastness in Discipleship</h4>
-                        <p class="text-sm text-gray-300 leading-relaxed">Revealing Jesus as the faithful Anchor. Building believers who are rooted and unshakeable.</p>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="bg-deepblue/90 backdrop-blur-md p-8 border border-white/10 hover:border-accent hover:-translate-y-2 transition duration-300 rounded-lg reveal-on-scroll delay-200">
-                        <div class="text-yellow-200 text-4xl mb-4 font-black">03</div>
-                        <h4 class="font-bold text-xl mb-4 text-white">Sufficiency in Devotion</h4>
-                        <p class="text-sm text-gray-300 leading-relaxed">Weaning believers from the arm of flesh. Christ is the source, sustainer, and satisfaction.</p>
-                    </div>
-                    <!-- Card 4 -->
-                    <div class="bg-deepblue/90 backdrop-blur-md p-8 border border-white/10 hover:border-accent hover:-translate-y-2 transition duration-300 rounded-lg reveal-on-scroll delay-300">
-                        <div class="text-yellow-200 text-4xl mb-4 font-black">04</div>
-                        <h4 class="font-bold text-xl mb-4 text-white">Superiority in Power</h4>
-                        <p class="text-sm text-gray-300 leading-relaxed">Moving beyond intellectual assent to tangible proof. The Resurrected King is superior.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. OUR DNA - PARALLAX STRIP -->
-        <section class="parallax-section py-32 relative flex items-center" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop');">
-            <div class="absolute inset-0 bg-deepblue opacity-90"></div>
-            <div class="container mx-auto px-6 relative z-10 text-center">
-                <h2 class="text-accent tracking-widest uppercase font-bold mb-12 reveal-on-scroll">Our DNA: The Triad of Light</h2>
+            <!-- CONTENT LAYER (Home) -->
+            <main class="content-layer">
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-white">
-                    <div class="reveal-on-scroll group">
-                        <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-4 opacity-50 group-hover:opacity-100 transition">01</h1>
-                        <h3 class="text-2xl font-bold mb-4">Illumination</h3>
-                        <p class="text-sm font-light text-gray-300">The passive power of presence. Darkness is exposed by the quality of our spirit.</p>
+                <!-- 2. DEFINITION -->
+                <section id="about" class="py-24 bg-white">
+                    <div class="container mx-auto px-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            <div class="reveal-on-scroll">
+                                <h4 class="text-deepblue font-bold tracking-widest uppercase mb-2">The Illumination Church</h4>
+                                <h2 class="text-5xl md:text-6xl font-black text-dark mb-8 leading-none">NOT A NOUN.<br><span class="text-accent">A VERB.</span></h2>
+                                <div class="h-1 w-20 bg-deepblue mb-8"></div>
+                                <p class="text-gray-600 text-lg leading-relaxed mb-6">Photizo (Greek: <i>phōtizō</i>) does not merely describe the presence of light, but the <strong>aggressive action of illumination</strong>.</p>
+                                <p class="text-gray-600 text-lg leading-relaxed mb-6">At Photizo Global, we do not just inform; we Illuminate. We believe information fills the head, but illumination transforms the spirit. We refuse to traffic in theories of a God we have not encountered; we traffic in the revelation of His person.</p>
+                            </div>
+                            <div class="reveal-on-scroll relative">
+                                <div class="absolute -top-10 -left-10 w-full h-full border-2 border-accent hidden md:block z-0"></div>
+                                <img src="img/5.jpg" alt="Illumination" class="relative z-10 w-full shadow-2xl grayscale hover:grayscale-0 transition duration-700">
+                            </div>
+                        </div>
                     </div>
-                    <div class="reveal-on-scroll group delay-100">
-                        <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-4 opacity-50 group-hover:opacity-100 transition">02</h1>
-                        <h3 class="text-2xl font-bold mb-4">Impact</h3>
-                        <p class="text-sm font-light text-gray-300">The active power of good works (Erga Kala). Excellence that demands an explanation.</p>
-                    </div>
-                    <div class="reveal-on-scroll group delay-200">
-                        <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-4 opacity-50 group-hover:opacity-100 transition">03</h1>
-                        <h3 class="text-2xl font-bold mb-4">Influence</h3>
-                        <p class="text-sm font-light text-gray-300">The resulting power of authority. Earning the right to shape culture.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- 6. PILLARS & EXPRESSIONS -->
-        <section id="pillars" class="py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <!-- Pillars -->
-                <div class="mb-24">
-                    <h2 class="text-4xl font-black text-deepblue mb-12 text-center reveal-on-scroll">THE PILLARS</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="p-8 border border-gray-100 hover:shadow-xl transition duration-300 rounded-lg reveal-on-scroll text-center bg-white group hover:bg-deepblue">
-                            <i class="fas fa-book-open text-4xl text-deepblue mb-6 group-hover:text-accent transition"></i>
-                            <h4 class="font-bold text-xl mb-2 group-hover:text-white">Sound Doctrine</h4>
-                            <p class="text-xs uppercase text-gray-400 mb-4">The Mind of Christ</p>
-                            <p class="text-sm text-gray-600 group-hover:text-gray-300">Prioritizing accuracy over applause. Feeding the flock with strong meat.</p>
-                        </div>
-                        <div class="p-8 border border-gray-100 hover:shadow-xl transition duration-300 rounded-lg reveal-on-scroll delay-100 text-center bg-white group hover:bg-deepblue">
-                            <i class="fas fa-users text-4xl text-deepblue mb-6 group-hover:text-accent transition"></i>
-                            <h4 class="font-bold text-xl mb-2 group-hover:text-white">Solid Discipleship</h4>
-                            <p class="text-xs uppercase text-gray-400 mb-4">The Stature of Christ</p>
-                            <p class="text-sm text-gray-600 group-hover:text-gray-300">We are not a crowd; we are a body. Growing into the stature of Christ.</p>
-                        </div>
-                        <div class="p-8 border border-gray-100 hover:shadow-xl transition duration-300 rounded-lg reveal-on-scroll delay-200 text-center bg-white group hover:bg-deepblue">
-                            <i class="fas fa-heart text-4xl text-deepblue mb-6 group-hover:text-accent transition"></i>
-                            <h4 class="font-bold text-xl mb-2 group-hover:text-white">Steadfast Devotion</h4>
-                            <p class="text-xs uppercase text-gray-400 mb-4">The Heart of Christ</p>
-                            <p class="text-sm text-gray-600 group-hover:text-gray-300">Public influence is fueled by private communion with the Father.</p>
-                        </div>
-                        <div class="p-8 border border-gray-100 hover:shadow-xl transition duration-300 rounded-lg reveal-on-scroll delay-300 text-center bg-white group hover:bg-deepblue">
-                            <i class="fas fa-hand-sparkles text-4xl text-deepblue mb-6 group-hover:text-accent transition"></i>
-                            <h4 class="font-bold text-xl mb-2 group-hover:text-white">Supernatural</h4>
-                            <p class="text-xs uppercase text-gray-400 mb-4">The Hand of Christ</p>
-                            <p class="text-sm text-gray-600 group-hover:text-gray-300">We expect the impossible. Miracles confirming the Word preached.</p>
+                <!-- 3. WHO WE ARE -->
+                <section id="who-we-are" class="py-24 bg-offwhite">
+                    <div class="container mx-auto px-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                            <div class="reveal-on-scroll bg-deepblue text-white p-10 rounded-lg shadow-xl lg:mt-0 relative overflow-hidden">
+                                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-accent rounded-full opacity-20"></div>
+                                <h4 class="text-accent font-bold tracking-widest uppercase mb-4">Who We Are</h4>
+                                <h2 class="text-3xl font-black mb-6">We are a City Set on a Hill that cannot be hidden.</h2>
+                                <p class="font-light leading-relaxed mb-6">We refuse to blend into the shadows of culture. We shine as light to reveal truth; we burn as fire to consume chaff.</p>
+                                <div class="h-1 w-20 bg-accent"></div>
+                            </div>
+                            <div class="reveal-on-scroll delay-100 py-4">
+                                <h3 class="text-xl font-bold text-deepblue mb-4">A City Set on a Hill</h3>
+                                <p class="text-gray-600 leading-relaxed mb-6">Photizo Global is a didactic and systematic teaching ministry founded by Ezra Anya. Our vision is to make all men see Jesus, turning hearts from darkness to light.</p>
+                                <p class="text-gray-600 leading-relaxed">Our services are patterned after the Apostolic model, where sound doctrine meets the supernatural. We do not just explain God; we experience Him.</p>
+                            </div>
+                            <div class="reveal-on-scroll delay-200 py-4">
+                                <h3 class="text-xl font-bold text-deepblue mb-4">Illuminating the Spirit</h3>
+                                <p class="text-gray-600 leading-relaxed mb-6">At Photizo, we are committed to not just informing the mind, but illuminating the spirit. We exist to restore the centrality of Christ in the Church.</p>
+                                <p class="text-gray-600 leading-relaxed border-l-4 border-accent pl-4 italic">"We stand as the light of the world... darkness is exposed, chains are broken, and men are transformed into the very image of the Son."</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Expressions (UPDATED: Stacked on mobile) -->
-                <div class="bg-deepblue text-white rounded-3xl p-8 md:p-16 reveal-on-scroll">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-8 text-accent">Ministerial Expressions</h3>
-                            <div class="space-y-8">
-                                <div class="flex gap-4 group">
-                                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-accent font-bold group-hover:bg-accent group-hover:text-deepblue transition">01</div>
-                                    <div>
-                                        <h4 class="font-bold text-xl">ILLUMINATE</h4>
-                                        <p class="text-gray-400 text-sm">The classroom of the Spirit. Systematic exegesis building doctrinal stability.</p>
-                                    </div>
+                <!-- 4. THE MANDATE (VISION & MISSION with Glassmorphism) -->
+                <section id="mandate" class="py-24 relative overflow-hidden bg-black">
+                    <video autoplay loop muted playsinline class="video-bg opacity-30"><source src="img/bgvideo.mp4" type="video/mp4"></video>
+                    <div class="container mx-auto px-6 relative z-10">
+                        <div class="text-center mb-20 reveal-on-scroll">
+                            <h2 class="text-4xl md:text-5xl font-black text-white mb-8">THE MANDATE</h2>
+                            <div class="max-w-4xl mx-auto bg-deepblue/80 backdrop-blur-sm p-10 border border-white/10 rounded-xl relative overflow-hidden group hover:bg-deepblue/90 transition duration-500">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+                                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 text-accent text-2xl mx-auto group-hover:scale-110 transition duration-300"><i class="fas fa-eye"></i></div>
+                                <h3 class="text-2xl font-bold text-white mb-4 tracking-widest uppercase">The Vision</h3>
+                                <p class="text-2xl md:text-3xl text-yellow-200 font-serif italic mb-6">"To make all men see Jesus."</p>
+                                <p class="text-gray-300 text-sm leading-relaxed max-w-2xl mx-auto">Lifting the veil of religious ambiguity so that the nature, character, and finished work of Christ are perceived with absolute clarity.</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white text-center mb-4 reveal-on-scroll">THE MISSION</h3>
+                            <p class="text-gray-400 text-center max-w-3xl mx-auto mb-12 reveal-on-scroll">Our operational blueprint is drawn directly from the Apostolic pattern found in Acts 2:42-46.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="mission-glass p-8 rounded-xl reveal-on-scroll">
+                                    <div class="flex items-baseline justify-between mb-4"><h4 class="font-black text-2xl text-white">SOUND DOCTRINE</h4><span class="text-accent text-4xl font-bold opacity-30">01</span></div>
+                                    <p class="text-xs text-accent uppercase tracking-widest mb-4 font-bold">Doctrine - Teaching and Learning</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">We are emphatic on accuracy. We believe that truth must be preserved and transmitted without corruption. As we have been taught, we commit the same to faithful men who will be able to teach others also. We guard the good deposit with integrity.</p>
                                 </div>
-                                <div class="flex gap-4 group">
-                                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-accent font-bold group-hover:bg-accent group-hover:text-deepblue transition">02</div>
-                                    <div>
-                                        <h4 class="font-bold text-xl">IMMERSION</h4>
-                                        <p class="text-gray-400 text-sm">Camp meetings. Intense gatherings to soak in the Word until we overflow.</p>
-                                    </div>
+                                <div class="mission-glass p-8 rounded-xl reveal-on-scroll delay-100">
+                                    <div class="flex items-baseline justify-between mb-4"><h4 class="font-black text-2xl text-white">SOLID DISCIPLESHIP</h4><span class="text-accent text-4xl font-bold opacity-30">02</span></div>
+                                    <p class="text-xs text-accent uppercase tracking-widest mb-4 font-bold">Discipleship - Training and Equipping</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">We do not rely on random inspiration; we build with intent. We employ a structured, systematic teaching approach that moves believers from the milk of the Word to strong meat. We are committed to raising believers who are theologically literate and spiritually mature.</p>
                                 </div>
-                                <div class="flex gap-4 group">
-                                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-accent font-bold group-hover:bg-accent group-hover:text-deepblue transition">03</div>
-                                    <div>
-                                        <h4 class="font-bold text-xl">INTENSIFY</h4>
-                                        <p class="text-gray-400 text-sm">Corporate Fasting & Prayers. Birthing moves of God.</p>
-                                    </div>
+                                <div class="mission-glass p-8 rounded-xl reveal-on-scroll delay-200">
+                                    <div class="flex items-baseline justify-between mb-4"><h4 class="font-black text-2xl text-white">STEADFAST DEVOTION</h4><span class="text-accent text-4xl font-bold opacity-30">03</span></div>
+                                    <p class="text-xs text-accent uppercase tracking-widest mb-4 font-bold">Devotion - Prayer, Word and Love</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">We are a house fervent in prayer, focused on the Word, and faithful in love. We cultivate an atmosphere of burning consistency, ensuring that our public influence is fueled by private communion with the Father.</p>
                                 </div>
-                                <div class="flex gap-4 group">
-                                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-accent font-bold group-hover:bg-accent group-hover:text-deepblue transition">04</div>
-                                    <div>
-                                        <h4 class="font-bold text-xl">IDENTIFICATION CONFERENCE</h4>
-                                        <p class="text-gray-400 text-sm">Signature Easter event focused on "In Christ" realities.</p>
+                                <div class="mission-glass p-8 rounded-xl reveal-on-scroll delay-300">
+                                    <div class="flex items-baseline justify-between mb-4"><h4 class="font-black text-2xl text-white">SUPERNATURAL DEMONSTRATION</h4><span class="text-accent text-4xl font-bold opacity-30">04</span></div>
+                                    <p class="text-xs text-accent uppercase tracking-widest mb-4 font-bold">Dominion - Power, Signs and Wonders</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">We refuse to have a form of godliness while denying the power thereof. We believe that the Lord confirms His Word with signs following. We expect the impossible, creating an atmosphere where the miraculous is the natural validation of the Truth we preach.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. OUR DNA (Dedicated Section) -->
+                <section id="dna" class="py-32 relative overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-attachment: fixed;">
+                    <div class="absolute inset-0 bg-deepblue/90"></div>
+                    <div class="container mx-auto px-6 relative z-10 text-center">
+                        <h2 class="text-accent tracking-widest uppercase font-bold mb-16 reveal-on-scroll">Our DNA: The Triad of Light</h2>
+                        <p class="text-gray-200 mb-12 max-w-2xl mx-auto">This triad defines our culture and identity. It is how we manifest the Kingdom in our generation.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-white mb-16">
+                            <div class="reveal-on-scroll group bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl hover:bg-white/20 transition duration-300">
+                                <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-6 opacity-50 group-hover:opacity-100 transition">01</h1>
+                                <h3 class="text-2xl font-bold mb-4 text-accent">Illumination</h3>
+                                <p class="text-sm font-light text-gray-200 leading-relaxed">We light up the world with the convictions and constitution of the kingdom.</p>
+                            </div>
+                            <div class="reveal-on-scroll group bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl hover:bg-white/20 transition duration-300 delay-100">
+                                <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-6 opacity-50 group-hover:opacity-100 transition">02</h1>
+                                <h3 class="text-2xl font-bold mb-4 text-accent">Impact</h3>
+                                <p class="text-sm font-light text-gray-200 leading-relaxed">We light up the world with the Compassion and Competence of the Kingdom.</p>
+                            </div>
+                            <div class="reveal-on-scroll group bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl hover:bg-white/20 transition duration-300 delay-200">
+                                <h1 class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 mb-6 opacity-50 group-hover:opacity-100 transition">03</h1>
+                                <h3 class="text-2xl font-bold mb-4 text-accent">Influence</h3>
+                                <p class="text-sm font-light text-gray-200 leading-relaxed">We light up the world with the culture and character of the Kingdom.</p>
+                            </div>
+                        </div>
+                        <p class="text-3xl font-serif italic text-accent reveal-on-scroll font-light tracking-wide">"We are Luminaries and Lightbearers."</p>
+                    </div>
+                </section>
+
+                <!-- 6. MINISTERIAL EXPRESSIONS (Home Page Summary) -->
+                <section class="py-24 bg-white">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-16 reveal-on-scroll">
+                            <h2 class="text-3xl font-black text-deepblue mb-6">MINISTERIAL EXPRESSIONS</h2>
+                            <p class="text-gray-600 text-lg mb-8 leading-relaxed max-w-3xl mx-auto">
+                                We execute our vision through these strategic platforms designed to Illuminate, Immerse, Intensify, and Identify. Discover how you can engage with the move of God.
+                            </p>
+                        </div>
+                        
+                        <!-- Restored Layout: Image Left, List Right -->
+                        <div class="bg-deepblue text-white rounded-3xl p-8 md:p-16 reveal-on-scroll">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                                <div class="relative h-64 md:h-[400px]">
+                                    <img src="img/6.jpg" class="absolute top-0 right-0 w-3/4 rounded-lg shadow-2xl z-10 border-4 border-deepblue" alt="Worship">
+                                    <img src="img/22.jpg" class="absolute bottom-0 left-0 w-3/4 rounded-lg shadow-2xl grayscale hover:grayscale-0 transition duration-500" alt="Teaching">
+                                </div>
+                                <div>
+                                    <div class="space-y-6">
+                                        <div class="flex gap-4 group items-center"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent font-bold">01</div><h4 class="font-bold text-xl">ILLUMINATE <span class="block text-xs font-normal text-gray-400">Weekly Teaching</span></h4></div>
+                                        <div class="flex gap-4 group items-center"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent font-bold">02</div><h4 class="font-bold text-xl">INTENSIFY <span class="block text-xs font-normal text-gray-400">Corporate Fasting</span></h4></div>
+                                        <div class="flex gap-4 group items-center"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent font-bold">03</div><h4 class="font-bold text-xl">IMMERSION <span class="block text-xs font-normal text-gray-400">Camp Meetings</span></h4></div>
+                                        <div class="flex gap-4 group items-center"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-accent font-bold">04</div><h4 class="font-bold text-xl">IDENTIFICATION <span class="block text-xs font-normal text-gray-400">Special Conferences</span></h4></div>
+                                    </div>
+                                    <div class="mt-10">
+                                        <button onclick="switchView('expressions')" class="px-8 py-3 border border-accent text-accent hover:bg-accent hover:text-deepblue transition font-bold tracking-widest">LEARN MORE</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="relative h-auto md:h-full md:min-h-[400px] flex flex-col gap-4 md:block">
-                            <!-- Image Collage (Stacked on Mobile, Collage on Desktop) -->
-                            <img src="img/6.jpg" class="relative w-full md:absolute md:top-0 md:right-0 md:w-3/4 rounded-lg shadow-2xl z-10 border-4 border-deepblue" alt="Worship">
-                            <img src="img/22.jpg" class="relative w-full md:absolute md:bottom-0 md:left-0 md:w-3/4 rounded-lg shadow-2xl grayscale hover:grayscale-0 transition duration-500" alt="Teaching">
+                    </div>
+                </section>
+
+                <!-- 7. FOUNDER SECTION -->
+                <section id="founder" class="py-24 bg-gray-50">
+                    <div class="container mx-auto px-6">
+                        <div class="flex flex-col md:flex-row items-center gap-12">
+                            <div class="md:w-1/2 reveal-on-scroll flex justify-center">
+                                <div class="relative max-w-sm w-full">
+                                    <div class="absolute inset-0 bg-accent transform translate-x-4 translate-y-4"></div>
+                                    <img src="img/11.jpg" alt="Ezra Anya" class="relative z-10 w-full shadow-lg grayscale">
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 reveal-on-scroll">
+                                <h4 class="text-accent font-bold uppercase tracking-widest mb-2">The Luminary</h4>
+                                <h2 class="text-4xl md:text-5xl font-black text-deepblue mb-6">Ezra Anya</h2>
+                                <div class="text-gray-600 mb-6 space-y-4 leading-relaxed">
+                                    <p>Ezra Anya is the visionary founder of Photizo Global. He is a didactic and prophetic teacher sent with a specific coordinate in the spirit: <strong>to turn men from darkness to light.</strong></p>
+                                    <p>With a teaching grace that is both systematic and combustible, Ezra breaks down complex spiritual mysteries into digestible truth. His life goal is not merely to inform, but to compel men into the fullness of their divine ordination.</p>
+                                    <blockquote>He leads Photizo Global with a passion to see a generation that knows their God, understands their rank, and reveals Jesus in all spheres of influence.</blockquote>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- 7. FOUNDER SECTION -->
-        <section id="founder" class="py-24 bg-gray-50">
+                <!-- 8. STATEMENT OF FAITH (Full Text) -->
+                <section class="py-24 bg-dark text-white">
+                    <div class="container mx-auto px-6">
+                        <h2 class="text-3xl font-bold text-center mb-4 text-accent reveal-on-scroll">STATEMENT OF FAITH</h2>
+                        <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto reveal-on-scroll">What we believe defines how we live.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                            <div class="reveal-on-scroll bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">The Scriptures</h4><p class="text-sm text-gray-400 leading-relaxed">We believe the Bible is the inspired, inerrant, and authoritative Word of God. It is the final court of arbitration for all matters of doctrine and conduct.</p></div>
+                            <div class="reveal-on-scroll delay-100 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">The Triune God</h4><p class="text-sm text-gray-400 leading-relaxed">We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit—co-equal in power and glory.</p></div>
+                            <div class="reveal-on-scroll delay-200 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">The Person of Jesus</h4><p class="text-sm text-gray-400 leading-relaxed">We believe in the deity of our Lord Jesus Christ, His virgin birth, His sinless life, His atoning death, His bodily resurrection, and His ascension to the right hand of the Father.</p></div>
+                            <div class="reveal-on-scroll delay-300 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">Salvation</h4><p class="text-sm text-gray-400 leading-relaxed">We believe that salvation is by grace alone, through faith alone, in Christ alone. It is a free gift of God, not of works.</p></div>
+                            <div class="reveal-on-scroll bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">The Holy Spirit</h4><p class="text-sm text-gray-400 leading-relaxed">We believe in the present-day ministry of the Holy Spirit, whose indwelling enables the Christian to live a godly life and whose power empowers the believer for witness and miraculous demonstration.</p></div>
+                            <div class="reveal-on-scroll delay-100 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition"><h4 class="font-bold text-xl mb-3 text-white">The Church</h4><p class="text-sm text-gray-400 leading-relaxed">We believe the Church is the Body of Christ, the habitation of God through the Spirit, with a divine appointment to fulfill the Great Commission.</p></div>
+                            <div class="reveal-on-scroll delay-200 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition md:col-span-2"><h4 class="font-bold text-xl mb-3 text-white">The Resurrection</h4><p class="text-sm text-gray-400 leading-relaxed">We believe in the resurrection of both the saved and the lost; they that are saved unto the resurrection of life, and they that are lost unto the resurrection of judgment.</p></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. GIVE & SUBSCRIBE (More Elaborate) -->
+                <section id="give" class="py-32 relative text-white" style="background-image: url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-attachment: fixed;">
+                    <div class="absolute inset-0 bg-deepblue/90"></div>
+                    <div class="container mx-auto px-6 relative z-10">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl font-black mb-4">GIVE</h2>
+                            <p class="max-w-2xl mx-auto text-gray-300">Your generosity enables us to take the message of Christ to nations, organize camp meetings, and produce resources that transform lives. Partner with us to see the knowledge of the glory of the Lord cover the earth.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            <!-- Card 1 -->
+                            <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 hover:bg-white/20 transition group text-center">
+                                <i class="fas fa-hand-holding-heart text-4xl text-accent mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">One-Time Gift</h3>
+                                <p class="text-sm text-gray-300 mb-6">Sow a seed into a specific meeting or project.</p>
+                                <button class="w-full py-3 border border-white hover:bg-white hover:text-deepblue transition font-bold">GIVE NOW</button>
+                            </div>
+                            <!-- Card 2 (Featured) -->
+                            <div class="bg-gradient-to-b from-accent to-yellow-600 p-8 rounded-xl shadow-2xl transform md:-translate-y-4 text-center text-deepblue">
+                                <i class="fas fa-handshake text-4xl mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">Partner</h3>
+                                <p class="text-sm text-deepblue/80 mb-6 font-semibold">Join the army of consistent supporters.</p>
+                                <button class="w-full py-3 bg-deepblue text-white hover:bg-black transition font-bold shadow-lg">BECOME A PARTNER</button>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 hover:bg-white/20 transition group text-center">
+                                <i class="fas fa-university text-4xl text-accent mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">Bank Transfer</h3>
+                                <p class="text-sm text-gray-300 mb-2">Photizo Global Ministry</p>
+                                <p class="text-sm font-mono text-accent">GTBank | 0000000000</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="bg-black text-white py-16 border-t border-gray-900">
+                    <div class="container mx-auto px-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                            <div>
+                                <h3 class="text-2xl font-black text-white mb-6 tracking-widest uppercase"><span class="text-accent">Photizo</span> Global</h3>
+                                <p class="text-gray-400 text-sm mb-6">We turn men from darkness to light, and we set the hearts of men on fire.</p>
+                                <div class="flex space-x-4"><a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-facebook-f"></i></a><a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-instagram"></i></a><a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-youtube"></i></a></div>
+                            </div>
+                            <div><h4 class="font-bold text-lg mb-6">Quick Links</h4><ul class="space-y-3 text-sm text-gray-400"><li><a href="#" onclick="switchView('home')" class="hover:text-accent transition">Home</a></li><li><a href="#" onclick="switchView('about')" class="hover:text-accent transition">About Us</a></li><li><a href="#" onclick="switchView('expressions')" class="hover:text-accent transition">Expressions</a></li><li><a href="#" class="hover:text-accent transition">Give</a></li></ul></div>
+                            <div><h4 class="font-bold text-lg mb-6">Contact</h4><ul class="space-y-3 text-sm text-gray-400"><li><i class="fas fa-envelope mr-2 text-accent"></i> info@photizoglobal.org</li><li><i class="fas fa-phone mr-2 text-accent"></i> +234 800 000 0000</li><li><i class="fas fa-map-marker-alt mr-2 text-accent"></i> Lagos, Nigeria</li></ul></div>
+                            <div><h4 class="font-bold text-lg mb-6">The Pledge</h4><p class="text-sm text-gray-500 italic">"We are the light of the world, A city set on a hill that cannot be hidden. We turn men from darkness to light, And we set the hearts of men on fire. We arise, and we shine, For our Light has come, And we are the effulgence of His glory."</p></div>
+                        </div>
+                        <div class="border-t border-gray-900 pt-8 text-center text-gray-600 text-sm">&copy; 2026 Photizo Global. All Rights Reserved. Revealing Jesus.</div>
+                    </div>
+                </footer>
+            </main>
+        </div>
+
+        <!-- === ABOUT US VIEW === -->
+        <div id="about-view" class="hidden-view pt-32 pb-24 bg-gray-50 min-h-screen">
             <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2 reveal-on-scroll flex justify-center">
-                        <div class="relative max-w-sm w-full">
-                            <div class="absolute inset-0 bg-accent transform translate-x-4 translate-y-4"></div>
-                            <img src="img/11.jpg" alt="Apostle Ezra Anya" class="relative z-10 w-full shadow-lg grayscale">
-                        </div>
+                <!-- About Header (Left Aligned) -->
+                <div class="text-left mb-16">
+                    <h4 class="text-accent font-bold tracking-[0.2em] mb-4 uppercase">About Us</h4>
+                    <h2 class="text-4xl md:text-6xl font-black text-deepblue mb-6">WHO WE ARE</h2>
+                    <p class="text-gray-600 max-w-3xl leading-relaxed">
+                        Photizo Global is a didactic and systematic teaching ministry sent with a specific coordinate in the spirit: to act as a spiritual lens, bringing the person of Jesus Christ into sharp focus. Our existence is anchored in the prayer of Ephesians 1:18—that the eyes of men’s understanding be enlightened.
+                    </p>
+                </div>
+
+                <!-- The Birth of Photizo -->
+                <div class="mb-24 bg-white p-10 border-l-4 border-deepblue shadow-lg">
+                    <h3 class="text-2xl font-bold text-deepblue mb-4">Why We Exist</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">The ministry was birthed for one singular purpose: <strong>For all men to see Jesus, know Him, and become like Him.</strong> We are committed to lifting the veil of religious ambiguity so that the nature, character, and finished work of Christ are perceived with absolute clarity.</p>
+                </div>
+
+                <!-- Founder Section (Added to About Page) -->
+                <div class="flex flex-col md:flex-row items-center gap-12 mb-24">
+                    <div class="md:w-1/3">
+                        <img src="img/11.jpg" alt="Ezra Anya" class="w-full rounded shadow-lg grayscale hover:grayscale-0 transition">
                     </div>
-                    <div class="md:w-1/2 reveal-on-scroll">
-                        <h4 class="text-accent font-bold uppercase tracking-widest mb-2">The Visionary</h4>
-                        <h2 class="text-4xl md:text-5xl font-black text-deepblue mb-6">Apostle Ezra Anya</h2>
-                        <div class="text-gray-600 mb-6 space-y-4 leading-relaxed">
-                            <p>
-                                Apostle Ezra Anya is the visionary founder of Photizo Global. He is a didactic and prophetic teacher sent with a specific coordinate in the spirit: <strong>to turn men from darkness to light.</strong>
-                            </p>
-                            <p>
-                                With a teaching grace that is both systematic and combustible, Apostle Ezra breaks down complex spiritual mysteries into digestible truth. His life goal is not merely to inform, but to compel men into the fullness of their divine ordination. He believes that every believer has a blueprint in God, and through the teaching of the Word, that blueprint must become a reality.
-                            </p>
-                            <p class="italic border-l-4 border-accent pl-4">
-                                He leads Photizo Global with a passion to see a generation that knows their God, understands their rank, and reveals Jesus in all spheres of influence.
-                            </p>
+                    <div class="md:w-2/3">
+                        <h3 class="text-3xl font-bold text-deepblue mb-2">Ezra Anya</h3>
+                        <p class="text-accent font-bold uppercase tracking-widest mb-6 text-sm">Founder & Visionary</p>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Ezra Anya is the visionary founder of Photizo Global. He is a didactic and prophetic teacher sent with a specific coordinate in the spirit: <strong>to turn men from darkness to light.</strong></p>
+                        <p class="text-gray-600 leading-relaxed">With a teaching grace that is both systematic and combustible, Ezra breaks down complex spiritual mysteries into digestible truth. His life goal is not merely to inform, but to compel men into the fullness of their divine ordination. He believes that every believer has a blueprint in God, and through the teaching of the Word, that blueprint must become a reality.</p>
+                    </div>
+                </div>
+
+                <!-- Vision & Mission -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
+                    <div class="bg-white p-10 shadow-lg border-t-4 border-deepblue">
+                        <h3 class="text-2xl font-bold text-deepblue mb-4">Our Vision</h3>
+                        <p class="text-gray-600 mb-4">To open their eyes, in order to turn them from darkness to light, and from the power of Satan to God.</p>
+                        <p class="text-xs font-bold text-accent uppercase tracking-widest">Rooted in Acts 26:18 & 2 Cor 4:4-6</p>
+                    </div>
+                    <div class="bg-deepblue text-white p-10 shadow-lg border-t-4 border-accent">
+                        <h3 class="text-2xl font-bold text-accent mb-4">Our Mission</h3>
+                        <p class="text-gray-300 mb-4">A four-fold mandate to restore the centrality of Christ in Doctrine, Discipleship, Devotion, and Demonstration.</p>
+                        <p class="text-xs font-bold text-white uppercase tracking-widest">Rooted in Acts 2:42-46</p>
+                    </div>
+                </div>
+
+                <!-- Detailed Emphasis -->
+                <div class="mb-24">
+                    <h3 class="text-3xl font-black text-center text-deepblue mb-12 uppercase">Our Emphasis</h3>
+                    <div class="space-y-12">
+                        <!-- 1 -->
+                        <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-200 pb-8">
+                            <div class="md:w-1/4"><h4 class="text-2xl font-bold text-deepblue">01. The Superiority of Jesus</h4><p class="text-accent font-bold text-sm">He is Better</p></div>
+                            <div class="md:w-3/4 text-gray-600 space-y-4">
+                                <p><strong>Core Idea:</strong> Comparison. Superiority is about value and quality. When you emphasize His superiority, you are arguing that while there are other good things (angels, prophets, the Law, earthly treasures), Jesus is infinitely better.</p>
+                                <p><strong>Biblical Basis:</strong> Hebrews 1:4, 3:3, 4:14. We teach that no other religious system, philosophy, or person compares to Him. You are challenging "idols." He is the "Pearl of Great Price" worth selling everything for.</p>
+                            </div>
+                        </div>
+                        <!-- 2 -->
+                        <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-200 pb-8">
+                            <div class="md:w-1/4"><h4 class="text-2xl font-bold text-deepblue">02. The Supremacy of Jesus</h4><p class="text-accent font-bold text-sm">He is Above</p></div>
+                            <div class="md:w-3/4 text-gray-600 space-y-4">
+                                <p><strong>Core Idea:</strong> Rank and Authority. Supremacy is about position and sovereignty. He holds the highest rank in the universe. He is not just a Savior to be loved; He is a Lord to be obeyed.</p>
+                                <p><strong>Biblical Basis:</strong> Colossians 1:15-18. You are asserting His absolute authority over culture, governments, demons, and the church. It kills the idea of a "private faith." If Christ is Supreme, He is Lord over your finances, your relationships, and your career.</p>
+                            </div>
+                        </div>
+                        <!-- 3 -->
+                        <div class="flex flex-col md:flex-row gap-8 items-start border-b border-gray-200 pb-8">
+                            <div class="md:w-1/4"><h4 class="text-2xl font-bold text-deepblue">03. The Sufficiency of Jesus</h4><p class="text-accent font-bold text-sm">He is Enough</p></div>
+                            <div class="md:w-3/4 text-gray-600 space-y-4">
+                                <p><strong>Core Idea:</strong> Completeness. Sufficiency is about contentment and fullness. This opposes the idea that we need "Jesus plus something else" to be complete.</p>
+                                <p><strong>Biblical Basis:</strong> Colossians 2:9-10. You don't need Jesus plus legalism, mysticism, or secular success. It is the message of rest. If Jesus is sufficient, you can stop striving to earn God's love. You already have everything in Him.</p>
+                            </div>
+                        </div>
+                        <!-- 4 -->
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="md:w-1/4"><h4 class="text-2xl font-bold text-deepblue">04. The Stability of Jesus</h4><p class="text-accent font-bold text-sm">He is Unchanging</p></div>
+                            <div class="md:w-3/4 text-gray-600 space-y-4">
+                                <p><strong>Core Idea:</strong> Immutability and Constancy. Stability is about reliability. In a world defined by entropy, decay, and shifting shadows, the Stability of Jesus asserts that He is the solid ground that does not move.</p>
+                                <p><strong>Biblical Basis:</strong> Hebrews 13:8, Matthew 7:24-25. This means His character is fixed. When society shifts its definitions of truth, His Word remains the standard. You can lean your full weight on Him, and He will not buckle or break.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- 8. STATEMENT OF FAITH -->
-        <section class="py-24 bg-dark text-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-4 text-accent reveal-on-scroll">STATEMENT OF FAITH</h2>
-                <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto reveal-on-scroll">What we believe defines how we live.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    <div class="reveal-on-scroll bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Scriptures</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe the Bible is the inspired, inerrant, and authoritative Word of God. It is the final court of arbitration for all matters of doctrine and conduct.</p>
+                <!-- DNA & Community -->
+                <div class="bg-gray-100 p-12 rounded-xl mb-24">
+                    <div class="text-center mb-10">
+                        <h3 class="text-2xl font-bold text-deepblue mb-4">Beyond the 4 Walls</h3>
+                        <p class="text-gray-600">Our DNA is not just for Sunday service. Join our community channels to stay connected.</p>
                     </div>
-                    <div class="reveal-on-scroll delay-100 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Triune God</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit—co-equal in power and glory.</p>
-                    </div>
-                    <div class="reveal-on-scroll delay-200 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Person of Jesus</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe in the deity of our Lord Jesus Christ, His virgin birth, His sinless life, His atoning death, His bodily resurrection, and His ascension to the right hand of the Father.</p>
-                    </div>
-                    <div class="reveal-on-scroll delay-300 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">Salvation</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe that salvation is by grace alone, through faith alone, in Christ alone. It is a free gift of God, not of works.</p>
-                    </div>
-                    <div class="reveal-on-scroll bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Holy Spirit</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe in the present-day ministry of the Holy Spirit, whose indwelling enables the Christian to live a godly life and whose power empowers the believer for witness and miraculous demonstration.</p>
-                    </div>
-                    <div class="reveal-on-scroll delay-100 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Church</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe the Church is the Body of Christ, the habitation of God through the Spirit, with a divine appointment to fulfill the Great Commission.</p>
-                    </div>
-                    <div class="reveal-on-scroll delay-200 bg-white/5 p-8 rounded-lg border-l-4 border-accent hover:bg-white/10 transition md:col-span-2">
-                        <h4 class="font-bold text-xl mb-3 text-white">The Resurrection</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We believe in the resurrection of both the saved and the lost; they that are saved unto the resurrection of life, and they that are lost unto the resurrection of judgment.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                        <a href="#" class="block p-6 bg-white rounded shadow hover:shadow-lg transition group">
+                            <i class="fab fa-whatsapp text-4xl text-green-500 mb-4 group-hover:scale-110 transition"></i>
+                            <h4 class="font-bold text-deepblue">WhatsApp Channel</h4>
+                            <p class="text-sm text-gray-500">Get daily updates and content.</p>
+                        </a>
+                        <a href="#" class="block p-6 bg-white rounded shadow hover:shadow-lg transition group">
+                            <i class="fab fa-telegram text-4xl text-blue-500 mb-4 group-hover:scale-110 transition"></i>
+                            <h4 class="font-bold text-deepblue">Telegram Channel</h4>
+                            <p class="text-sm text-gray-500">Access our teaching archives.</p>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- 9. GLOBAL PARTNERS (GIVE SECTION) -->
-        <section id="give" class="py-32 bg-white relative">
-            <div class="absolute top-0 right-0 w-1/3 h-full bg-gray-50 skew-x-12 z-0 hidden lg:block"></div>
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="flex flex-col lg:flex-row gap-16 items-center">
-                    <div class="lg:w-1/2 reveal-on-scroll">
-                        <h4 class="text-accent font-bold uppercase tracking-widest mb-2">Partnership</h4>
-                        <h2 class="text-4xl md:text-5xl font-black text-deepblue mb-6">Fuel the Fire.<br>Spread the Light.</h2>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-                            Your generosity enables us to take the message of Christ to nations, organize camp meetings, and produce resources that transform lives. Partner with us to see the knowledge of the glory of the Lord cover the earth.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <button class="px-8 py-4 bg-deepblue text-white font-bold text-sm tracking-wider hover:bg-black transition shadow-lg">GIVE ONLINE</button>
-                            <button class="px-8 py-4 border-2 border-deepblue text-deepblue font-bold text-sm tracking-wider hover:bg-deepblue hover:text-white transition">BECOME A PARTNER</button>
+                <!-- Lightbearer Form -->
+                <div class="max-w-2xl mx-auto bg-white p-10 shadow-2xl border-t-4 border-accent">
+                    <h3 class="text-2xl font-bold text-center text-deepblue mb-2">Be a Lightbearer</h3>
+                    <p class="text-center text-gray-500 mb-8">We want to know more about you. Join the family.</p>
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="First Name" class="w-full border p-3 rounded focus:outline-none focus:border-deepblue">
+                            <input type="text" placeholder="Last Name" class="w-full border p-3 rounded focus:outline-none focus:border-deepblue">
                         </div>
-                    </div>
-                    <div class="lg:w-1/2 w-full grid grid-cols-1 md:grid-cols-2 gap-6 reveal-on-scroll">
-                        <!-- Giving Option 1 -->
-                        <div class="bg-white p-8 shadow-xl border-t-4 border-gray-200 hover:border-accent transition group">
-                            <h3 class="text-xl font-bold text-dark mb-2 group-hover:text-deepblue">One-Time Gift</h3>
-                            <p class="text-sm text-gray-500 mb-4">Support a specific meeting or project.</p>
-                            <a href="#" class="text-accent font-bold text-sm flex items-center">GIVE NOW <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
-                        </div>
-                        <!-- Giving Option 2 -->
-                        <div class="bg-deepblue p-8 shadow-xl border-t-4 border-accent text-white transform md:-translate-y-4">
-                            <h3 class="text-xl font-bold text-accent mb-2">Monthly Partner</h3>
-                            <p class="text-sm text-gray-300 mb-4">Consistent support for global impact.</p>
-                            <a href="#" class="text-white font-bold text-sm flex items-center">JOIN PARTNERSHIP <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
-                        </div>
-                        <!-- Giving Option 3 -->
-                        <div class="bg-white p-8 shadow-xl border-t-4 border-gray-200 hover:border-accent transition md:col-span-2">
-                            <h3 class="text-xl font-bold text-dark mb-2">Bank Transfer</h3>
-                            <p class="text-sm text-gray-500">Photizo Global Ministry | GTBank | 0000000000</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. SUBSCRIBE SECTION -->
-        <section class="py-24 bg-deepblue text-white relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-            <div class="container mx-auto px-6 relative z-10 text-center">
-                <div class="max-w-3xl mx-auto reveal-on-scroll">
-                    <i class="fas fa-envelope-open-text text-5xl text-accent mb-6"></i>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Stay Illuminated</h2>
-                    <p class="text-gray-300 mb-8">Join our mailing list to receive teaching resources, meeting updates, and prophetic insights directly to your inbox.</p>
-                    
-                    <form class="flex flex-col sm:flex-row gap-4">
-                        <input type="email" placeholder="Enter your email address" class="flex-1 px-6 py-4 bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:bg-white/20 transition rounded-none">
-                        <button type="button" class="px-10 py-4 bg-accent text-deepblue font-bold uppercase tracking-wider hover:bg-white transition">Subscribe</button>
+                        <input type="email" placeholder="Email Address" class="w-full border p-3 rounded focus:outline-none focus:border-deepblue">
+                        <input type="tel" placeholder="Phone Number" class="w-full border p-3 rounded focus:outline-none focus:border-deepblue">
+                        <textarea rows="3" placeholder="Tell us about yourself..." class="w-full border p-3 rounded focus:outline-none focus:border-deepblue"></textarea>
+                        <button class="w-full bg-deepblue text-white py-4 font-bold hover:bg-black transition">SUBMIT</button>
                     </form>
-                    <p class="text-xs text-gray-500 mt-4">We respect your privacy. Unsubscribe at any time.</p>
                 </div>
             </div>
-        </section>
+            
+            <footer class="bg-black text-white py-16 border-t border-gray-900 mt-24">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                        <div><h3 class="text-2xl font-black text-white mb-6 uppercase"><span class="text-accent">Photizo</span> Global</h3><p class="text-gray-400 text-sm">We turn men from darkness to light.</p></div>
+                        <div><h4 class="font-bold text-lg mb-6">Links</h4><ul class="space-y-2 text-sm text-gray-400"><li><a href="#" onclick="switchView('home')">Home</a></li><li><a href="#" onclick="switchView('about')">About</a></li><li><a href="#" onclick="switchView('expressions')">Expressions</a></li></ul></div>
+                        <div><h4 class="font-bold text-lg mb-6">Contact</h4><p class="text-sm text-gray-400">info@photizoglobal.org</p></div>
+                        <div><h4 class="font-bold text-lg mb-6">The Pledge</h4><p class="text-sm text-gray-500 italic">"We are the light of the world..."</p></div>
+                    </div>
+                    <div class="border-t border-gray-900 pt-8 text-center text-sm">&copy; 2026 Photizo Global.</div>
+                </div>
+            </footer>
+        </div>
 
-        <!-- FOOTER -->
-        <footer id="contact" class="bg-black text-white py-16 border-t border-gray-900">
+        <!-- === EXPRESSIONS VIEW === -->
+        <div id="expressions-view" class="hidden-view pt-32 pb-24 bg-gray-50 min-h-screen">
             <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                    <div>
-                        <h3 class="text-2xl font-black text-white mb-6 tracking-widest uppercase"><span class="text-accent">Photizo</span> Global</h3>
-                        <p class="text-gray-400 text-sm mb-6">We turn men from darkness to light, and we set the hearts of men on fire.</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-accent hover:text-deepblue transition"><i class="fab fa-youtube"></i></a>
+                <div class="text-center mb-16">
+                    <h4 class="text-accent font-bold tracking-[0.2em] mb-4 uppercase">Platforms of Grace</h4>
+                    <h2 class="text-4xl md:text-6xl font-black text-deepblue mb-6">MINISTERIAL EXPRESSIONS</h2>
+                </div>
+                <div class="space-y-24">
+                    <!-- Illuminate -->
+                    <div class="flex flex-col md:flex-row items-start gap-12 bg-white p-8 md:p-12 rounded-2xl shadow-lg border-l-4 border-deepblue">
+                        <div class="md:w-1/2 w-full h-64 md:h-96 relative overflow-hidden rounded-lg"><img src="img/6.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Illuminate"></div>
+                        <div class="md:w-1/2">
+                            <h3 class="text-3xl font-bold text-deepblue mb-4">ILLUMINATE</h3>
+                            <p class="text-lg text-gray-600 mb-6 font-medium">The weekly meeting of Photizo Global, where the eyes of our understanding are flooded with light.</p>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <p><strong>TIMING:</strong> Fridays, 9 PM (WAT).</p>
+                                <p><strong>PURPOSE:</strong> To see Jesus clearly, know Him accurately, and become like Him fully. It is the primary classroom for discipleship.</p>
+                                <p><strong>STRUCTURE:</strong> Systematic teaching series, interactive Q&A, and prophetic ministration.</p>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-6">Quick Links</h4>
-                        <ul class="space-y-3 text-sm text-gray-400">
-                            <li><a href="#" class="hover:text-accent transition">About Us</a></li>
-                            <li><a href="#" class="hover:text-accent transition">Events</a></li>
-                            <li><a href="#" class="hover:text-accent transition">Sermons</a></li>
-                            <li><a href="#" class="hover:text-accent transition">Give</a></li>
-                        </ul>
+                    <!-- Intensify -->
+                    <div class="flex flex-col md:flex-row-reverse items-start gap-12 bg-deepblue text-white p-8 md:p-12 rounded-2xl shadow-lg border-r-4 border-accent">
+                        <div class="md:w-1/2 w-full h-64 md:h-96 relative overflow-hidden rounded-lg"><img src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Intensify"></div>
+                        <div class="md:w-1/2">
+                            <h3 class="text-3xl font-bold text-accent mb-4">INTENSIFY</h3>
+                            <p class="text-lg text-gray-300 mb-6 font-medium">Our quarterly corporate fast where we silence the noise of the world.</p>
+                            <div class="space-y-4 text-sm text-gray-300">
+                                <p><strong>TIMING:</strong> End of every Quarter.</p>
+                                <p><strong>PURPOSE:</strong> Alignment and Consecration. To be more aligned to the purposes, precepts, and plans of God for the season.</p>
+                                <p><strong>STRUCTURE:</strong> Extended hours of corporate prayer, fasting, and deep worship.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-6">Contact</h4>
-                        <ul class="space-y-3 text-sm text-gray-400">
-                            <li><i class="fas fa-envelope mr-2 text-accent"></i> info@photizoglobal.org</li>
-                            <li><i class="fas fa-phone mr-2 text-accent"></i> +234 800 000 0000</li>
-                            <li><i class="fas fa-map-marker-alt mr-2 text-accent"></i> Lagos, Nigeria</li>
-                        </ul>
+                    <!-- Immersion -->
+                    <div class="flex flex-col md:flex-row items-start gap-12 bg-white p-8 md:p-12 rounded-2xl shadow-lg border-l-4 border-deepblue">
+                        <div class="md:w-1/2 w-full h-64 md:h-96 relative overflow-hidden rounded-lg"><img src="img/22.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Immersion"></div>
+                        <div class="md:w-1/2">
+                            <h3 class="text-3xl font-bold text-deepblue mb-4">IMMERSION</h3>
+                            <p class="text-lg text-gray-600 mb-6 font-medium">Our signature camp meeting where we go deeper in the Word, prayer, and the supernatural.</p>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <p><strong>TIMING:</strong> Annual Camp Meeting.</p>
+                                <p><strong>PURPOSE:</strong> R.I.S.E - Reinvigoration, Illumination, Supernatural, and Equipping. A spiritual retreat to soak in God's presence until we overflow.</p>
+                                <p><strong>STRUCTURE:</strong> Multi-day retreat, morning to night sessions, soaking worship, word exposition, and impartation.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-6">The Pledge</h4>
-                        <p class="text-sm text-gray-500 italic">"We are the light of the world, A city set on a hill that cannot be hidden. We turn men from darkness to light, And we set the hearts of men on fire. We arise, and we shine, For our Light has come, And we are the effulgence of His glory."</p>
+                    <!-- Identification -->
+                    <div class="flex flex-col md:flex-row-reverse items-start gap-12 bg-deepblue text-white p-8 md:p-12 rounded-2xl shadow-lg border-r-4 border-accent">
+                        <div class="md:w-1/2 w-full h-64 md:h-96 relative overflow-hidden rounded-lg"><img src="https://images.unsplash.com/photo-1511551203524-9a24350a5771?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Identification"></div>
+                        <div class="md:w-1/2">
+                            <h3 class="text-3xl font-bold text-accent mb-4">IDENTIFICATION</h3>
+                            <p class="text-lg text-gray-300 mb-6 font-medium">A specialized teaching conference where we shine light on the finished work of Christ.</p>
+                            <div class="space-y-4 text-sm text-gray-300">
+                                <p><strong>TIMING:</strong> Easter Weekend.</p>
+                                <p><strong>PURPOSE:</strong> To unveil the legal and vital realities of the Believer in Christ, leading to profound revelation and an abundant supply of the Spirit.</p>
+                                <p><strong>STRUCTURE:</strong> 2-Day teaching conference focusing on the Death, Burial, and Resurrection.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="border-t border-gray-900 pt-8 text-center text-gray-600 text-sm">
-                    &copy; 2026 Photizo Global. All Rights Reserved. Revealing Jesus.
-                </div>
+                <div class="text-center mt-20"><button onclick="switchView('home')" class="px-8 py-3 border-2 border-deepblue text-deepblue font-bold hover:bg-deepblue hover:text-white transition">BACK TO HOME</button></div>
             </div>
-        </footer>
+            <footer class="bg-black text-white py-16 border-t border-gray-900 mt-24">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                        <div><h3 class="text-2xl font-black text-white mb-6 uppercase"><span class="text-accent">Photizo</span> Global</h3><p class="text-gray-400 text-sm">We turn men from darkness to light.</p></div>
+                        <div><h4 class="font-bold text-lg mb-6">Links</h4><ul class="space-y-2 text-sm text-gray-400"><li><a href="#" onclick="switchView('home')">Home</a></li><li><a href="#" onclick="switchView('about')">About</a></li><li><a href="#" onclick="switchView('expressions')">Expressions</a></li></ul></div>
+                        <div><h4 class="font-bold text-lg mb-6">Contact</h4><p class="text-sm text-gray-400">info@photizoglobal.org</p></div>
+                        <div><h4 class="font-bold text-lg mb-6">The Pledge</h4><p class="text-sm text-gray-500 italic">"We are the light of the world..."</p></div>
+                    </div>
+                    <div class="border-t border-gray-900 pt-8 text-center text-sm">&copy; 2026 Photizo Global.</div>
+                </div>
+            </footer>
+        </div>
 
-    </main>
+    </div>
 
     <!-- JavaScript -->
     <script>
         // 0. PRELOADER
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            // Wait for animation to mostly finish
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.transform = 'translateY(-100%)';
-                document.body.style.overflow = 'auto'; // Re-enable scroll
-            }, 3500);
+                document.body.style.overflow = 'auto'; 
+            }, 2500);
         });
 
-        // 1. MENU OVERLAY TOGGLE
+        // 1. MENU & VIEW SWITCHING LOGIC
         const menuToggle = document.getElementById('menu-toggle');
         const navOverlay = document.getElementById('nav-overlay');
         const body = document.body;
@@ -695,7 +733,7 @@
             if (isMenuOpen) {
                 navOverlay.classList.add('open');
                 menuText.textContent = 'CLOSE';
-                body.style.overflow = 'hidden'; // Prevent scrolling
+                body.style.overflow = 'hidden'; 
             } else {
                 navOverlay.classList.remove('open');
                 menuText.textContent = 'MENU';
@@ -703,13 +741,19 @@
             }
         }
 
-        menuToggle.addEventListener('click', toggleMenu);
+        function switchView(viewName) {
+            const views = ['home-view', 'expressions-view', 'about-view'];
+            views.forEach(id => document.getElementById(id).classList.add('hidden-view'));
+            
+            document.getElementById(viewName + '-view').classList.remove('hidden-view');
+            window.scrollTo(0, 0);
+        }
 
+        menuToggle.addEventListener('click', toggleMenu);
 
         // 2. HERO SLIDESHOW
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
-
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
@@ -717,63 +761,35 @@
         }
         setInterval(nextSlide, 5000);
 
-        // 3. TYPEWRITER EFFECT
+        // 3. TYPEWRITER
         const textElement = document.getElementById('dynamic-text');
         const phrases = ["we illuminate by light", "we impact by love", "we influence by legacy"];
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
         let typeSpeed = 100;
-
         function typeEffect() {
             const currentPhrase = phrases[phraseIndex];
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50;
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100;
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                typeSpeed = 2000;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
-            }
+            if (isDeleting) { textElement.textContent = currentPhrase.substring(0, charIndex - 1); charIndex--; typeSpeed = 50; } 
+            else { textElement.textContent = currentPhrase.substring(0, charIndex + 1); charIndex++; typeSpeed = 100; }
+            if (!isDeleting && charIndex === currentPhrase.length) { isDeleting = true; typeSpeed = 2000; } 
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 500; }
             setTimeout(typeEffect, typeSpeed);
         }
         document.addEventListener('DOMContentLoaded', typeEffect);
 
         // 4. SCROLL ANIMATIONS
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-
-        // 5. NAVBAR BACKGROUND SCROLL
+        // 5. NAVBAR SCROLL
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
         });
     </script>
 </body>
