@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone, Send } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
@@ -17,6 +17,7 @@ const channels = [
   { label: "Phone", value: site.phoneDisplay, href: site.phoneHref, Icon: Phone },
   { label: "WhatsApp", value: site.phoneDisplay, href: site.whatsapp, Icon: MessageCircle },
   { label: "Email", value: site.email, href: site.emailHref, Icon: Mail },
+  { label: "Telegram", value: site.telegramHandle, href: site.telegram, Icon: Send },
 ];
 
 export default function ContactPage() {

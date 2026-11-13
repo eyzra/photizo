@@ -4,9 +4,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { useRef } from "react";
 import { immersion } from "@/lib/content";
-import { PhotoPlaceholder } from "@/components/ui";
-import { Photo } from "@/components/Photo";
-import { spiritInfluence } from "@/lib/media";
+import { asset, flyers } from "@/lib/media";
 import { ThemeVeil } from "./ThemeVeil";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -68,25 +66,23 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
                     <span className={`size-2 rounded-full ${upcoming ? "animate-ping bg-navy" : "bg-orange"}`} />
                   </span>
                   <span className={`font-display text-sm font-semibold tracking-[0.18em] ${dark ? "text-white/60" : "text-ink-2"}`}>
-                    {upcoming ? "UPCOMING" : `EDITION 0${i + 1}`}
+                    {upcoming ? (e.theme ? "NEXT EDITION" : "COMING LATER") : `EDITION 0${i + 1}`}
                   </span>
                 </div>
 
                 <article
-                  className={`mt-6 flex h-[30rem] flex-col overflow-hidden rounded-[1.75rem] ${
+                  className={`mt-6 flex h-[36rem] flex-col overflow-hidden rounded-[1.75rem] ${
                     upcoming ? "bg-navy text-white ring-1 ring-orange/40" : dark ? "bg-white/[0.05] text-white ring-1 ring-white/10" : "bg-white/80 text-navy ring-1 ring-navy/10 backdrop-blur"
                   }`}
                 >
-                  {upcoming ? (
+                  {"flyer" in e ? (
+                    <FlyerFrame src={flyers[e.flyer].src} alt={flyers[e.flyer].alt} dark={dark || upcoming} />
+                  ) : (
                     <div className="relative flex-1 overflow-hidden bg-navy-900">
                       <div className="grain absolute inset-0 opacity-30" />
                       <div className="absolute -right-10 -top-10 size-56 rounded-full bg-cyan/25 blur-3xl" />
                       <ThemeVeil size="sm" className="absolute inset-x-6 top-1/2 -translate-y-1/2" />
                     </div>
-                  ) : "image" in e && e.image ? (
-                    <Photo photo={spiritInfluence.find((ph) => ph.src.includes(e.image))!} tone={dark ? "dark" : "light"} parallax={false} className="m-3 mb-0 flex-1" rounded="rounded-[1.4rem]" />
-                  ) : (
-                    <PhotoPlaceholder label={`IMMERSION ${e.city} ${e.year}`} tone={dark ? "dark" : "light"} className="m-3 mb-0 flex-1 !rounded-[1.4rem]" />
                   )}
                   <div className="p-6">
                     <div className={`flex items-center gap-2 font-display text-sm ${upcoming ? "text-white/70" : dark ? "text-white/60" : "text-ink-2"}`}>
@@ -102,6 +98,13 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
                         </>
                       )}
                     </h3>
+                    {"venue" in e && (
+                      <dl className={`mt-3 space-y-1 text-[0.82rem] leading-snug ${dark || upcoming ? "text-white/65" : "text-ink-2"}`}>
+                        <div className="flex gap-2"><dt className="sr-only">Dates</dt><dd>{e.dates}</dd></div>
+                        <div className="flex gap-2"><dt className="sr-only">Venue</dt><dd>{e.venue}</dd></div>
+                        <div className="flex gap-2"><dt className="sr-only">Ministers</dt><dd>With {e.ministers}</dd></div>
+                      </dl>
+                    )}
                   </div>
                 </article>
               </motion.li>
@@ -109,6 +112,16 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
           })}
         </ol>
       </div>
+    </div>
+  );
+}
+
+/** Shows a whole flyer over a soft, blurred copy of itself so nothing gets cropped. */
+function FlyerFrame({ src, alt, dark }: { src: string; alt: string; dark: boolean }) {
+  return (
+    <div className={`relative m-3 mb-0 flex-1 overflow-hidden rounded-[1.4rem] ${dark ? "bg-navy-800" : "bg-pale"}`}>
+      <img src={asset(src)} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 size-full scale-125 object-cover opacity-60 blur-2xl" />
+      <img src={asset(src)} alt={alt} loading="lazy" decoding="async" className="relative size-full object-contain p-3 drop-shadow-[0_20px_30px_rgb(0_0_0/0.35)]" />
     </div>
   );
 }

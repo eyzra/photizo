@@ -1,66 +1,64 @@
-import Link from "next/link";
-import { ArrowUpRight, BookOpen, Download, FileText, Headphones, Video } from "lucide-react";
-import { categories, categoryNotes } from "@/lib/teachings";
+import { ArrowUpRight, Send } from "lucide-react";
 import { MaskedText, Reveal } from "@/components/Reveal";
-import { Eyebrow, PendingNote } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
+import { Button, TextLink } from "@/components/Button";
 import { Constellation } from "@/components/sketches";
+import { dearAtheist, formatDate, questionOf } from "@/lib/articles";
+import { site } from "@/lib/site";
 
-const formatIcons = [
-  { label: "Sermons", Icon: BookOpen },
-  { label: "Articles", Icon: FileText },
-  { label: "Audio", Icon: Headphones },
-  { label: "Video", Icon: Video },
-  { label: "Study resources", Icon: Download },
-];
-
+/** Homepage preview of the Dear Atheist letters and the Telegram teaching channel. */
 export function Resources() {
+  const latest = [...dearAtheist].reverse().slice(0, 3);
   return (
     <section aria-labelledby="resources-heading" className="relative py-28 md:py-40">
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="relative md:col-span-5">
-            <Eyebrow>Teachings and Resources</Eyebrow>
+            <Eyebrow>Keep Reading</Eyebrow>
             <MaskedText as="h2" id="resources-heading" className="display-lg mt-6 text-navy">
-              A growing library of teaching.
+              Dear Atheist,
             </MaskedText>
             <Reveal>
               <p className="editorial mt-8 max-w-md text-ink-2">
-                We&apos;re gathering sermons, articles, audio, video and study guides into one place so you can keep learning between gatherings.
+                A letter series by Ezra Anya on the honest questions people ask about God. Every letter meets the objection at full strength.
               </p>
-              <ul className="mt-8 flex flex-wrap gap-2">
-                {formatIcons.map(({ label, Icon }) => (
-                  <li key={label} className="inline-flex items-center gap-2 rounded-full bg-pale px-3.5 py-2 font-display text-sm text-navy">
-                    <Icon className="size-4" aria-hidden="true" /> {label}
-                  </li>
-                ))}
-              </ul>
               <div className="mt-8">
-                <PendingNote>The library is being prepared. New teachings will appear here.</PendingNote>
+                <TextLink href="/articles/">See every letter</TextLink>
               </div>
             </Reveal>
-            <Constellation className="mt-12 hidden w-72 text-navy/50 md:block" />
+            <Reveal delay={0.1}>
+              <div className="relative mt-12 overflow-hidden rounded-[1.75rem] bg-navy p-7 text-white">
+                <div className="grain pointer-events-none absolute inset-0 opacity-25" />
+                <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-cyan/25 blur-3xl" />
+                <Send className="relative size-6 text-orange" aria-hidden="true" />
+                <p className="relative mt-5 font-display text-xl font-bold leading-snug tracking-[-0.02em]">Teachings, notes and daily meditations are shared on Telegram.</p>
+                <div className="relative mt-6">
+                  <Button href={site.telegram} variant="primary">Join {site.telegramHandle}</Button>
+                </div>
+              </div>
+            </Reveal>
+            <Constellation className="mt-12 hidden w-64 text-navy/40 md:block" />
           </div>
-          <ul className="md:col-span-7">
-            {categories.map((c, i) => (
-              <Reveal as="li" key={c} delay={i * 0.05}>
-                <Link
-                  href={`/teachings/?category=${encodeURIComponent(c)}`}
-                  className="group flex items-center gap-6 border-b border-navy/10 py-7 first:border-t"
-                >
-                  <span className="font-display text-sm font-medium tracking-[0.2em] text-ink-2">0{i + 1}</span>
+          <ol className="md:col-span-7">
+            {latest.map((a, i) => (
+              <Reveal as="li" key={a.url} delay={i * 0.06}>
+                <a href={a.url} target="_blank" rel="noopener noreferrer" className="group flex gap-6 border-b border-navy/10 py-8 first:border-t">
                   <span className="flex-1">
-                    <span className="block font-display text-[clamp(1.6rem,3vw,2.6rem)] font-bold leading-none tracking-[-0.04em] text-navy transition-transform duration-500 ease-out-soft group-hover:translate-x-2">
-                      {c}
+                    <span className="block font-display text-sm text-ink-2">
+                      <time dateTime={a.date}>{formatDate(a.date)}</time>
                     </span>
-                    <span className="mt-2 block max-w-lg text-[0.95rem] text-ink-2">{categoryNotes[c]}</span>
+                    <span className="mt-3 block font-display text-[clamp(1.5rem,2.6vw,2.3rem)] font-bold leading-[1.02] tracking-[-0.04em] text-navy transition-transform duration-500 ease-out-soft group-hover:translate-x-2">
+                      {questionOf(a.title)}
+                    </span>
+                    <span className="mt-3 block max-w-lg text-[0.95rem] leading-relaxed text-ink-2">{a.subtitle}</span>
                   </span>
                   <span className="grid size-12 shrink-0 place-items-center rounded-full border border-navy/15 transition-all duration-500 group-hover:rotate-45 group-hover:border-navy group-hover:bg-navy group-hover:text-white">
                     <ArrowUpRight className="size-5" aria-hidden="true" />
                   </span>
-                </Link>
+                </a>
               </Reveal>
             ))}
-          </ul>
+          </ol>
         </div>
       </div>
     </section>

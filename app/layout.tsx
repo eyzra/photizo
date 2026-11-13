@@ -4,6 +4,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { site } from "@/lib/site";
+import { Preloader } from "@/components/Preloader";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -54,14 +55,20 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NG">
+    <html lang="en-NG" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(!sessionStorage.getItem("photizo-intro-seen"))document.documentElement.classList.add("intro-active")}catch(e){}`,
+          }}
+        />
         <noscript>
-          <style>{`[data-reveal],[data-draw]{opacity:1!important;transform:none!important;clip-path:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}[data-hero]{height:auto!important}[data-hero-stage]{position:relative!important;height:auto!important}[data-hero-moment]{position:relative!important;inset:auto!important;opacity:1!important;transform:none!important;filter:none!important;padding:7rem 0 3rem}[data-hero-moment] *{opacity:1!important;transform:none!important}`}</style>
+          <style>{`[data-reveal],[data-draw]{opacity:1!important;transform:none!important;clip-path:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}[data-hero]{height:auto!important}[data-hero-stage]{position:relative!important;height:auto!important}[data-hero-moment]{position:relative!important;inset:auto!important;opacity:1!important;transform:none!important;filter:none!important;padding:7rem 0 3rem}[data-hero-moment] *{opacity:1!important;transform:none!important}.preloader{display:none!important}html{overflow:auto!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
+        <Preloader />
         <AmbientBackground />
         <Nav />
         <main id="main" className="relative">

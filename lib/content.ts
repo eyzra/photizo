@@ -158,10 +158,47 @@ export const immersion = {
     close: "We'd love to have you join us.",
   },
   editions: [
-    { year: "2024", city: "Minna", theme: "The Spirit Influence", status: "held", image: "spirit-influence-01" },
-    { year: "2024", city: "Abuja", theme: "Shekinah", status: "held" },
-    { year: "2025", city: "Abuja", theme: "Now Faith Is", status: "held" },
-    { year: "2026", city: "Minna", theme: "Faith Fundamentals", status: "held" },
+    {
+      year: "2024",
+      city: "Minna",
+      theme: "The Spirit Influence",
+      status: "held",
+      flyer: "spiritInfluence",
+      dates: "May 19th and 20th",
+      venue: "CACSF Auditorium, Gidan Kwano",
+      ministers: "David Akanbi, Chidi Chukwuemeka and Ezra Anya",
+    },
+    {
+      year: "2024",
+      city: "Abuja",
+      theme: "Shekinah",
+      status: "held",
+      flyer: "shekinah",
+      dates: "27th to 28th December",
+      venue: "MFM NCR35 Phase IV, Nyanya",
+      ministers: "Ezra Anya, Pastor Chidi Chukwuemeka and Minister Joel Babalola",
+    },
+    {
+      year: "2025",
+      city: "Abuja",
+      theme: "Now Faith Is",
+      status: "held",
+      flyer: "nowFaithIs",
+      dates: "December 19th and 20th",
+      venue: "MFM NCR35 Youth Church Auditorium, Nyanya",
+      ministers: "Minister M Confidence, Ezra Anya and Minister Joel Babalola",
+    },
+    {
+      year: "2026",
+      city: "Minna",
+      theme: "Faith Fundamentals",
+      status: "upcoming",
+      flyer: "faithFundamentals",
+      dates: "Friday 11th December, 5PM, and Saturday 12th December, 6AM and 5PM",
+      venue: "MFM Campus Fellowship permanent site, behind Alheri Lodge, Gofamint, Gidan Kwano",
+      ministers: "Pastor Ezra Anya",
+      partner: "In collaboration with Mountain of Fire and Miracles Ministries Campus Fellowship, FUTMinna Chapter",
+    },
     { year: "2026", city: "Abuja", theme: null, status: "upcoming" },
   ],
 } as const;
@@ -174,13 +211,13 @@ export const expressions = [
     name: "ILLUMINATE",
     kind: "Weekly Bible Teaching and Study",
     short: "Weekly Bible teaching and study.",
-    when: "Fridays, 9 PM WAT",
+    when: "Saturdays, 7 PM WAT",
     body: [
       "ILLUMINATE is our regular gathering for studying God's Word and growing in our understanding of Jesus.",
       "We explore the Scriptures through systematic teaching, thoughtful conversations, questions and prayer. If you enjoy learning, asking questions and discovering what the Bible teaches, we'd love to have you join us.",
     ],
     cta: "Join ILLUMINATE",
-    message: "Hello Photizo Global, I'd like to join ILLUMINATE on Fridays. How do I connect?",
+    message: "Hello Photizo Global, I'd like to join ILLUMINATE on Saturdays. How do I connect?",
   },
   {
     slug: "intensify",
@@ -278,3 +315,15 @@ export const pledge = [
   "We turn men from darkness to light and set the hearts of men on fire.",
   "We arise and shine, for our Light has come.",
 ];
+
+/** ILLUMINATE teaching by Ezra Anya, quoted from the ministry's own teaching cards. */
+export const essenceOfDevotion = {
+  slug: "the-essence-of-devotion",
+  title: "The Essence of Devotion",
+  quotes: [
+    "The primary essence of our devotion is to know God. The purpose of the Holy Spirit in the life of a believer is to transport us into the knowledge of God and guide us in its intricacies.",
+    "The knowledge of God for the believer is not merely intellectual, but must be relational and experiential.",
+    "God's desire is to bring man to the point of complete trust and dependency on Him. Not in prayers, fasting or study, but on Him.",
+    "We are not called to compete with the world using the world system; we are called to save and disciple nations by the knowledge of God. The knowledge of Jesus is enough!",
+  ],
+} as const;

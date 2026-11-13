@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/PageHero";
 import { MaskedText, Reveal } from "@/components/Reveal";
-import { Eyebrow, PhotoPlaceholder } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
 import { Circled, Halo, Mountains, SunBurst, Underline } from "@/components/sketches";
 import { Button, TextLink } from "@/components/Button";
 import { Invitation } from "@/components/Invitation";
@@ -9,7 +8,8 @@ import { dna, pillars } from "@/lib/content";
 import { joinCommunityHref } from "@/lib/site";
 import { Photo } from "@/components/Photo";
 import { BrandLogo } from "@/components/Logo";
-import { gatherings } from "@/lib/media";
+import { founderPortrait, gatherings, headshot } from "@/lib/media";
+import { essenceOfDevotion } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -27,18 +27,27 @@ const matters = [
 export default function AboutPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Who We Are"
-        title="Knowing Jesus. Making Him known."
-        art={<SunBurst className="w-full text-navy/20" />}
-        intro={
-          <>
-            <p>
-              Photizo Global is a Christian teaching and discipleship ministry founded by Ezra Anya. The Illumination Church is our church expression, a family gathered around the Word, prayer and the person of Jesus.
-            </p>
-          </>
-        }
-      />
+      <section aria-labelledby="about-title" className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-44">
+        <div aria-hidden="true" className="grid-field pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_60%_at_70%_30%,black,transparent)]" />
+        <SunBurst className="pointer-events-none absolute -right-40 top-10 w-[46rem] text-navy/10" />
+        <div className="container-x relative grid items-end gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Eyebrow>Who We Are</Eyebrow>
+            <MaskedText as="h1" id="about-title" trigger="mount" delay={0.15} className="display-xl mt-8 max-w-[14ch] text-navy">
+              Knowing Jesus. Making Him known.
+            </MaskedText>
+            <Reveal delay={0.5}>
+              <p className="editorial mt-10 max-w-2xl text-ink-2">
+                Photizo Global is a Christian teaching and discipleship ministry founded by Ezra Anya. The Illumination Church is our church expression, a family gathered around the Word, prayer and the person of Jesus.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.35} className="relative lg:col-span-4 lg:col-start-9">
+            <Photo photo={headshot} className="aspect-[992/1072] max-w-[440px]" priority caption="Ezra Anya, Founder" />
+            <BrandLogo variant="badge" decorative className="absolute -bottom-10 -left-10 hidden w-32 animate-spin-slower text-orange lg:block" />
+          </Reveal>
+        </div>
+      </section>
 
       {/* The name */}
       <section aria-labelledby="name-heading" className="relative py-24 md:py-32">
@@ -156,7 +165,7 @@ export default function AboutPage() {
       <section aria-labelledby="founder-heading" className="relative py-28 md:py-40">
         <div className="container-x grid items-center gap-14 md:grid-cols-12">
           <Reveal className="md:col-span-5">
-            <PhotoPlaceholder label="Portrait of Ezra Anya" className="aspect-[4/5]" />
+            <Photo photo={founderPortrait} className="aspect-[4/5]" priority />
           </Reveal>
           <div className="relative md:col-span-6 md:col-start-7">
             <Eyebrow>Meet the Founder</Eyebrow>
@@ -181,7 +190,12 @@ export default function AboutPage() {
                 </p>
               </div>
             </Reveal>
-            <Mountains className="mt-10 w-full max-w-md text-navy/40" />
+            <Reveal delay={0.1}>
+              <blockquote className="relative mt-10 border-l-2 border-orange pl-6 font-serif text-xl italic leading-snug text-navy">
+                &ldquo;{essenceOfDevotion.quotes[3]}&rdquo;
+                <footer className="mt-3 font-display text-xs font-semibold not-italic uppercase tracking-[0.2em] text-ink-2">From The Essence of Devotion</footer>
+              </blockquote>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -192,7 +206,7 @@ export default function AboutPage() {
           <div>
             <Eyebrow tone="light">Our Journey So Far</Eyebrow>
             <h2 id="journey-heading" className="display-sm mt-4 max-w-xl">
-              Four IMMERSION camp meetings across Minna and Abuja since 2024, with Abuja 2026 on the way.
+              Three IMMERSION camp meetings across Minna and Abuja since 2024. Faith Fundamentals comes to Minna this December.
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">

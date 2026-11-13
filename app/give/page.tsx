@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { HandHeart, Landmark, Repeat } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { MaskedText, Reveal } from "@/components/Reveal";
-import { Eyebrow, PendingNote } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
 import { Radiance, Ripple } from "@/components/sketches";
 import { Button } from "@/components/Button";
 import { site, whatsappLink } from "@/lib/site";
@@ -63,17 +63,14 @@ export default function GivePage() {
             <Reveal delay={0.16} className="flex flex-col rounded-[2rem] bg-pale/80 p-8 ring-1 ring-navy/5 md:p-10">
               <Landmark className="size-9 text-navy" strokeWidth={1.4} aria-hidden="true" />
               <h3 className="mt-8 font-display text-3xl font-bold tracking-[-0.035em] text-navy">Bank Transfer</h3>
-              <p className="mt-4 leading-relaxed text-ink-2">Verified ministry account details will be published here.</p>
-              <div className="mt-6 space-y-3 rounded-2xl border border-dashed border-navy/25 p-5 font-display text-sm">
-                {["Account name", "Bank", "Account number"].map((l) => (
-                  <div key={l} className="flex justify-between gap-4">
-                    <span className="text-ink-2">{l}</span>
-                    <span className="font-semibold text-navy/40">To be added</span>
-                  </div>
-                ))}
+              <p className="mt-4 flex-1 leading-relaxed text-ink-2">
+                Message us and we&apos;ll send you the ministry&apos;s account details directly. Please confirm the account with us before you transfer.
+              </p>
+              <div className="mt-8">
+                <Button href={whatsappLink("Hello Photizo Global, please send me the ministry's account details for a bank transfer.")} variant="outline">Request account details</Button>
               </div>
-              <p className="mt-6 text-sm leading-relaxed text-ink-2">
-                Until then, please confirm account details directly with us on {site.phoneDisplay} before sending any transfer.
+              <p className="mt-4 font-display text-sm text-ink-2">
+                Or call <a href={site.phoneHref} className="font-semibold text-navy hover:underline">{site.phoneDisplay}</a>
               </p>
             </Reveal>
           </div>
@@ -96,9 +93,6 @@ export default function GivePage() {
                 <span className="font-display text-[clamp(1.25rem,2vw,1.6rem)] font-semibold tracking-[-0.02em] text-navy">{u}</span>
               </Reveal>
             ))}
-            <div className="mt-10">
-              <PendingNote>Online giving links will be added once they are set up.</PendingNote>
-            </div>
           </ul>
         </div>
       </section>

@@ -5,7 +5,8 @@ import { Orbits } from "@/components/sketches";
 import { RiseFramework } from "@/components/immersion/RiseFramework";
 import { ImmersionTimeline } from "@/components/immersion/Timeline";
 import { Eyebrow } from "@/components/ui";
-import { asset, spiritInfluence } from "@/lib/media";
+import { asset, flyers, spiritInfluence } from "@/lib/media";
+import Link from "next/link";
 
 export function ImmersionFeature() {
   return (
@@ -18,7 +19,7 @@ export function ImmersionFeature() {
       {/* Opening */}
       <div className="relative flex min-h-[100svh] flex-col justify-center py-28">
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[62%]">
-          <img src={asset(spiritInfluence[0].src)} alt="" loading="lazy" decoding="async" className="size-full object-cover opacity-45 mix-blend-luminosity [mask-image:linear-gradient(to_left,black_30%,transparent)] max-md:[mask-image:linear-gradient(to_top,black_10%,transparent_70%)]" />
+          <img src={asset(spiritInfluence[0].src)} alt="" loading="lazy" decoding="async" className="size-full object-cover object-top opacity-45 mix-blend-luminosity [mask-image:linear-gradient(to_left,black_30%,transparent),linear-gradient(to_top,transparent_0%,black_32%)] [mask-composite:intersect] max-md:[mask-image:linear-gradient(to_top,transparent_5%,black_35%,transparent_85%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_40%,rgb(82_215_237/0.18),transparent)] mix-blend-screen" />
         </div>
         <Parallax speed={0.12} className="pointer-events-none absolute right-[-12%] top-[8%] w-[60vw] max-w-[760px] text-white/25">
@@ -40,6 +41,15 @@ export function ImmersionFeature() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button href="/immersion/" variant="primary" size="lg">Explore IMMERSION</Button>
               </div>
+              <Link href="/immersion/#register" className="group mt-10 flex items-center gap-5 rounded-[1.5rem] bg-white/[0.06] p-4 pr-6 ring-1 ring-white/15 backdrop-blur transition-colors hover:bg-white/[0.1]">
+                <img src={asset(flyers.faithFundamentals.src)} alt="" loading="lazy" className="h-24 w-20 shrink-0 rounded-xl object-cover" />
+                <span className="flex-1">
+                  <span className="eyebrow block text-orange">Next edition</span>
+                  <span className="mt-1 block font-display text-xl font-bold tracking-[-0.02em]">Faith Fundamentals</span>
+                  <span className="mt-1 block text-sm text-white/70">Minna · 11th and 12th December 2026</span>
+                </span>
+                <span aria-hidden="true" className="text-2xl transition-transform group-hover:translate-x-1">→</span>
+              </Link>
             </Reveal>
           </div>
         </div>

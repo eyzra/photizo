@@ -8,7 +8,9 @@ import { Button } from "@/components/Button";
 import { Invitation } from "@/components/Invitation";
 import { expressions } from "@/lib/content";
 import { whatsappLink } from "@/lib/site";
-import { asset, intensifyFlyer, spiritInfluence } from "@/lib/media";
+import { asset, flyers, intensifyFlyer, spiritInfluence } from "@/lib/media";
+import { Gallery } from "@/components/Gallery";
+import { site } from "@/lib/site";
 import { Photo } from "@/components/Photo";
 
 export const metadata: Metadata = {
@@ -54,9 +56,29 @@ export default function ExpressionsPage() {
             <div className="container-x relative grid gap-12 md:grid-cols-12 md:items-center">
               <div className={`md:col-span-5 ${dark ? "md:order-2 md:col-start-8" : ""}`}>
                 {e.slug === "intensify" ? (
+                  <div className="relative mx-auto h-[26rem] max-w-[440px] md:h-[30rem]">
+                    {[
+                      { ph: flyers.intensify40, cls: "left-0 top-6 w-[62%] -rotate-[7deg]" },
+                      { ph: flyers.intensify30, cls: "right-0 top-0 w-[62%] rotate-[6deg]" },
+                      { ph: intensifyFlyer, cls: "left-[16%] bottom-0 w-[68%] rotate-[-1deg]" },
+                    ].map(({ ph, cls }, k) => (
+                      <img
+                        key={ph.src}
+                        src={asset(ph.src)}
+                        alt={ph.alt}
+                        width={ph.w}
+                        height={ph.h}
+                        loading="lazy"
+                        className={`absolute rounded-2xl shadow-[0_30px_60px_-30px_rgb(0_0_0/0.8)] ring-1 ring-white/10 transition-transform duration-700 ease-out-soft hover:z-10 hover:scale-[1.04] hover:rotate-0 ${cls}`}
+                        style={{ zIndex: k }}
+                      />
+                    ))}
+                    <p className="absolute -bottom-10 left-0 font-display text-xs uppercase tracking-[0.2em] text-white/55">Past INTENSIFY seasons</p>
+                  </div>
+                ) : e.slug === "illuminate" ? (
                   <figure className="relative max-w-[440px]">
-                    <img src={asset(intensifyFlyer.src)} alt={intensifyFlyer.alt} width={intensifyFlyer.w} height={intensifyFlyer.h} loading="lazy" decoding="async" className="w-full rounded-[2rem] shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7)] ring-1 ring-white/10" />
-                    <figcaption className="mt-4 font-display text-xs uppercase tracking-[0.2em] text-white/55">A past season: INTENSIFY, January 2025</figcaption>
+                    <img src={asset(flyers.illuminateDevotion.src)} alt={flyers.illuminateDevotion.alt} width={1280} height={1280} loading="lazy" className="w-full rounded-[2rem] shadow-[0_40px_80px_-40px_rgb(7_29_73/0.6)]" />
+                    <figcaption className="mt-4 font-display text-xs uppercase tracking-[0.2em] text-ink-2">From a past ILLUMINATE series: The Essence of Devotion</figcaption>
                   </figure>
                 ) : e.slug === "immersion" ? (
                   <Photo photo={spiritInfluence[0]} className="aspect-[4/5] max-w-[440px]" caption="IMMERSION Minna 2024: The Spirit Influence" />
@@ -82,8 +104,10 @@ export default function ExpressionsPage() {
                       {b}
                     </p>
                   ))}
-                  <div className="mt-8">
+                  <div className="mt-8 flex flex-wrap gap-3">
                     <Button href={href} variant={dark ? "primary" : "dark"}>{e.cta}</Button>
+                    {e.slug === "intensify" && <Button href={site.telegram} variant="ghost-light">Join on Telegram</Button>}
+                    {e.slug === "illuminate" && <Button href={site.telegram} variant="outline">Join on Telegram</Button>}
                   </div>
                 </Reveal>
               </div>
@@ -91,6 +115,39 @@ export default function ExpressionsPage() {
           </section>
         );
       })}
+
+      <section aria-labelledby="archive-heading" className="relative py-28 md:py-36">
+        <div className="container-x">
+          <div className="mb-14 grid gap-8 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-7">
+              <Eyebrow>From the Archive</Eyebrow>
+              <MaskedText as="h2" id="archive-heading" className="display-lg mt-6 text-navy">
+                Seasons we have walked through together.
+              </MaskedText>
+            </div>
+            <p className="editorial text-ink-2 md:col-span-5">
+              Flyers from past gatherings, fasts and teaching series, including AUXANO, our 21 days of discipleship. Tap any one to see it in full.
+            </p>
+          </div>
+          <Gallery
+            layout="masonry"
+            label="Past Photizo Global programmes"
+            photos={[flyers.auxano, flyers.spiritInfluence, flyers.illuminateDevotion, flyers.intensify40, flyers.shekinah, flyers.nowFaithIs, flyers.intensify30, flyers.immersionComing, intensifyFlyer, flyers.faithFundamentals]}
+            captions={[
+              "AUXANO: 21 Days of Discipleship",
+              "IMMERSION Minna 2024: The Spirit Influence",
+              "ILLUMINATE: The Essence of Devotion",
+              "INTENSIFY: 40 Days of Prayer and Fasting",
+              "IMMERSION Abuja 2024: Shekinah",
+              "IMMERSION Abuja 2025: Now Faith Is",
+              "INTENSIFY: 30-Day Prayer and Fasting",
+              "IMMERSION is coming",
+              "INTENSIFY: January 2025",
+              "IMMERSION Minna 2026: Faith Fundamentals",
+            ]}
+          />
+        </div>
+      </section>
 
       <Invitation />
     </>

@@ -14,7 +14,7 @@ import { useRef, useState } from "react";
 import { purpose } from "@/lib/content";
 import { Halo, Radiance, Arrow, Constellation } from "@/components/sketches";
 import { Button } from "@/components/Button";
-import { LogoMark } from "@/components/Logo";
+import { useIntroDone } from "@/lib/intro";
 import { markBook, markRays, markViewBox } from "@/lib/brand-mark";
 import { joinCommunityHref } from "@/lib/site";
 
@@ -32,6 +32,7 @@ export function HeroSequence() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const p = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.35 });
   const [stage, setStage] = useState(0);
+  const introDone = useIntroDone();
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setStage(v < 0.27 ? 0 : v < 0.6 ? 1 : 2);
@@ -81,34 +82,19 @@ export function HeroSequence() {
           data-hero-moment className="absolute inset-0 flex flex-col justify-center"
          
         >
-          <Halo className="pointer-events-none absolute left-1/2 top-1/2 w-[min(88vw,760px)] -translate-x-1/2 -translate-y-[54%] text-navy/15" accent="cyan" />
-          <Constellation className="pointer-events-none absolute right-[5%] top-[14%] hidden w-56 text-navy/50 md:block" delay={1.4} />
+          {introDone && <Halo className="pointer-events-none absolute left-1/2 top-1/2 w-[min(88vw,760px)] -translate-x-1/2 -translate-y-[54%] text-navy/15" accent="cyan" />}
+          {introDone && <Constellation className="pointer-events-none absolute right-[5%] top-[14%] hidden w-56 text-navy/50 md:block" delay={1.4} />}
           <div className="container-x relative">
-            <motion.p
-              initial={reduce ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease }}
-              className="eyebrow mb-6 flex items-center gap-3 text-ink-2 md:mb-8"
-            >
-              <LogoMark className="h-6 w-auto text-navy" />
-              Photizo Global
-            </motion.p>
             <h1 className="font-display font-bold uppercase leading-[0.84] tracking-[-0.06em] text-navy text-[clamp(2.4rem,14.6vw,15.5rem)]">
               {["The", "Illumination", "Church"].map((w, i) => (
                 <span key={w} className="block overflow-hidden pb-[0.06em]">
                   <motion.span
                     className={`block ${i === 1 ? "relative" : ""} ${i === 2 ? "md:pl-[18%]" : ""}`}
                     initial={reduce ? false : { y: "105%" }}
-                    animate={{ y: "0%" }}
+                    animate={introDone ? { y: "0%" } : { y: "105%" }}
                     transition={{ duration: 1.2, delay: 0.35 + i * 0.16, ease }}
                   >
                     {w}
-                    {i === 0 && (
-                      <span className="ml-[0.18em] hidden align-top font-serif md:inline-block text-[0.14em] font-normal normal-case italic leading-tight tracking-normal text-ink-2 md:text-[0.11em]">
-                        <span className="block">from the Greek</span>
-                        <span className="block">photizo: to give light</span>
-                      </span>
-                    )}
                   </motion.span>
                 </span>
               ))}

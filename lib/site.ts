@@ -15,6 +15,8 @@ export const site = {
   email: "mail.photizoglobal@gmail.com",
   emailHref: "mailto:mail.photizoglobal@gmail.com",
   whatsapp: "https://wa.me/2349126634636",
+  telegram: "https://t.me/photizoonline",
+  telegramHandle: "@photizoonline",
 } as const;
 
 export function whatsappLink(message?: string) {
@@ -30,7 +32,7 @@ export const primaryNav = [
   { label: "Our Beliefs", href: "/beliefs/" },
   { label: "Expressions", href: "/expressions/" },
   { label: "IMMERSION", href: "/immersion/" },
-  { label: "Teachings", href: "/teachings/" },
+  { label: "Articles", href: "/articles/" },
   { label: "Contact", href: "/contact/" },
 ] as const;
 
@@ -40,7 +42,7 @@ export const footerNav = [
   { label: "Our Beliefs", href: "/beliefs/" },
   { label: "Expressions", href: "/expressions/" },
   { label: "IMMERSION", href: "/immersion/" },
-  { label: "Teachings", href: "/teachings/" },
+  { label: "Articles", href: "/articles/" },
   { label: "Give", href: "/give/" },
   { label: "Contact", href: "/contact/" },
 ] as const;

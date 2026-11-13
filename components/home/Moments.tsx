@@ -2,13 +2,13 @@
 
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
-import { asset, gatherings, spiritInfluence, type Photo } from "@/lib/media";
+import { asset, gatherings, onStage, spiritInfluence, type Photo } from "@/lib/media";
 import { MaskedText } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
 import { Arrow } from "@/components/sketches";
 
-const rowA: Photo[] = [spiritInfluence[0], gatherings.stage3, spiritInfluence[1], gatherings.speaker1, spiritInfluence[2], gatherings.ff2, spiritInfluence[4]];
-const rowB: Photo[] = [gatherings.stage1, spiritInfluence[7], gatherings.hall, gatherings.speaker3, spiritInfluence[6], gatherings.stage5, spiritInfluence[3]];
+const rowA: Photo[] = [spiritInfluence[0], gatherings.stage3, spiritInfluence[1], gatherings.ff1, gatherings.speaker1, spiritInfluence[2], gatherings.ff2, onStage, gatherings.stage2];
+const rowB: Photo[] = [gatherings.stage1, spiritInfluence[7], gatherings.ff3, gatherings.hall, gatherings.speaker3, spiritInfluence[6], gatherings.stage4, gatherings.speaker2, spiritInfluence[3]];
 
 /** Two rows of photographs that slide past each other as the visitor scrolls. */
 export function Moments() {

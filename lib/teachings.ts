@@ -1,10 +1,10 @@
+import { essenceOfDevotion } from "./content";
+
 /**
  * Teaching library data.
  *
- * Every entry below is a SAMPLE that shows how real content will appear.
- * Replace them with real sermons, articles, audio, video and study guides.
- * Set `sample: false` (or remove the field) on real entries so the
- * "Sample" badges and banner disappear.
+ * Add each new sermon, article, audio, video or study guide here.
+ * Newest entries go at the top. Set `sample: true` only for test entries you never want live.
  */
 
 export const categories = [
@@ -33,59 +33,24 @@ export type Teaching = {
   videoUrl?: string; // YouTube embed URL, e.g. https://www.youtube.com/embed/VIDEO_ID
   downloadUrl?: string;
   body?: string[];
+  /** Key thoughts shown as pull quotes */
+  quotes?: readonly string[];
+  /** Flyer or cover image path under /public */
+  image?: { src: string; alt: string };
   sample?: boolean;
 };
 
-const sampleBody = [
-  "This is a sample entry. It shows the layout a teaching page will use once real content is added.",
-  "Add the teaching notes, key scriptures and any reflection questions here. Each paragraph in the body array becomes a paragraph on the page.",
-];
 
 export const teachings: Teaching[] = [
   {
-    slug: "sample-sermon-faith",
-    title: "Sample sermon: Faith",
-    category: "Faith",
-    format: "Sermon",
-    summary: "Placeholder for a sermon on the teaching of faith. Replace with a real title, summary and recording.",
-    body: sampleBody,
-    sample: true,
-  },
-  {
-    slug: "sample-article-doctrine",
-    title: "Sample article: Biblical Doctrine",
-    category: "Biblical Doctrine",
-    format: "Article",
-    summary: "Placeholder for a written teaching on sound doctrine. Replace with a real article.",
-    body: sampleBody,
-    sample: true,
-  },
-  {
-    slug: "sample-audio-apologetics",
-    title: "Sample audio: Christian Apologetics",
-    category: "Christian Apologetics",
-    format: "Audio",
-    summary: "Placeholder for an audio teaching that engages a sincere question about the Christian faith.",
-    body: sampleBody,
-    sample: true,
-  },
-  {
-    slug: "sample-video-prayer",
-    title: "Sample video: Prayer and Spiritual Formation",
+    slug: essenceOfDevotion.slug,
+    title: essenceOfDevotion.title,
     category: "Prayer and Spiritual Formation",
-    format: "Video",
-    summary: "Placeholder for a video teaching on prayer and the devotional life.",
-    body: sampleBody,
-    sample: true,
-  },
-  {
-    slug: "sample-study-discipleship",
-    title: "Sample study guide: Discipleship",
-    category: "Discipleship",
-    format: "Study Resource",
-    summary: "Placeholder for a downloadable study resource for personal or group discipleship.",
-    body: sampleBody,
-    sample: true,
+    format: "Sermon",
+    speaker: "Ezra Anya",
+    summary: "An ILLUMINATE teaching on why we pursue God in devotion: to know Him, through the Holy Spirit, in a knowledge that is relational and experiential.",
+    quotes: essenceOfDevotion.quotes,
+    image: { src: "/images/flyers/illuminate-essence-of-devotion.webp", alt: "ILLUMINATE flyer: The Essence of Devotion with Ezra Anya" },
   },
 ];
 

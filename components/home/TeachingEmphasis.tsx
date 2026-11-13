@@ -80,6 +80,9 @@ export function TeachingEmphasis({ withLink = true }: { withLink?: boolean }) {
                 <Arrow variant="curve" className="w-24 -scale-x-100 text-orange" delay={0.8} />
                 <p className="pb-2 font-serif text-lg italic text-white/85">Bring your honest questions. We&apos;d love the conversation.</p>
               </div>
+              <div className="mt-6">
+                <TextLink href="/articles/" tone="white">Read the Dear Atheist letters</TextLink>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -94,7 +97,7 @@ export function TeachingEmphasis({ withLink = true }: { withLink?: boolean }) {
             ))}
             {withLink && (
               <div className="mt-8">
-                <TextLink href="/teachings/">Explore the teaching library</TextLink>
+                <TextLink href="/teachings/">Find our teachings on Telegram</TextLink>
               </div>
             )}
           </div>

@@ -37,6 +37,7 @@ export function Footer() {
               <ul className="mt-5 space-y-2.5 font-display text-[0.95rem] text-white/75">
                 <li><a href={site.phoneHref} className="hover:text-orange">{site.phoneDisplay}</a></li>
                 <li><a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-orange">WhatsApp</a></li>
+                <li><a href={site.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-orange">Telegram {site.telegramHandle}</a></li>
                 <li><a href={site.emailHref} className="hover:text-orange [overflow-wrap:anywhere]">{site.email}</a></li>
                 <li><a href={joinCommunityHref} target="_blank" rel="noopener noreferrer" className="hover:text-orange">Join the Community</a></li>
               </ul>

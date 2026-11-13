@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Download, Headphones, Video } from "lucide-react";
 import { getTeaching, teachings } from "@/lib/teachings";
 import { MaskedText, Reveal } from "@/components/Reveal";
-import { Eyebrow, PendingNote } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
 import { Blueprint } from "@/components/sketches";
 import { Button } from "@/components/Button";
 import { whatsappLink } from "@/lib/site";
+import { asset } from "@/lib/media";
 
 export function generateStaticParams() {
   return teachings.map((t) => ({ slug: t.slug }));
@@ -29,11 +30,11 @@ export default async function TeachingPage({ params }: Props) {
   const others = teachings.filter((o) => o.slug !== t.slug && o.category === t.category).slice(0, 2);
 
   return (
-    <article className="relative pb-28 pt-32 md:pt-44">
+    <article className="relative overflow-hidden pb-28 pt-32 md:pt-44">
       <Blueprint className="pointer-events-none absolute -right-24 top-24 w-[520px] text-navy/15" label={t.category} />
       <div className="container-x relative">
         <Link href="/teachings/" className="inline-flex items-center gap-2 font-display text-sm font-semibold text-ink-2 hover:text-navy">
-          <ArrowLeft className="size-4" aria-hidden="true" /> All teachings
+          <ArrowLeft className="size-4" aria-hidden="true" /> Teachings
         </Link>
         <div className="mt-10 max-w-4xl">
           <Eyebrow>{`${t.category} · ${t.format}`}</Eyebrow>
@@ -45,7 +46,6 @@ export default async function TeachingPage({ params }: Props) {
             {t.date && (<div><dt className="sr-only">Date</dt><dd>{new Date(t.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</dd></div>)}
             {t.scripture && (<div><dt className="sr-only">Scripture</dt><dd>{t.scripture}</dd></div>)}
           </dl>
-          {t.sample && <div className="mt-6"><PendingNote>Sample entry. Replace with a real teaching.</PendingNote></div>}
         </div>
 
         {/* Media */}
@@ -56,6 +56,11 @@ export default async function TeachingPage({ params }: Props) {
             </div>
           ) : t.audioUrl ? (
             <audio controls src={t.audioUrl} className="w-full" />
+          ) : t.image ? (
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-navy">
+              <img src={asset(t.image.src)} alt="" aria-hidden="true" className="absolute inset-0 size-full scale-125 object-cover opacity-50 blur-2xl" />
+              <img src={asset(t.image.src)} alt={t.image.alt} className="relative mx-auto max-h-[70vh] w-auto object-contain p-6 md:p-10" />
+            </div>
           ) : (
             <div className="flex aspect-[16/7] flex-col items-center justify-center gap-4 rounded-[1.75rem] bg-pale/80 text-center ring-1 ring-navy/5">
               <div className="flex gap-3 text-navy/50">
@@ -73,6 +78,20 @@ export default async function TeachingPage({ params }: Props) {
             <div className="editorial mt-8 space-y-6 text-ink-2">
               {t.body?.map((p, i) => <p key={i}>{p}</p>)}
             </div>
+            {t.quotes && (
+              <div className="mt-12">
+                <p className="eyebrow text-ink-2">Key thoughts</p>
+                <ol className="mt-6 space-y-6">
+                  {t.quotes.map((q, i) => (
+                    <li key={i} className="relative rounded-[1.5rem] bg-pale/70 p-7 ring-1 ring-navy/5 md:p-9">
+                      <span className="font-display text-sm font-semibold tracking-[0.2em] text-ink-2">0{i + 1}</span>
+                      <blockquote className="mt-3 font-serif text-[1.35rem] italic leading-snug text-navy">&ldquo;{q}&rdquo;</blockquote>
+                      {t.speaker && <p className="mt-4 font-display text-sm font-semibold text-ink-2">{t.speaker}</p>}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
             {t.downloadUrl && (
               <div className="mt-10">
                 <Button href={t.downloadUrl} variant="dark" icon={<Download className="size-4" />}>Download resource</Button>
