@@ -7,7 +7,7 @@ import { LogoMark } from "./Logo";
 
 const LINES = [
   { text: "ARE YOU READY", accent: "" },
-  { text: "COME AND SEE", accent: "JESUS?" },
+  { text: "COME AND SEE", accent: "JESUS" },
 ];
 const GLYPHS = "!<>-_\\/[]{}=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const STORAGE_KEY = "photizo-intro-seen";
