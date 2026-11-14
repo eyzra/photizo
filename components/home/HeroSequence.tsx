@@ -15,6 +15,7 @@ import { purpose } from "@/lib/content";
 import { Halo, Radiance, Arrow, Constellation } from "@/components/sketches";
 import { Button } from "@/components/Button";
 import { useIntroDone } from "@/lib/intro";
+import { asset, heroPhoto, srcSetFor } from "@/lib/media";
 import { markBook, markRays, markViewBox } from "@/lib/brand-mark";
 import { joinCommunityHref } from "@/lib/site";
 
@@ -44,6 +45,8 @@ export function HeroSequence() {
   const m1Y = useTransform(p, [0, 0.3], ["0vh", reduce ? "0vh" : "-8vh"]);
   const m1BlurV = useTransform(p, [0.16, 0.3], [0, reduce ? 0 : 14]);
   const m1Blur = useMotionTemplate`blur(${m1BlurV}px)`;
+  const photoY = useTransform(p, [0, 0.3], ["0%", reduce ? "0%" : "6%"]);
+  const photoScale = useTransform(p, [0, 0.3], [1.04, reduce ? 1.04 : 1.12]);
 
   /* Moment 2 */
   const m2Opacity = useTransform(p, [0.26, 0.32, 0.56, 0.64], [0, 1, 1, 0]);
@@ -78,14 +81,29 @@ export function HeroSequence() {
 
         {/* ---------- 01 ---------- */}
         <motion.div
-          style={{ opacity: m1Opacity, scale: m1Scale, y: m1Y, filter: m1Blur }}
-          data-hero-moment className="absolute inset-0 flex flex-col justify-center"
+          style={{ opacity: m1Opacity, scale: m1Scale, y: m1Y }}
+          data-hero-moment className="absolute inset-0 flex flex-col justify-center pb-16 pt-24 md:pt-28"
          
         >
+          {/* Faint photograph of Ezra Anya preaching, behind the title */}
+          <motion.div
+            aria-hidden="true"
+            style={{ y: photoY, scale: photoScale }}
+            className="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[60%]"
+          >
+            <img
+              src={asset(heroPhoto.src)}
+              srcSet={srcSetFor(heroPhoto)}
+              sizes="(min-width: 768px) 60vw, 100vw"
+              alt=""
+              fetchPriority="high"
+              className="size-full object-cover object-[50%_18%] opacity-[0.2] grayscale contrast-150 brightness-110 [mask-image:radial-gradient(45%_70%_at_50%_42%,black_30%,transparent_80%)] max-md:object-[48%_12%] max-md:opacity-[0.16] max-md:[mask-image:radial-gradient(75%_50%_at_50%_38%,black_20%,transparent_82%)]"
+            />
+          </motion.div>
           {introDone && <Halo className="pointer-events-none absolute left-1/2 top-1/2 w-[min(88vw,760px)] -translate-x-1/2 -translate-y-[54%] text-navy/15" accent="cyan" />}
           {introDone && <Constellation className="pointer-events-none absolute right-[5%] top-[14%] hidden w-56 text-navy/50 md:block" delay={1.4} />}
           <div className="container-x relative">
-            <h1 className="font-display font-bold uppercase leading-[0.84] tracking-[-0.06em] text-navy text-[clamp(2.4rem,14.6vw,15.5rem)]">
+            <h1 className="font-display font-bold uppercase leading-[0.84] tracking-[-0.06em] text-navy text-[clamp(2.4rem,min(14.6vw,19svh),15.5rem)]">
               {["The", "Illumination", "Church"].map((w, i) => (
                 <span key={w} className="block overflow-hidden pb-[0.06em]">
                   <motion.span
@@ -103,7 +121,7 @@ export function HeroSequence() {
         </motion.div>
 
         {/* ---------- 02 ---------- */}
-        <motion.div style={{ opacity: m2Opacity, y: m2Y }} data-hero-moment className="absolute inset-0 flex items-center">
+        <motion.div style={{ opacity: m2Opacity, y: m2Y }} data-hero-moment className="absolute inset-0 flex items-center pt-20">
           <motion.div
             style={{ scale: sunScale }}
             className="pointer-events-none absolute right-[-22vw] top-1/2 w-[78vw] max-w-[820px] -translate-y-1/2 md:right-[-4vw] md:w-[50vw]"
@@ -115,7 +133,7 @@ export function HeroSequence() {
               <span className="size-1.5 rounded-full bg-orange" aria-hidden="true" />
               Our Mandate
             </p>
-            <h2 className="font-display font-bold uppercase leading-[0.86] tracking-[-0.06em] text-navy text-[clamp(3rem,13vw,13rem)]">
+            <h2 className="font-display font-bold uppercase leading-[0.86] tracking-[-0.06em] text-navy text-[clamp(3rem,min(13vw,17svh),13rem)]">
               <span className="block overflow-hidden pb-[0.05em]">
                 <motion.span style={{ y: line1 }} className="block">Till all men</motion.span>
               </span>
@@ -134,7 +152,7 @@ export function HeroSequence() {
         </motion.div>
 
         {/* ---------- 03 ---------- */}
-        <motion.div style={{ opacity: m3Opacity, y: m3Y }} data-hero-moment className="absolute inset-0 flex items-center">
+        <motion.div style={{ opacity: m3Opacity, y: m3Y }} data-hero-moment className="absolute inset-0 flex items-center pt-20">
           <div className="container-x relative grid items-center gap-10 pt-16 md:grid-cols-12 md:gap-8 md:pt-0">
             <div className="relative md:col-span-7">
               <p className="eyebrow mb-6 flex items-center gap-3 text-ink-2">

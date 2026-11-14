@@ -5,7 +5,7 @@ import { Orbits } from "@/components/sketches";
 import { RiseFramework } from "@/components/immersion/RiseFramework";
 import { ImmersionTimeline } from "@/components/immersion/Timeline";
 import { Eyebrow } from "@/components/ui";
-import { asset, flyers, spiritInfluence } from "@/lib/media";
+import { asset, flyers, spiritInfluence, thumb } from "@/lib/media";
 import Link from "next/link";
 
 export function ImmersionFeature() {
@@ -13,13 +13,13 @@ export function ImmersionFeature() {
     <section aria-labelledby="immersion-heading" className="relative overflow-hidden bg-navy text-white">
       <div className="grain pointer-events-none absolute inset-0 opacity-25" />
       <div className="dot-field-light pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(80%_60%_at_50%_30%,black,transparent)]" />
-      <div className="pointer-events-none absolute -left-40 top-20 size-[40rem] rounded-full bg-cyan/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-40 top-[40%] size-[34rem] rounded-full bg-orange/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-40 top-20 size-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
+      <div className="pointer-events-none absolute -right-40 top-[40%] size-[34rem] rounded-full bg-[radial-gradient(closest-side,rgb(245_130_32/0.16),transparent)]" />
 
       {/* Opening */}
-      <div className="relative flex min-h-[100svh] flex-col justify-center py-28">
+      <div className="relative flex min-h-[100svh] flex-col justify-center py-20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[62%]">
-          <img src={asset(spiritInfluence[0].src)} alt="" loading="lazy" decoding="async" className="size-full object-cover object-top opacity-45 mix-blend-luminosity [mask-image:linear-gradient(to_left,black_30%,transparent),linear-gradient(to_top,transparent_0%,black_32%)] [mask-composite:intersect] max-md:[mask-image:linear-gradient(to_top,transparent_5%,black_35%,transparent_85%)]" />
+          <img src={asset(spiritInfluence[0].src)} srcSet={`${thumb(spiritInfluence[0])} 800w, ${asset(spiritInfluence[0].src)} 1800w`} sizes="(min-width: 768px) 62vw, 100vw" alt="" loading="lazy" decoding="async" className="size-full object-cover object-top opacity-45 mix-blend-luminosity [mask-image:linear-gradient(to_left,black_30%,transparent),linear-gradient(to_top,transparent_0%,black_32%)] [mask-composite:intersect] max-md:[mask-image:linear-gradient(to_top,transparent_5%,black_35%,transparent_85%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_40%,rgb(82_215_237/0.18),transparent)] mix-blend-screen" />
         </div>
         <Parallax speed={0.12} className="pointer-events-none absolute right-[-12%] top-[8%] w-[60vw] max-w-[760px] text-white/25">
@@ -41,8 +41,8 @@ export function ImmersionFeature() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button href="/immersion/" variant="primary" size="lg">Explore IMMERSION</Button>
               </div>
-              <Link href="/immersion/#register" className="group mt-10 flex items-center gap-5 rounded-[1.5rem] bg-white/[0.06] p-4 pr-6 ring-1 ring-white/15 backdrop-blur transition-colors hover:bg-white/[0.1]">
-                <img src={asset(flyers.faithFundamentals.src)} alt="" loading="lazy" className="h-24 w-20 shrink-0 rounded-xl object-cover" />
+              <Link href="/immersion/#register" className="group mt-10 flex items-center gap-5 rounded-[1.5rem] bg-white/[0.06] p-4 pr-6 ring-1 ring-white/15 transition-colors hover:bg-white/[0.1]">
+                <img src={thumb(flyers.faithFundamentals)} alt="" loading="lazy" className="h-24 w-20 shrink-0 rounded-xl object-cover" />
                 <span className="flex-1">
                   <span className="eyebrow block text-orange">Next edition</span>
                   <span className="mt-1 block font-display text-xl font-bold tracking-[-0.02em]">Faith Fundamentals</span>
@@ -56,7 +56,7 @@ export function ImmersionFeature() {
       </div>
 
       {/* RISE */}
-      <div className="container-x relative pb-28 md:pb-36">
+      <div className="container-x relative pb-20 md:pb-28">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <Eyebrow tone="light">The RISE Experience</Eyebrow>
@@ -68,7 +68,7 @@ export function ImmersionFeature() {
       </div>
 
       {/* Journey */}
-      <div className="relative border-t border-white/10 py-28 md:py-36">
+      <div className="relative border-t border-white/10 py-16 md:py-24">
         <div className="container-x mb-4">
           <Eyebrow tone="light">The IMMERSION Journey</Eyebrow>
           <h3 className="mt-5 display-md max-w-3xl">Every edition so far, and the one still to come.</h3>

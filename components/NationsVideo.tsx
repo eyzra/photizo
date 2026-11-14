@@ -22,7 +22,15 @@ export function NationsVideo() {
       v.pause();
       return;
     }
-    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()), { threshold: 0.1 });
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          if (!v.src) v.src = asset(globeVideo.src);
+          v.play().catch(() => {});
+        } else v.pause();
+      },
+      { rootMargin: "200px 0px" },
+    );
     io.observe(v);
     return () => io.disconnect();
   }, [reduce]);
@@ -33,12 +41,11 @@ export function NationsVideo() {
         <video
           ref={video}
           className="size-full object-cover opacity-75"
-          src={asset(globeVideo.src)}
           poster={asset(globeVideo.poster)}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           aria-hidden="true"
         />
       </motion.div>
@@ -46,7 +53,7 @@ export function NationsVideo() {
       <div className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-navy-900 to-transparent" />
       <div className="grain pointer-events-none absolute inset-0 -z-10 opacity-20" />
 
-      <div className="container-x py-28">
+      <div className="container-x py-20">
         <Eyebrow tone="light">To the Nations</Eyebrow>
         <MaskedText as="h2" id="nations-heading" className="mt-8 max-w-4xl font-display text-[clamp(2.6rem,6.4vw,6rem)] font-bold leading-[0.92] tracking-[-0.05em]">
           To hearts, homes, campuses, communities and <span className="text-orange">nations.</span>

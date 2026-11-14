@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import { asset, type Photo as PhotoType } from "@/lib/media";
+import { asset, srcSetFor, type Photo as PhotoType } from "@/lib/media";
 
 /**
  * Photograph that unveils with a clip mask on entry and drifts gently inside its frame on scroll.
@@ -17,7 +17,9 @@ export function Photo({
   priority = false,
   rounded = "rounded-[1.75rem]",
   tone = "light",
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
+  sizes?: string;
   photo: PhotoType;
   className?: string;
   imgClassName?: string;
@@ -44,6 +46,8 @@ export function Photo({
     >
       <motion.img
         src={asset(photo.src)}
+        srcSet={srcSetFor(photo)}
+        sizes={sizes}
         alt={photo.alt}
         width={photo.w}
         height={photo.h}

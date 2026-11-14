@@ -11,7 +11,7 @@ export function Invitation({
   body?: string;
 }) {
   return (
-    <section aria-labelledby="invite-heading" className="relative overflow-hidden py-32 md:py-48">
+    <section aria-labelledby="invite-heading" className="relative overflow-hidden py-24 md:py-32">
       <div className="pointer-events-none absolute left-1/2 top-1/2 size-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.35),rgb(232_247_250/0.5)_50%,transparent)]" />
       <Radiance className="pointer-events-none absolute left-1/2 top-1/2 w-[min(110vw,1000px)] -translate-x-1/2 -translate-y-1/2 text-navy/20" />
       <div className="container-x relative text-center">

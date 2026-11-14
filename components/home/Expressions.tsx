@@ -5,9 +5,9 @@ import { TextLink } from "@/components/Button";
 
 export function Expressions() {
   return (
-    <section aria-labelledby="expressions-heading" className="relative py-28 md:py-40">
+    <section aria-labelledby="expressions-heading" className="relative py-16 md:py-24">
       <div className="container-x">
-        <div className="mb-14 grid gap-8 md:grid-cols-12 md:items-end">
+        <div className="mb-10 grid gap-8 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <Eyebrow>Our Expressions</Eyebrow>
             <MaskedText as="h2" id="expressions-heading" className="display-lg mt-6 text-navy">

@@ -60,7 +60,7 @@ function DesktopTrack() {
 
   return (
     <div ref={ref} className="relative hidden h-[420vh] md:block" style={{ height: reduce ? "auto" : undefined }}>
-      <div className={reduce ? "py-28" : "sticky top-0 flex h-screen flex-col justify-center overflow-hidden"}>
+      <div className={reduce ? "py-20" : "sticky top-0 flex h-screen flex-col justify-center overflow-hidden"}>
         <motion.div ref={track} style={reduce ? undefined : { x }} className={`flex items-stretch gap-6 pl-[clamp(1.25rem,4vw,3.5rem)] pr-[8vw] ${reduce ? "flex-wrap" : "w-max"}`}>
           <div className="flex w-[38vw] max-w-[620px] shrink-0 flex-col justify-center pr-6">
             <Heading size="display-md" />
@@ -74,11 +74,11 @@ function DesktopTrack() {
               <article
                 key={pillar.no}
                 className={`relative flex h-[72vh] max-h-[680px] min-h-[480px] w-[min(58vw,760px)] shrink-0 flex-col justify-between overflow-hidden rounded-[2rem] p-10 lg:p-12 ${
-                  dark ? "bg-navy text-white" : i === 1 ? "bg-pale/80 text-navy ring-1 ring-navy/5 backdrop-blur" : "bg-white/70 text-navy ring-1 ring-navy/10 backdrop-blur"
+                  dark ? "bg-navy text-white" : i === 1 ? "bg-pale/80 text-navy ring-1 ring-navy/5" : "bg-white/70 text-navy ring-1 ring-navy/10"
                 }`}
               >
                 {dark && <div className="grain pointer-events-none absolute inset-0 opacity-25" />}
-                {dark && <div className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-cyan/20 blur-3xl" />}
+                {dark && <div className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />}
                 <div className="relative flex items-start justify-between gap-6">
                   <span
                     className={`font-display text-[clamp(5rem,9vw,9rem)] font-bold leading-none tracking-[-0.06em] ${dark ? "text-transparent [-webkit-text-stroke:1.5px_rgb(255_255_255/0.5)]" : "text-transparent [-webkit-text-stroke:1.5px_rgb(7_29_73/0.35)]"}`}

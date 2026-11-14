@@ -9,13 +9,11 @@ import { Resources } from "@/components/home/Resources";
 import { Invitation } from "@/components/Invitation";
 import { Moments } from "@/components/home/Moments";
 import { NationsVideo } from "@/components/NationsVideo";
-import { ScrollLight } from "@/components/home/ScrollLight";
 import { Quotes } from "@/components/Quotes";
 
 export default function HomePage() {
   return (
     <>
-      <ScrollLight />
       <HeroSequence />
       <PillarsSequence />
       <Purpose />

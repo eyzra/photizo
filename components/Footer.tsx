@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandLogo, Logo } from "./Logo";
-import { footerNav, joinCommunityHref, site } from "@/lib/site";
+import { footerNav, site } from "@/lib/site";
 import { pledge } from "@/lib/content";
 
 export function Footer() {
@@ -8,7 +8,7 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-navy text-white">
       <div className="grain pointer-events-none absolute inset-0 opacity-25" />
       <div className="dot-field-light pointer-events-none absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,black_40%)]" />
-      <div className="pointer-events-none absolute -right-32 -top-40 size-[34rem] rounded-full bg-cyan/15 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 -top-40 size-[34rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.24),transparent)]" />
       <BrandLogo variant="badge" decorative className="pointer-events-none absolute -right-16 -top-20 w-[18rem] animate-spin-slower text-white/[0.08] md:-right-10 md:-top-16 md:w-[26rem]" />
 
       <div className="container-x relative pt-24 pb-10 md:pt-32">
@@ -36,10 +36,10 @@ export function Footer() {
               <p className="eyebrow text-white/50">Reach us</p>
               <ul className="mt-5 space-y-2.5 font-display text-[0.95rem] text-white/75">
                 <li><a href={site.phoneHref} className="hover:text-orange">{site.phoneDisplay}</a></li>
-                <li><a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-orange">WhatsApp</a></li>
+                <li><a href={site.whatsappCommunity} target="_blank" rel="noopener noreferrer" className="hover:text-orange">WhatsApp Community</a></li>
+                <li><a href={site.whatsappChannel} target="_blank" rel="noopener noreferrer" className="hover:text-orange">WhatsApp Channel</a></li>
                 <li><a href={site.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-orange">Telegram {site.telegramHandle}</a></li>
                 <li><a href={site.emailHref} className="hover:text-orange [overflow-wrap:anywhere]">{site.email}</a></li>
-                <li><a href={joinCommunityHref} target="_blank" rel="noopener noreferrer" className="hover:text-orange">Join the Community</a></li>
               </ul>
             </div>
           </div>

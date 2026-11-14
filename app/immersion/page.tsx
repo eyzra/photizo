@@ -11,8 +11,9 @@ import { Button } from "@/components/Button";
 import { immersion } from "@/lib/content";
 import { Photo } from "@/components/Photo";
 import { Gallery } from "@/components/Gallery";
+import { ImmersionRegisterForm } from "@/components/forms/ImmersionRegisterForm";
 import { asset, flyers, spiritInfluence } from "@/lib/media";
-import { site, whatsappLink } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "IMMERSION",
@@ -20,8 +21,7 @@ export const metadata: Metadata = {
     "IMMERSION is the flagship annual camp meeting of Photizo Global. Immersed to Rise: Rejuvenation, Indoctrination, Supernatural Signs and Equipping.",
 };
 
-const updatesHref = whatsappLink("Hello Photizo Global, please keep me updated about IMMERSION Abuja 2026.");
-const attendHref = whatsappLink("Hello Photizo Global, I'd like to attend IMMERSION Minna: Faith Fundamentals on 11th and 12th December.");
+const updatesHref = site.whatsappChannel;
 
 const faqs = [
   {
@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: "When is the next edition and how do I attend?",
-    a: "The next edition is IMMERSION Minna: Faith Fundamentals, on Friday 11th December at 5PM and Saturday 12th December at 6AM and 5PM, 2026, at the MFM Campus Fellowship permanent site, behind Alheri Lodge, Gofamint, Gidan Kwano. Send us a message on WhatsApp to let us know you're coming. IMMERSION Abuja 2026 follows, and its theme will be revealed soon.",
+    a: "The next edition is IMMERSION Minna: Faith Fundamentals, on Friday 11th December at 5PM and Saturday 12th December at 6AM and 5PM, 2026, at the MFM Campus Fellowship permanent site, behind Alheri Lodge, Gofamint, Gidan Kwano. Register with the form on this page and you'll get a confirmation by email. IMMERSION Abuja 2026 follows, and its theme will be revealed soon.",
   },
   {
     q: "Who do I contact with other questions?",
@@ -57,7 +57,7 @@ export default function ImmersionPage() {
       <ImmersionHero />
 
       {/* Why we gather */}
-      <section id="about-immersion" aria-labelledby="why-heading" className="relative scroll-mt-16 py-28 md:py-40">
+      <section id="about-immersion" aria-labelledby="why-heading" className="relative scroll-mt-16 py-16 md:py-24">
         <Parallax speed={0.12} className="pointer-events-none absolute -left-[10%] top-10 w-[50vw] max-w-[620px] text-navy/10">
           <Halo className="w-full" />
         </Parallax>
@@ -77,7 +77,7 @@ export default function ImmersionPage() {
           </div>
         </div>
 
-        <div className="container-x relative mt-24 grid gap-14 md:grid-cols-12 md:items-center">
+        <div className="container-x relative mt-16 grid gap-14 md:grid-cols-12 md:items-center">
           <Reveal className="md:col-span-7">
             <Photo photo={spiritInfluence[1]} className="aspect-[16/10]" caption="IMMERSION Minna 2024: The Spirit Influence" />
           </Reveal>
@@ -93,12 +93,12 @@ export default function ImmersionPage() {
       </section>
 
       {/* RISE */}
-      <section aria-labelledby="rise-heading" className="relative overflow-hidden bg-navy py-28 text-white md:py-40">
+      <section aria-labelledby="rise-heading" className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-        <div className="pointer-events-none absolute -right-40 top-0 size-[40rem] rounded-full bg-cyan/20 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 top-0 size-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
         <SunBurst className="pointer-events-none absolute -left-40 bottom-[-10rem] w-[40rem] text-white/10" />
         <div className="container-x relative">
-          <div className="mb-14 grid gap-8 md:grid-cols-12 md:items-end">
+          <div className="mb-10 grid gap-8 md:grid-cols-12 md:items-end">
             <div className="md:col-span-7">
               <Eyebrow tone="light">The RISE Experience</Eyebrow>
               <MaskedText as="h2" id="rise-heading" className="mt-6 font-display text-[clamp(4rem,14vw,12rem)] font-bold leading-[0.82] tracking-[-0.07em]">
@@ -114,7 +114,7 @@ export default function ImmersionPage() {
       </section>
 
       {/* Journey */}
-      <section id="past-editions" aria-labelledby="journey-heading" className="relative scroll-mt-16 py-28 md:py-40">
+      <section id="past-editions" aria-labelledby="journey-heading" className="relative scroll-mt-16 py-16 md:py-24">
         <div className="container-x mb-4 grid gap-8 md:grid-cols-12 md:items-end">
           <div className="md:col-span-8">
             <Eyebrow>History and Past Editions</Eyebrow>
@@ -128,7 +128,7 @@ export default function ImmersionPage() {
       </section>
 
       {/* Gallery */}
-      <section aria-labelledby="gallery-heading" className="relative pb-28 md:pb-40">
+      <section aria-labelledby="gallery-heading" className="relative pb-20 md:pb-28">
         <div className="container-x">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -146,10 +146,10 @@ export default function ImmersionPage() {
       </section>
 
       {/* Next edition */}
-      <section id="register" aria-labelledby="next-heading" className="relative scroll-mt-16 overflow-hidden bg-navy py-28 text-white md:py-40">
+      <section id="register" aria-labelledby="next-heading" className="relative scroll-mt-16 overflow-hidden bg-navy py-20 text-white md:py-28">
         <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-        <div className="pointer-events-none absolute -left-40 top-10 size-[40rem] rounded-full bg-cyan/20 blur-3xl" />
-        <div className="pointer-events-none absolute -right-40 bottom-0 size-[34rem] rounded-full bg-orange/15 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 top-10 size-[40rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
+        <div className="pointer-events-none absolute -right-40 bottom-0 size-[34rem] rounded-full bg-[radial-gradient(closest-side,rgb(245_130_32/0.24),transparent)]" />
         <div className="container-x relative grid items-center gap-14 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <div className="relative mx-auto max-w-[460px]">
@@ -185,18 +185,20 @@ export default function ImmersionPage() {
                   </div>
                 ))}
               </dl>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Button href={attendHref} variant="primary" size="lg">I&apos;m coming</Button>
-                <Button href={site.telegram} variant="ghost-light" size="lg">Updates on Telegram</Button>
+              <div className="mt-10 rounded-[1.75rem] bg-white/[0.04] p-6 ring-1 ring-white/10 md:p-8">
+                <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">Register for Faith Fundamentals</h3>
+                <p className="mt-2 text-sm text-white/65">Takes less than a minute.</p>
+                <div className="mt-6">
+                  <ImmersionRegisterForm edition="IMMERSION Minna 2026: Faith Fundamentals" />
+                </div>
               </div>
-              <p className="mt-4 text-sm text-white/60">&ldquo;I&apos;m coming&rdquo; opens WhatsApp with a message ready for you to send.</p>
             </Reveal>
           </div>
         </div>
       </section>
 
       {/* After that */}
-      <section id="upcoming" aria-labelledby="upcoming-heading" className="relative scroll-mt-16 overflow-hidden bg-navy-900 py-28 text-white md:py-36">
+      <section id="upcoming" aria-labelledby="upcoming-heading" className="relative scroll-mt-16 overflow-hidden bg-navy-900 py-20 text-white md:py-28">
         <div className="grain pointer-events-none absolute inset-0 opacity-30" />
         <div className="pointer-events-none absolute left-1/2 top-1/2 size-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.18),transparent)]" />
         <div className="container-x relative text-center">
@@ -213,13 +215,13 @@ export default function ImmersionPage() {
             <p className="relative mt-8 font-serif text-xl italic text-white/85">The theme will be revealed soon.</p>
           </div>
           <div className="mt-10 flex justify-center">
-            <Button href={updatesHref} variant="primary">Get updates on WhatsApp</Button>
+            <Button href={updatesHref} variant="primary">Follow the WhatsApp channel for updates</Button>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section aria-labelledby="faq-heading" className="relative py-28 md:py-40">
+      <section aria-labelledby="faq-heading" className="relative py-16 md:py-24">
         <div className="container-x grid gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
             <Eyebrow>Frequently Asked</Eyebrow>
@@ -245,12 +247,12 @@ export default function ImmersionPage() {
       </section>
 
       {/* Invitation */}
-      <section aria-labelledby="come-heading" className="relative overflow-hidden pb-32 md:pb-44">
+      <section aria-labelledby="come-heading" className="relative overflow-hidden pb-24 md:pb-32">
         <div className="container-x">
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-navy px-8 py-20 text-center text-white md:px-16 md:py-28">
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-navy px-8 py-20 text-center text-white md:px-16 md:py-20">
             <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-            <div className="pointer-events-none absolute -left-20 -top-20 size-96 rounded-full bg-cyan/25 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -right-20 size-96 rounded-full bg-orange/15 blur-3xl" />
+            <div className="pointer-events-none absolute -left-20 -top-20 size-96 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.40),transparent)]" />
+            <div className="pointer-events-none absolute -bottom-20 -right-20 size-96 rounded-full bg-[radial-gradient(closest-side,rgb(245_130_32/0.24),transparent)]" />
             <MaskedText as="h2" id="come-heading" className="relative mx-auto max-w-4xl font-display text-[clamp(2.6rem,7vw,6rem)] font-bold leading-[0.9] tracking-[-0.055em]">
               Come, be immersed <span className="text-orange">to rise.</span>
             </MaskedText>

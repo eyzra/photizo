@@ -4,10 +4,9 @@ import { ArrowUpRight, Send } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
-import { OpenBook } from "@/components/sketches";
 import { Button } from "@/components/Button";
 import { teachings } from "@/lib/teachings";
-import { asset } from "@/lib/media";
+import { asset, preaching, srcSetFor } from "@/lib/media";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -27,7 +26,11 @@ export default function TeachingsPage() {
       <PageHero
         eyebrow="Teachings"
         title="Our teachings live on Telegram."
-        art={<OpenBook className="w-full text-navy/25" />}
+        art={
+          <div className="ml-auto mt-24 hidden w-[min(34vw,420px)] overflow-hidden rounded-[2rem] lg:block">
+            <img src={asset(preaching.two.src)} srcSet={srcSetFor(preaching.two)} sizes="420px" alt={preaching.two.alt} className="aspect-[3/4] w-full object-cover" />
+          </div>
+        }
         intro={
           <p>
             Recordings, notes and daily meditations from ILLUMINATE, INTENSIFY and our other gatherings are shared on our Telegram channel, {site.telegramHandle}. Join to listen, read along and catch every new teaching as it goes up.
@@ -36,12 +39,12 @@ export default function TeachingsPage() {
       >
         <div className="mt-10 flex flex-wrap gap-3">
           <Button href={site.telegram} variant="primary" size="lg" icon={<Send className="size-4" />}>Open Telegram</Button>
-          <Button href="/articles/" variant="outline" size="lg">Read the Dear Atheist letters</Button>
+          <Button href={site.whatsappChannel} variant="outline" size="lg">Follow the WhatsApp channel</Button>
         </div>
       </PageHero>
 
       {live.length > 0 && (
-        <section aria-labelledby="featured-heading" className="relative pb-28 md:pb-40">
+        <section aria-labelledby="featured-heading" className="relative pb-20 md:pb-28">
           <div className="container-x">
             <Eyebrow>Read Here</Eyebrow>
             <h2 id="featured-heading" className="display-sm mt-5 text-navy">From ILLUMINATE</h2>

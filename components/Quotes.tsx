@@ -27,10 +27,10 @@ export function Quotes({ tone = "dark" }: { tone?: "dark" | "light" }) {
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      className={`relative overflow-hidden py-28 md:py-36 ${dark ? "bg-navy text-white" : "text-navy"}`}
+      className={`relative overflow-hidden py-20 md:py-28 ${dark ? "bg-navy text-white" : "text-navy"}`}
     >
       {dark && <div className="grain pointer-events-none absolute inset-0 opacity-25" />}
-      {dark && <div className="pointer-events-none absolute -left-32 top-0 size-[32rem] rounded-full bg-cyan/15 blur-3xl" />}
+      {dark && <div className="pointer-events-none absolute -left-32 top-0 size-[32rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.24),transparent)]" />}
       <span aria-hidden="true" className={`pointer-events-none absolute -top-16 right-[4%] font-serif text-[22rem] leading-none ${dark ? "text-white/[0.04]" : "text-navy/[0.05]"}`}>
         &ldquo;
       </span>

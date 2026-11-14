@@ -16,16 +16,24 @@ export const site = {
   emailHref: "mailto:mail.photizoglobal@gmail.com",
   whatsapp: "https://wa.me/2349126634636",
   telegram: "https://t.me/photizoonline",
+  whatsappCommunity: "https://chat.whatsapp.com/DHqbXdwbmvBHf4Em5b7Y6q",
+  whatsappChannel: "https://whatsapp.com/channel/0029VbC16sS8V0teuc8yUD2p",
   telegramHandle: "@photizoonline",
+  /**
+   * Google Apps Script web app URL that saves form entries to the Google Sheet.
+   * Paste the URL from Deploy → New deployment (it ends in /exec). See google-apps-script/SETUP.md.
+   */
+  formsEndpoint:
+    process.env.NEXT_PUBLIC_FORMS_ENDPOINT ||
+    "https://script.google.com/macros/s/AKfycbyCKcNA6V9OeHyK4sNyIqMoEhrU_oShHoTagzKDVMYab49RadqyqJUtVjINKnI6N5M1lQ/exec",
+  bank: { accountNumber: "6050522785", bankName: "Keystone Bank", accountName: "Favour Ejeh" },
 } as const;
 
 export function whatsappLink(message?: string) {
   return message ? `${site.whatsapp}?text=${encodeURIComponent(message)}` : site.whatsapp;
 }
 
-export const joinCommunityHref = whatsappLink(
-  "Hello Photizo Global, I'd love to join the community. Please add me.",
-);
+export const joinCommunityHref = site.whatsappCommunity;
 
 export const primaryNav = [
   { label: "About", href: "/about/" },

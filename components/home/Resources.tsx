@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 export function Resources() {
   const latest = [...dearAtheist].reverse().slice(0, 3);
   return (
-    <section aria-labelledby="resources-heading" className="relative py-28 md:py-40">
+    <section aria-labelledby="resources-heading" className="relative py-16 md:py-24">
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="relative md:col-span-5">
@@ -29,7 +29,7 @@ export function Resources() {
             <Reveal delay={0.1}>
               <div className="relative mt-12 overflow-hidden rounded-[1.75rem] bg-navy p-7 text-white">
                 <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-                <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-cyan/25 blur-3xl" />
+                <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.40),transparent)]" />
                 <Send className="relative size-6 text-orange" aria-hidden="true" />
                 <p className="relative mt-5 font-display text-xl font-bold leading-snug tracking-[-0.02em]">Teachings, notes and daily meditations are shared on Telegram.</p>
                 <div className="relative mt-6">

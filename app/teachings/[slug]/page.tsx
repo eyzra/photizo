@@ -7,7 +7,6 @@ import { MaskedText, Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
 import { Blueprint } from "@/components/sketches";
 import { Button } from "@/components/Button";
-import { whatsappLink } from "@/lib/site";
 import { asset } from "@/lib/media";
 
 export function generateStaticParams() {
@@ -30,7 +29,7 @@ export default async function TeachingPage({ params }: Props) {
   const others = teachings.filter((o) => o.slug !== t.slug && o.category === t.category).slice(0, 2);
 
   return (
-    <article className="relative overflow-hidden pb-28 pt-32 md:pt-44">
+    <article className="relative overflow-hidden pb-20 pt-32 md:pt-40">
       <Blueprint className="pointer-events-none absolute -right-24 top-24 w-[520px] text-navy/15" label={t.category} />
       <div className="container-x relative">
         <Link href="/teachings/" className="inline-flex items-center gap-2 font-display text-sm font-semibold text-ink-2 hover:text-navy">
@@ -58,8 +57,7 @@ export default async function TeachingPage({ params }: Props) {
             <audio controls src={t.audioUrl} className="w-full" />
           ) : t.image ? (
             <div className="relative overflow-hidden rounded-[1.75rem] bg-navy">
-              <img src={asset(t.image.src)} alt="" aria-hidden="true" className="absolute inset-0 size-full scale-125 object-cover opacity-50 blur-2xl" />
-              <img src={asset(t.image.src)} alt={t.image.alt} className="relative mx-auto max-h-[70vh] w-auto object-contain p-6 md:p-10" />
+                            <img src={asset(t.image.src)} alt={t.image.alt} className="relative mx-auto max-h-[70vh] w-auto object-contain p-6 md:p-10" />
             </div>
           ) : (
             <div className="flex aspect-[16/7] flex-col items-center justify-center gap-4 rounded-[1.75rem] bg-pale/80 text-center ring-1 ring-navy/5">
@@ -103,7 +101,7 @@ export default async function TeachingPage({ params }: Props) {
               <p className="font-display text-xl font-bold tracking-[-0.02em]">Questions about this teaching?</p>
               <p className="mt-3 text-sm text-white/70">Send us a message. We&apos;d love to hear what you&apos;re thinking about.</p>
               <div className="mt-6">
-                <Button href={whatsappLink(`Hello Photizo Global, I have a question about "${t.title}".`)} variant="primary">Message us</Button>
+                <Button href="/contact/?topic=Question%20about%20a%20teaching" variant="primary">Ask a question</Button>
               </div>
             </div>
             {others.length > 0 && (

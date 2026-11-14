@@ -7,8 +7,7 @@ import { ExpressionMark, Halo, Constellation } from "@/components/sketches";
 import { Button } from "@/components/Button";
 import { Invitation } from "@/components/Invitation";
 import { expressions } from "@/lib/content";
-import { whatsappLink } from "@/lib/site";
-import { asset, flyers, intensifyFlyer, spiritInfluence } from "@/lib/media";
+import { asset, flyers, intensifyFlyer, spiritInfluence, thumb } from "@/lib/media";
 import { Gallery } from "@/components/Gallery";
 import { site } from "@/lib/site";
 import { Photo } from "@/components/Photo";
@@ -42,16 +41,16 @@ export default function ExpressionsPage() {
 
       {expressions.map((e, i) => {
         const dark = i % 2 === 1;
-        const href = "href" in e ? e.href : whatsappLink(e.message);
+        const href = "href" in e ? e.href : e.link === "community" ? site.whatsappCommunity : site.whatsappChannel;
         return (
           <section
             key={e.slug}
             id={e.slug}
             aria-labelledby={`${e.slug}-heading`}
-            className={`relative scroll-mt-20 overflow-hidden py-28 md:py-36 ${dark ? "bg-navy text-white" : ""}`}
+            className={`relative scroll-mt-20 overflow-hidden py-20 md:py-28 ${dark ? "bg-navy text-white" : ""}`}
           >
             {dark && <div className="grain pointer-events-none absolute inset-0 opacity-25" />}
-            {dark && <div className="pointer-events-none absolute -left-40 top-10 size-[34rem] rounded-full bg-cyan/20 blur-3xl" />}
+            {dark && <div className="pointer-events-none absolute -left-40 top-10 size-[34rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />}
             <Constellation className={`pointer-events-none absolute right-[4%] top-12 hidden w-56 md:block ${dark ? "text-white/30" : "text-navy/30"}`} />
             <div className="container-x relative grid gap-12 md:grid-cols-12 md:items-center">
               <div className={`md:col-span-5 ${dark ? "md:order-2 md:col-start-8" : ""}`}>
@@ -64,7 +63,7 @@ export default function ExpressionsPage() {
                     ].map(({ ph, cls }, k) => (
                       <img
                         key={ph.src}
-                        src={asset(ph.src)}
+                        src={thumb(ph)}
                         alt={ph.alt}
                         width={ph.w}
                         height={ph.h}
@@ -77,15 +76,20 @@ export default function ExpressionsPage() {
                   </div>
                 ) : e.slug === "illuminate" ? (
                   <figure className="relative max-w-[440px]">
-                    <img src={asset(flyers.illuminateDevotion.src)} alt={flyers.illuminateDevotion.alt} width={1280} height={1280} loading="lazy" className="w-full rounded-[2rem] shadow-[0_40px_80px_-40px_rgb(7_29_73/0.6)]" />
+                    <img src={thumb(flyers.illuminateDevotion)} alt={flyers.illuminateDevotion.alt} width={1280} height={1280} loading="lazy" className="w-full rounded-[2rem] shadow-[0_40px_80px_-40px_rgb(7_29_73/0.6)]" />
                     <figcaption className="mt-4 font-display text-xs uppercase tracking-[0.2em] text-ink-2">From a past ILLUMINATE series: The Essence of Devotion</figcaption>
+                  </figure>
+                ) : e.slug === "identification" ? (
+                  <figure className="relative max-w-[440px]">
+                    <img src={thumb(flyers.identification)} alt={flyers.identification.alt} width={flyers.identification.w} height={flyers.identification.h} loading="lazy" className="w-full rounded-[2rem] shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7)] ring-1 ring-white/10" />
+                    <figcaption className="mt-4 font-display text-xs uppercase tracking-[0.2em] text-white/55">IDENTIFICATION 2026: Easter Sunday, 5th April, Nyanya, Abuja</figcaption>
                   </figure>
                 ) : e.slug === "immersion" ? (
                   <Photo photo={spiritInfluence[0]} className="aspect-[4/5] max-w-[440px]" caption="IMMERSION Minna 2024: The Spirit Influence" />
                 ) : (
                   <div className={`relative grid aspect-square max-w-[420px] place-items-center rounded-[2.5rem] ${dark ? "bg-white/[0.04] ring-1 ring-white/10" : "bg-pale/80 ring-1 ring-navy/5"}`}>
                     <div className={`absolute inset-0 rounded-[2.5rem] ${dark ? "dot-field-light" : "dot-field"} opacity-60`} />
-                    <ExpressionMark kind={e.slug} className={`relative w-1/2 ${dark ? "text-white" : "text-navy"}`} />
+                    <ExpressionMark kind={(e as { slug: string }).slug} className={`relative w-1/2 ${dark ? "text-white" : "text-navy"}`} />
                     <span className={`absolute left-6 top-6 font-display text-sm font-semibold tracking-[0.2em] ${dark ? "text-white/50" : "text-ink-2"}`}>0{i + 1} / 04</span>
                   </div>
                 )}
@@ -116,9 +120,9 @@ export default function ExpressionsPage() {
         );
       })}
 
-      <section aria-labelledby="archive-heading" className="relative py-28 md:py-36">
+      <section aria-labelledby="archive-heading" className="relative py-16 md:py-24">
         <div className="container-x">
-          <div className="mb-14 grid gap-8 md:grid-cols-12 md:items-end">
+          <div className="mb-10 grid gap-8 md:grid-cols-12 md:items-end">
             <div className="md:col-span-7">
               <Eyebrow>From the Archive</Eyebrow>
               <MaskedText as="h2" id="archive-heading" className="display-lg mt-6 text-navy">
@@ -132,7 +136,7 @@ export default function ExpressionsPage() {
           <Gallery
             layout="masonry"
             label="Past Photizo Global programmes"
-            photos={[flyers.auxano, flyers.spiritInfluence, flyers.illuminateDevotion, flyers.intensify40, flyers.shekinah, flyers.nowFaithIs, flyers.intensify30, flyers.immersionComing, intensifyFlyer, flyers.faithFundamentals]}
+            photos={[flyers.auxano, flyers.spiritInfluence, flyers.illuminateDevotion, flyers.intensify40, flyers.shekinah, flyers.nowFaithIs, flyers.intensify30, flyers.immersionComing, intensifyFlyer, flyers.faithFundamentals, flyers.identification]}
             captions={[
               "AUXANO: 21 Days of Discipleship",
               "IMMERSION Minna 2024: The Spirit Influence",
@@ -144,6 +148,7 @@ export default function ExpressionsPage() {
               "IMMERSION is coming",
               "INTENSIFY: January 2025",
               "IMMERSION Minna 2026: Faith Fundamentals",
+              "IDENTIFICATION 2026: Easter Sunday",
             ]}
           />
         </div>

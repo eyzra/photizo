@@ -69,7 +69,7 @@ export function TeachingLibrary() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search titles, topics or scriptures"
-              className="w-full rounded-full border border-navy/15 bg-white/80 py-4 pl-14 pr-12 font-display text-navy outline-none backdrop-blur transition-colors placeholder:text-ink-2/60 focus:border-navy"
+              className="w-full rounded-full border border-navy/15 bg-white/80 py-4 pl-14 pr-12 font-display text-navy outline-none transition-colors placeholder:text-ink-2/60 focus:border-navy"
             />
             {query && (
               <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="absolute right-4 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-pale">
@@ -145,7 +145,7 @@ export function TeachingLibrary() {
                       exit={{ opacity: 0, scale: 0.97 }}
                       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <Link href={`/teachings/${t.slug}/`} className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white/85 p-7 ring-1 ring-navy/10 backdrop-blur transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgb(7_29_73/0.45)] hover:ring-navy/30">
+                      <Link href={`/teachings/${t.slug}/`} className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white/85 p-7 ring-1 ring-navy/10 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgb(7_29_73/0.45)] hover:ring-navy/30">
                         {t.image && (
                           <div className="relative -mx-7 -mt-7 mb-6 aspect-[16/9] overflow-hidden bg-navy">
                             <img src={asset(t.image.src)} alt="" loading="lazy" className="size-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />

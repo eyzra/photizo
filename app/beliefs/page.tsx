@@ -5,6 +5,8 @@ import { Eyebrow } from "@/components/ui";
 import { OpenBook, Orbits } from "@/components/sketches";
 import { Invitation } from "@/components/Invitation";
 import { jesus, statementOfFaith } from "@/lib/content";
+import { Photo } from "@/components/Photo";
+import { crucifixion } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Our Beliefs",
@@ -26,17 +28,21 @@ export default function BeliefsPage() {
       />
 
       {/* Four S's */}
-      <section aria-labelledby="jesus-heading" className="relative overflow-hidden bg-navy py-28 text-white md:py-36">
+      <section aria-labelledby="jesus-heading" className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-        <div className="pointer-events-none absolute -right-40 -top-20 size-[36rem] rounded-full bg-cyan/20 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 -top-20 size-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
         <div className="container-x relative">
           <Eyebrow tone="light">What We Believe About Jesus</Eyebrow>
           <MaskedText as="h2" id="jesus-heading" className="display-lg mt-6 max-w-4xl">
             Superior. Supreme. Sufficient. <span className="text-orange">Stable.</span>
           </MaskedText>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-[2rem] bg-white/10 ring-1 ring-white/10 md:grid-cols-2">
+          <div className="mt-14 grid items-start gap-6 lg:grid-cols-12">
+          <Reveal className="lg:sticky lg:top-28 lg:col-span-4">
+            <Photo photo={crucifixion} tone="dark" className="aspect-[4/5]" sizes="(min-width: 1024px) 30vw, 100vw" caption="His finished work" />
+          </Reveal>
+          <div className="grid gap-px overflow-hidden rounded-[2rem] bg-white/10 ring-1 ring-white/10 md:grid-cols-2 lg:col-span-8">
             {jesus.map((j, i) => (
-              <Reveal key={j.word} delay={(i % 2) * 0.08} className="group bg-navy p-8 transition-colors duration-500 hover:bg-navy-800 md:p-12">
+              <Reveal key={j.word} delay={(i % 2) * 0.08} className="group bg-navy p-8 transition-colors duration-500 hover:bg-navy-800 md:p-10">
                 <span className="font-display text-sm font-semibold tracking-[0.2em] text-cyan">0{i + 1}</span>
                 <h3 className="mt-6 font-display text-[clamp(1.8rem,3vw,2.6rem)] font-bold tracking-[-0.04em]">
                   {j.word.replace("His ", "")}
@@ -46,11 +52,12 @@ export default function BeliefsPage() {
               </Reveal>
             ))}
           </div>
+          </div>
         </div>
       </section>
 
       {/* Statement of faith */}
-      <section aria-labelledby="sof-heading" className="relative py-28 md:py-40">
+      <section aria-labelledby="sof-heading" className="relative py-16 md:py-24">
         <div className="container-x grid gap-16 md:grid-cols-12">
           <div className="md:col-span-4">
             <div className="md:sticky md:top-32">

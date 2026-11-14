@@ -15,12 +15,15 @@ const art: ReactNode[] = [
 
 export function DNA() {
   return (
-    <section aria-labelledby="dna-heading" className="relative overflow-hidden py-28 md:py-40">
+    <section aria-labelledby="dna-heading" className="relative overflow-hidden py-16 md:py-24">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div>
-            <Eyebrow>Our DNA</Eyebrow>
-            <h2 id="dna-heading" className="sr-only">Illumination. Impact. Influence.</h2>
+            <Eyebrow>Who We Are</Eyebrow>
+            <h2 id="dna-heading" className="display-lg mt-6 text-navy">
+              Our <span className="text-orange">DNA</span>.
+            </h2>
+            <p className="mt-4 font-display text-lg font-semibold uppercase tracking-[0.14em] text-ink-2">Illumination · Impact · Influence</p>
           </div>
           <Reveal>
             <p className="max-w-md font-serif text-lg italic leading-snug text-ink-2">

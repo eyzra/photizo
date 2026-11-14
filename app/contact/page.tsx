@@ -35,7 +35,7 @@ export default function ContactPage() {
         </div>
       </PageHero>
 
-      <section aria-label="Contact channels and form" className="relative pb-28 md:pb-40">
+      <section aria-label="Contact channels and form" className="relative pb-20 md:pb-28">
         <div className="container-x grid gap-14 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-5">
             {channels.map(({ label, value, href, Icon }, i) => (
@@ -43,7 +43,7 @@ export default function ContactPage() {
                 <a
                   href={href}
                   {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="group flex items-center gap-5 rounded-[1.75rem] bg-white/85 p-6 ring-1 ring-navy/10 backdrop-blur transition-all duration-500 hover:bg-navy hover:ring-navy"
+                  className="group flex items-center gap-5 rounded-[1.75rem] bg-white/85 p-6 ring-1 ring-navy/10 transition-all duration-500 hover:bg-navy hover:ring-navy"
                 >
                   <span className="grid size-14 shrink-0 place-items-center rounded-full bg-pale text-navy transition-colors duration-500 group-hover:bg-orange">
                     <Icon className="size-5" aria-hidden="true" />
@@ -58,7 +58,7 @@ export default function ContactPage() {
             <Reveal delay={0.2}>
               <div className="relative overflow-hidden rounded-[1.75rem] bg-navy p-8 text-white">
                 <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-                <div className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-cyan/25 blur-3xl" />
+                <div className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.40),transparent)]" />
                 <p className="relative eyebrow text-cyan">Stay Connected</p>
                 <p className="relative mt-4 font-display text-2xl font-bold leading-tight tracking-[-0.02em]">
                   Teachings, updates, announcements and opportunities to grow together.

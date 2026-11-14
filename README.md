@@ -40,9 +40,9 @@ Everything below is clearly labelled on the site so nothing invented goes live.
 - **Photographs.** Photos live in `public/images/` as optimised WebP and are listed in `lib/media.ts`. Still to come: a flyer or photo for Faith Fundamentals (timeline), and gallery photos for Shekinah, Now Faith Is and Faith Fundamentals. Programme flyers live in `public/images/flyers/`. To add an edition's cover, put the file in `public/images/`, register it in `lib/media.ts` and set `image` on that edition in `lib/content.ts`.
 - **Globe film.** `public/video/globe.mp4` plays behind the "To the Nations" band on the homepage. It pauses off-screen and stays still for visitors who prefer reduced motion.
 - **IMMERSION Abuja 2026.** When the theme is announced, set `theme` on the upcoming edition in `lib/content.ts`, and replace the "Registration opening soon" block in `app/immersion/page.tsx` with the real registration link.
-- **Bank details.** The Give page asks visitors to request account details on WhatsApp. To publish them on the page instead, edit the Bank Transfer card in `app/give/page.tsx`.
+- **Bank details.** The account shown on the Give page lives in `lib/site.ts` under `bank`.
 - **Online giving links.** Point "Give Now" and "Become a Partner" at a payment page when one exists. They currently open WhatsApp with a ready-made message.
-- **Community channels.** "Join the Community" opens WhatsApp with a join request. If you set up a WhatsApp Community or Telegram channel, update `joinCommunityHref` in `lib/site.ts`.
+- **WhatsApp links.** The community and channel links live in `lib/site.ts`.
 - **Teachings.** The Teachings page points to Telegram for now. When you have recordings or notes to upload, add them to `lib/teachings.ts` and switch `app/teachings/page.tsx` back to the searchable `<TeachingLibrary />`.
 - **New Dear Atheist letters.** Add each one to the bottom of the list in `lib/articles.ts` with its title, subtitle, date and Substack link. The site shows them newest first.
 
@@ -55,11 +55,10 @@ The favicon (`app/icon.svg`), Apple home-screen icon (`app/apple-icon.png`) and 
 ## Preloader and scroll light
 
 - The intro screen ("ARE YOU READY" then "COME AND SEE JESUS?") plays once per browser session. Change the words in `components/Preloader.tsx`. To see it again while testing, close the tab and reopen the site.
-- The point of light that travels down the homepage edge is `components/home/ScrollLight.tsx`.
 
-## Contact form
+## Forms (Google Sheets)
 
-GitHub Pages has no server, so the form composes the visitor's message and opens it in WhatsApp or their email app, already addressed to the ministry. To receive submissions directly instead, connect the form in `components/ContactForm.tsx` to a service such as Formspree.
+The Contact, IMMERSION registration and Dear Atheist question forms save into a Google Sheet through Google Apps Script. Each entry emails an alert to message.theezraanya@gmail.com and sends the person a thank-you. Follow `google-apps-script/SETUP.md` once, then paste the web app URL into `formsEndpoint` in `lib/site.ts`. Until then, the forms open the visitor's email app with the message filled in.
 
 ## Accessibility and motion
 

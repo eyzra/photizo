@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { asset, type Photo } from "@/lib/media";
+import { asset, thumb, type Photo } from "@/lib/media";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -69,7 +69,7 @@ export function Gallery({ photos, label, layout = "grid", captions }: { photos: 
               aria-label={`View larger: ${ph.alt}`}
             >
               <img
-                src={asset(ph.src)}
+                src={thumb(ph)}
                 alt={ph.alt}
                 width={ph.w}
                 height={ph.h}
@@ -97,7 +97,7 @@ export function Gallery({ photos, label, layout = "grid", captions }: { photos: 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-[80] flex flex-col bg-navy-900/95 p-4 text-white backdrop-blur md:p-8"
+            className="fixed inset-0 z-[80] flex flex-col bg-navy-900/95 p-4 text-white md:p-8"
             onClick={(e) => e.target === e.currentTarget && close()}
           >
             <div className="flex items-center justify-between">

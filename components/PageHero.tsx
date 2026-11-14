@@ -17,7 +17,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-48">
+    <section className="relative overflow-hidden pb-14 pt-32 md:pb-20 md:pt-40">
       <div aria-hidden="true" className="grid-field pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_60%_at_70%_30%,black,transparent)]" />
       {art && <div className="pointer-events-none absolute right-[-14vw] top-16 w-[70vw] max-w-[680px] md:right-[-4vw] md:top-20 md:w-[48vw]">{art}</div>}
       <div className="container-x relative">

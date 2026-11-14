@@ -7,8 +7,9 @@ import { Invitation } from "@/components/Invitation";
 import { dna, pillars } from "@/lib/content";
 import { joinCommunityHref } from "@/lib/site";
 import { Photo } from "@/components/Photo";
+import { WrittenTitle } from "@/components/WrittenTitle";
 import { BrandLogo } from "@/components/Logo";
-import { founderPortrait, gatherings, headshot } from "@/lib/media";
+import { founderPortrait, gatherings, headshot, jesusTeaching } from "@/lib/media";
 import { essenceOfDevotion } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -27,30 +28,33 @@ const matters = [
 export default function AboutPage() {
   return (
     <>
-      <section aria-labelledby="about-title" className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-44">
+      <section aria-labelledby="about-title" className="relative lg:h-[165vh]">
+        <div className="relative overflow-hidden pb-14 pt-32 md:pb-20 md:pt-40 lg:sticky lg:top-0 lg:flex lg:min-h-screen lg:items-center lg:pb-12 lg:pt-28">
         <div aria-hidden="true" className="grid-field pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_60%_at_70%_30%,black,transparent)]" />
         <SunBurst className="pointer-events-none absolute -right-40 top-10 w-[46rem] text-navy/10" />
         <div className="container-x relative grid items-end gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Eyebrow>Who We Are</Eyebrow>
-            <MaskedText as="h1" id="about-title" trigger="mount" delay={0.15} className="display-xl mt-8 max-w-[14ch] text-navy">
-              Knowing Jesus. Making Him known.
-            </MaskedText>
+            <h1 id="about-title" className="mt-8 max-w-[560px]">
+              <span className="sr-only">Knowing Jesus. Making Him known.</span>
+              <WrittenTitle />
+            </h1>
             <Reveal delay={0.5}>
-              <p className="editorial mt-10 max-w-2xl text-ink-2">
+              <p className="editorial mt-8 max-w-2xl text-ink-2">
                 Photizo Global is a Christian teaching and discipleship ministry founded by Ezra Anya. The Illumination Church is our church expression, a family gathered around the Word, prayer and the person of Jesus.
               </p>
             </Reveal>
           </div>
           <Reveal delay={0.35} className="relative lg:col-span-4 lg:col-start-9">
-            <Photo photo={headshot} className="aspect-[992/1072] max-w-[440px]" priority caption="Ezra Anya, Founder" />
-            <BrandLogo variant="badge" decorative className="absolute -bottom-10 -left-10 hidden w-32 animate-spin-slower text-orange lg:block" />
+            <Photo photo={headshot} className="aspect-[992/1072] max-w-[400px]" priority caption="Ezra Anya, Founder" />
+            <BrandLogo variant="badge" decorative className="absolute -left-10 -top-10 hidden w-28 animate-spin-slower text-orange lg:block" />
           </Reveal>
+        </div>
         </div>
       </section>
 
       {/* The name */}
-      <section aria-labelledby="name-heading" className="relative py-24 md:py-32">
+      <section aria-labelledby="name-heading" className="relative py-16 md:py-24">
         <div className="container-x grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
             <Eyebrow>The Name</Eyebrow>
@@ -79,9 +83,9 @@ export default function AboutPage() {
       </section>
 
       {/* Mandate */}
-      <section aria-labelledby="mandate-heading" className="relative overflow-hidden bg-navy py-28 text-white md:py-40">
+      <section aria-labelledby="mandate-heading" className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-        <div className="pointer-events-none absolute -left-40 top-0 size-[36rem] rounded-full bg-cyan/20 blur-3xl" />
+        <div className="pointer-events-none absolute -left-40 top-0 size-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
         <Halo className="pointer-events-none absolute -right-24 top-1/2 w-[46rem] -translate-y-1/2 text-white/20" accent="orange" />
         <div className="container-x relative">
           <Eyebrow tone="light">Our Mandate</Eyebrow>
@@ -105,7 +109,7 @@ export default function AboutPage() {
       </section>
 
       {/* Illumination Church + what matters */}
-      <section aria-labelledby="church-heading" className="relative py-28 md:py-40">
+      <section aria-labelledby="church-heading" className="relative py-16 md:py-24">
         <div className="container-x grid gap-16 md:grid-cols-12">
           <div className="md:col-span-5">
             <div className="md:sticky md:top-32">
@@ -133,36 +137,53 @@ export default function AboutPage() {
       </section>
 
       {/* Pillars and values summary */}
-      <section aria-labelledby="commit-heading" className="relative py-24 md:py-32">
+      <section aria-labelledby="commit-heading" className="relative py-16 md:py-24">
         <div className="container-x">
           <Eyebrow>How We Pursue the Mandate</Eyebrow>
           <MaskedText as="h2" id="commit-heading" className="display-md mt-6 max-w-3xl text-navy">
-            Four commitments and the values that carry them.
+            Our four commitments.
           </MaskedText>
           <div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] bg-navy/10 ring-1 ring-navy/10 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((p, i) => (
-              <Reveal key={p.no} delay={i * 0.06} className="bg-white/85 p-8 backdrop-blur">
+              <Reveal key={p.no} delay={i * 0.06} className="bg-white/85 p-8">
                 <span className="font-display text-5xl font-bold tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.2px_rgb(7_29_73/0.35)]">{p.no}</span>
                 <h3 className="mt-6 font-display text-xl font-bold uppercase tracking-[-0.02em] text-navy">{p.title}</h3>
                 <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-2">{p.line}</p>
               </Reveal>
             ))}
           </div>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            {dna.map((d, i) => (
-              <Reveal key={d.word} delay={i * 0.06} className="rounded-[2rem] bg-pale/80 p-8 ring-1 ring-navy/5">
-                <p className="font-display text-3xl font-bold tracking-[-0.04em] text-navy">
-                  {d.word}<span className="text-orange">.</span>
-                </p>
-                <p className="mt-3 leading-relaxed text-ink-2">{d.body}</p>
-              </Reveal>
-            ))}
+        </div>
+      </section>
+
+      {/* Our DNA */}
+      <section aria-labelledby="dna-about-heading" className="relative py-16 md:py-24">
+        <div className="container-x grid items-center gap-12 lg:grid-cols-12">
+          <Reveal className="lg:col-span-5">
+            <Photo photo={jesusTeaching} className="aspect-[4/5]" sizes="(min-width: 1024px) 40vw, 100vw" />
+          </Reveal>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <Eyebrow>Our DNA</Eyebrow>
+            <MaskedText as="h2" id="dna-about-heading" className="display-md mt-6 text-navy">
+              Illumination. Impact. <span className="text-orange">Influence.</span>
+            </MaskedText>
+            <p className="editorial mt-6 text-ink-2">These values describe the kind of people we are becoming and the difference we want to make.</p>
+            <ol className="mt-10">
+              {dna.map((d, i) => (
+                <Reveal as="li" key={d.word} delay={i * 0.06} className="grid gap-2 border-b border-navy/10 py-6 first:border-t sm:grid-cols-[11rem_1fr] sm:gap-6">
+                  <p className="font-display text-2xl font-bold tracking-[-0.03em] text-navy">
+                    {d.word}<span className="text-orange">.</span>
+                  </p>
+                  <p className="leading-relaxed text-ink-2">{d.body}</p>
+                </Reveal>
+              ))}
+            </ol>
+            <p className="mt-8 font-display text-xl font-bold tracking-[-0.02em] text-navy">We are luminaries and lightbearers.</p>
           </div>
         </div>
       </section>
 
       {/* Founder */}
-      <section aria-labelledby="founder-heading" className="relative py-28 md:py-40">
+      <section aria-labelledby="founder-heading" className="relative py-16 md:py-24">
         <div className="container-x grid items-center gap-14 md:grid-cols-12">
           <Reveal className="md:col-span-5">
             <Photo photo={founderPortrait} className="aspect-[4/5]" priority />
@@ -201,7 +222,7 @@ export default function AboutPage() {
       </section>
 
       {/* Journey so far */}
-      <section aria-labelledby="journey-heading" className="relative py-20">
+      <section aria-labelledby="journey-heading" className="relative py-16">
         <div className="container-x flex flex-col justify-between gap-8 rounded-[2rem] bg-navy p-10 text-white md:flex-row md:items-center md:p-14">
           <div>
             <Eyebrow tone="light">Our Journey So Far</Eyebrow>

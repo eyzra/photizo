@@ -8,6 +8,24 @@ export function asset(path: string) {
 
 export type Photo = { src: string; alt: string; w: number; h: number };
 
+/** Every photo larger than 820px has an 800px "-sm" copy beside it for phones and thumbnails. */
+export function smallSrc(src: string) {
+  return src.replace(/\.webp$/, "-sm.webp");
+}
+export function hasSmall(p: Pick<Photo, "w" | "h">) {
+  return Math.max(p.w, p.h) > 820;
+}
+/** Thumbnail URL (800px copy when one exists). */
+export function thumb(p: Photo) {
+  return asset(hasSmall(p) ? smallSrc(p.src) : p.src);
+}
+/** srcset letting the browser pick the 800px copy or the full image. */
+export function srcSetFor(p: Photo) {
+  if (!hasSmall(p)) return undefined;
+  const sw = Math.round((p.w * 800) / Math.max(p.w, p.h));
+  return `${asset(smallSrc(p.src))} ${sw}w, ${asset(p.src)} ${p.w}w`;
+}
+
 const p = (name: string, alt: string, w: number, h: number): Photo => ({ src: `/images/${name}.webp`, alt, w, h });
 
 /** IMMERSION Minna 2024: The Spirit Influence */
@@ -39,6 +57,22 @@ export const gatherings = {
   ff4: p("ff-04", "Portrait of a minister in a red blazer", 1800, 1764),
 };
 
+/** Ezra Anya preaching in black and white, from a teaching gathering */
+export const preaching = {
+  one: p("preaching-bw-01", "Ezra Anya preaching with passion at the pulpit, eyes closed, in black and white", 1350, 1800),
+  two: p("preaching-bw-02", "Ezra Anya preaching from the pulpit, microphone in hand, in black and white", 1350, 1800),
+  three: p("preaching-bw-03", "Ezra Anya leaning on the pulpit as he preaches under stage lights, in black and white", 1350, 1800),
+};
+
+/** Faint background for the homepage hero: Ezra Anya preaching in a suit, hand raised, mid-step, at IMMERSION Minna 2024 */
+export const heroPhoto = p("hero-spirit-influence", "", 880, 1200);
+
+/** Sepia artwork: Jesus teaching a crowd by the water */
+export const jesusTeaching = p("jesus-teaching", "Jesus seated beneath a tree, teaching a crowd gathered by the water, in sepia", 1120, 1400);
+
+/** Sepia artwork: Jesus on the cross beneath stormy skies */
+export const crucifixion = p("crucifixion", "Jesus on the cross wearing the crown of thorns, looking up beneath stormy skies, in sepia", 1120, 1400);
+
 /** Official headshot */
 export const headshot = p("ezra-anya-headshot", "Portrait of Ezra Anya in a dark suit against a warm gold background", 992, 1072);
 
@@ -60,6 +94,7 @@ export const flyers = {
   intensify40: f("intensify-40-days", "INTENSIFY flyer: 40 days of prayer and fasting, 15th August to 24th September, prayers at 12AM and fasting until 3PM", 1024, 1280),
   intensify30: f("intensify-30-days-january", "INTENSIFY flyer: 30-day prayer and fasting, January 2nd to January 31st, prayer at 5AM and 11PM WAT", 1024, 1280),
   faithFundamentals: f("immersion-faith-fundamentals", "IMMERSION Minna flyer: Faith Fundamentals, Friday 11th December 5PM and Saturday 12th December 6AM and 5PM, 2026, MFM Campus Fellowship permanent site behind Alheri Lodge, Gofamint, Gidan Kwano, with Pastor Ezra Anya. Photizo Global in collaboration with MFM Campus Fellowship, FUTMinna Chapter", 1120, 1400),
+  identification: f("identification-2026", "The IDENTIFICATION Conference flyer: Sunday 5th April, 8AM, MFM NCR35 Youth Church Auditorium, No 9 Zone B, off Area C, Angwan Dadi Road, Nyanya, Abuja, with Ezra Anya", 1080, 1241),
   auxano: f("auxano-21-days", "AUXANO flyer: 21 days of discipleship, to cause to grow, In Christ Realities, 6th May to 27th May", 864, 1080),
 };
 

@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { MaskedText, Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
-import { Button } from "@/components/Button";
+import { Button, TextLink } from "@/components/Button";
 import { Photo } from "@/components/Photo";
 import { Arrow, Circled } from "@/components/sketches";
 import { dearAtheist, formatDate, questionOf, substack } from "@/lib/articles";
 import { onStage } from "@/lib/media";
-import { whatsappLink } from "@/lib/site";
+import { QuestionForm } from "@/components/forms/QuestionForm";
+
+function TextLinkLight({ href }: { href: string }) {
+  return <TextLink href={href} tone="white">Get new letters by email</TextLink>;
+}
 
 export const metadata: Metadata = {
   title: "Articles: Dear Atheist",
@@ -22,7 +26,7 @@ export default function ArticlesPage() {
   return (
     <>
       {/* Opening */}
-      <section aria-labelledby="articles-title" className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-44">
+      <section aria-labelledby="articles-title" className="relative overflow-hidden pb-14 pt-32 md:pb-20 md:pt-40">
         <div aria-hidden="true" className="grid-field pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(60%_60%_at_30%_30%,black,transparent)]" />
         <div className="container-x relative grid items-end gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
@@ -48,7 +52,7 @@ export default function ArticlesPage() {
       </section>
 
       {/* Letters */}
-      <section aria-labelledby="letters-heading" className="relative pb-28 md:pb-40">
+      <section aria-labelledby="letters-heading" className="relative pb-20 md:pb-28">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-6 border-b border-navy/10 pb-6">
             <h2 id="letters-heading" className="font-display text-sm font-semibold uppercase tracking-[0.22em] text-ink-2">
@@ -97,25 +101,27 @@ export default function ArticlesPage() {
       </section>
 
       {/* Invitation to write in */}
-      <section aria-labelledby="ask-heading" className="relative pb-32 md:pb-44">
+      <section aria-labelledby="ask-heading" className="relative pb-24 md:pb-32">
         <div className="container-x">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-navy px-8 py-16 text-white md:px-16 md:py-24">
             <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-            <div className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-cyan/20 blur-3xl" />
-            <div className="relative grid gap-10 md:grid-cols-12 md:items-end">
-              <div className="md:col-span-7">
+            <div className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
+            <div className="relative grid gap-10 md:grid-cols-12 md:items-start">
+              <div className="md:col-span-5">
                 <Eyebrow tone="light">Your Question</Eyebrow>
                 <MaskedText as="h2" id="ask-heading" className="mt-6 font-display text-[clamp(2.4rem,5.5vw,4.8rem)] font-bold leading-[0.92] tracking-[-0.05em]">
                   What would you ask <span className="text-orange">God?</span>
                 </MaskedText>
               </div>
-              <Reveal className="md:col-span-5">
+              <Reveal className="md:col-span-7">
+                <QuestionForm />
+              </Reveal>
+              <Reveal className="md:col-span-5 md:row-start-2">
                 <p className="font-serif text-lg italic leading-relaxed text-white/80">
                   Send the question that keeps you from believing, or the one you get asked most. It might shape the next letter.
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href={whatsappLink("Hello Photizo Global, I have a question for the Dear Atheist series:")} variant="primary">Send a question</Button>
-                  <Button href={substack.subscribe} variant="ghost-light">Get new letters</Button>
+                <div className="mt-6">
+                  <TextLinkLight href={substack.subscribe} />
                 </div>
               </Reveal>
             </div>

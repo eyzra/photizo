@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <noscript>
-          <style>{`[data-reveal],[data-draw]{opacity:1!important;transform:none!important;clip-path:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}[data-hero]{height:auto!important}[data-hero-stage]{position:relative!important;height:auto!important}[data-hero-moment]{position:relative!important;inset:auto!important;opacity:1!important;transform:none!important;filter:none!important;padding:7rem 0 3rem}[data-hero-moment] *{opacity:1!important;transform:none!important}.preloader{display:none!important}html{overflow:auto!important}`}</style>
+          <style>{`[data-reveal],[data-draw]{opacity:1!important;transform:none!important;clip-path:none!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}[data-hero]{height:auto!important}[data-hero-stage]{position:relative!important;height:auto!important}[data-hero-moment]{position:relative!important;inset:auto!important;opacity:1!important;transform:none!important;filter:none!important;padding:7rem 0 3rem}[data-hero-moment] *{opacity:1!important;transform:none!important}.preloader{display:none!important}.title-fill{fill-opacity:1!important}html{overflow:auto!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>

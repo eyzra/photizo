@@ -4,7 +4,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { useRef } from "react";
 import { immersion } from "@/lib/content";
-import { asset, flyers } from "@/lib/media";
+import { asset, flyers, smallSrc } from "@/lib/media";
 import { ThemeVeil } from "./ThemeVeil";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -72,7 +72,7 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
 
                 <article
                   className={`mt-6 flex h-[36rem] flex-col overflow-hidden rounded-[1.75rem] ${
-                    upcoming ? "bg-navy text-white ring-1 ring-orange/40" : dark ? "bg-white/[0.05] text-white ring-1 ring-white/10" : "bg-white/80 text-navy ring-1 ring-navy/10 backdrop-blur"
+                    upcoming ? "bg-navy text-white ring-1 ring-orange/40" : dark ? "bg-white/[0.05] text-white ring-1 ring-white/10" : "bg-white/80 text-navy ring-1 ring-navy/10"
                   }`}
                 >
                   {"flyer" in e ? (
@@ -80,7 +80,7 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
                   ) : (
                     <div className="relative flex-1 overflow-hidden bg-navy-900">
                       <div className="grain absolute inset-0 opacity-30" />
-                      <div className="absolute -right-10 -top-10 size-56 rounded-full bg-cyan/25 blur-3xl" />
+                      <div className="absolute -right-10 -top-10 size-56 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.40),transparent)]" />
                       <ThemeVeil size="sm" className="absolute inset-x-6 top-1/2 -translate-y-1/2" />
                     </div>
                   )}
@@ -120,8 +120,7 @@ export function ImmersionTimeline({ tone = "light" }: { tone?: "light" | "dark" 
 function FlyerFrame({ src, alt, dark }: { src: string; alt: string; dark: boolean }) {
   return (
     <div className={`relative m-3 mb-0 flex-1 overflow-hidden rounded-[1.4rem] ${dark ? "bg-navy-800" : "bg-pale"}`}>
-      <img src={asset(src)} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 size-full scale-125 object-cover opacity-60 blur-2xl" />
-      <img src={asset(src)} alt={alt} loading="lazy" decoding="async" className="relative size-full object-contain p-3 drop-shadow-[0_20px_30px_rgb(0_0_0/0.35)]" />
+      <img src={asset(smallSrc(src))} alt={alt} loading="lazy" decoding="async" className="relative size-full object-contain p-3" />
     </div>
   );
 }

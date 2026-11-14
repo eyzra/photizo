@@ -253,8 +253,8 @@ html.intro-active { overflow: hidden; }
   100% { transform: translate(0, 0); }
 }
 @keyframes roll-bar {
-  0% { top: -10%; }
-  100% { top: 110%; }
+  0% { transform: translateY(-10vh); }
+  100% { transform: translateY(110vh); }
 }
 @keyframes flicker {
   0%, 100% { opacity: 1; }

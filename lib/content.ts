@@ -216,8 +216,8 @@ export const expressions = [
       "ILLUMINATE is our regular gathering for studying God's Word and growing in our understanding of Jesus.",
       "We explore the Scriptures through systematic teaching, thoughtful conversations, questions and prayer. If you enjoy learning, asking questions and discovering what the Bible teaches, we'd love to have you join us.",
     ],
-    cta: "Join ILLUMINATE",
-    message: "Hello Photizo Global, I'd like to join ILLUMINATE on Saturdays. How do I connect?",
+    cta: "Join the WhatsApp community",
+    link: "community",
   },
   {
     slug: "intensify",
@@ -229,8 +229,8 @@ export const expressions = [
       "INTENSIFY is a dedicated season of prayer, fasting, worship and consecration.",
       "We take time to seek God together, deepen our devotion and align our hearts with His purposes. It's an opportunity to give focused attention to our relationship with God and encourage one another in prayer.",
     ],
-    cta: "Ask about the next INTENSIFY",
-    message: "Hello Photizo Global, when is the next INTENSIFY prayer and fasting season?",
+    cta: "Follow the WhatsApp channel",
+    link: "channel",
   },
   {
     slug: "immersion",
@@ -255,8 +255,8 @@ export const expressions = [
       "IDENTIFICATION is dedicated to understanding the death, burial and resurrection of Jesus Christ and what His finished work means for the believer.",
       "Through careful biblical teaching, we explore our identity in Christ and the realities of our salvation, so believers celebrate Easter with a deeper understanding of the gospel and greater confidence in Jesus.",
     ],
-    cta: "Ask about IDENTIFICATION",
-    message: "Hello Photizo Global, I'd like details about the IDENTIFICATION Easter conference.",
+    cta: "Follow the WhatsApp channel",
+    link: "channel",
   },
 ] as const;
 

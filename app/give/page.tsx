@@ -5,7 +5,7 @@ import { MaskedText, Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/ui";
 import { Radiance, Ripple } from "@/components/sketches";
 import { Button } from "@/components/Button";
-import { site, whatsappLink } from "@/lib/site";
+import { BankCard } from "@/components/BankCard";
 
 export const metadata: Metadata = {
   title: "Give",
@@ -36,48 +36,43 @@ export default function GivePage() {
         }
       />
 
-      <section aria-labelledby="ways-heading" className="relative pb-24 md:pb-32">
-        <div className="container-x">
-          <h2 id="ways-heading" className="sr-only">Ways to give</h2>
-          <div className="grid gap-5 lg:grid-cols-3">
-            <Reveal className="flex flex-col rounded-[2rem] bg-white/85 p-8 ring-1 ring-navy/10 backdrop-blur md:p-10">
+      <section id="bank" aria-labelledby="ways-heading" className="relative scroll-mt-24 pb-16 md:pb-24">
+        <div className="container-x grid gap-5 lg:grid-cols-12">
+          <Reveal className="relative overflow-hidden rounded-[2rem] bg-navy p-8 text-white md:p-12 lg:col-span-7">
+            <div className="grain pointer-events-none absolute inset-0 opacity-25" />
+            <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.35),transparent)]" />
+            <div className="relative flex items-center gap-3">
+              <Landmark className="size-7 text-orange" strokeWidth={1.4} aria-hidden="true" />
+              <h2 id="ways-heading" className="font-display text-2xl font-bold tracking-[-0.02em]">Give by bank transfer</h2>
+            </div>
+            <div className="relative mt-6">
+              <BankCard />
+            </div>
+            <p className="relative mt-6 text-sm leading-relaxed text-white/65">
+              Add a note such as &ldquo;IMMERSION&rdquo; or &ldquo;Partnership&rdquo; to your transfer if your gift is for something specific.
+            </p>
+          </Reveal>
+          <div className="grid gap-5 lg:col-span-5">
+            <Reveal delay={0.08} className="flex flex-col rounded-[2rem] bg-white/90 p-8 ring-1 ring-navy/10 md:p-10">
               <HandHeart className="size-9 text-orange" strokeWidth={1.4} aria-hidden="true" />
-              <h3 className="mt-8 font-display text-3xl font-bold tracking-[-0.035em] text-navy">Give Once</h3>
-              <p className="mt-4 flex-1 leading-relaxed text-ink-2">Support a meeting, outreach or ministry project with a one-time gift.</p>
-              <div className="mt-8">
-                <Button href={whatsappLink("Hello Photizo Global, I'd like to give a one-time gift. Please share how.")} variant="dark">Give Now</Button>
-              </div>
-            </Reveal>
-            <Reveal delay={0.08} className="relative flex flex-col overflow-hidden rounded-[2rem] bg-navy p-8 text-white md:p-10">
-              <div className="grain pointer-events-none absolute inset-0 opacity-25" />
-              <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-cyan/25 blur-3xl" />
-              <Repeat className="relative size-9 text-orange" strokeWidth={1.4} aria-hidden="true" />
-              <h3 className="relative mt-8 font-display text-3xl font-bold tracking-[-0.035em]">Become a Partner</h3>
-              <p className="relative mt-4 flex-1 leading-relaxed text-white/75">
-                Support the ministry consistently and help us plan for future gatherings, resources and outreach.
-              </p>
-              <div className="relative mt-8">
-                <Button href={whatsappLink("Hello Photizo Global, I'd like to become a ministry partner.")} variant="primary">Become a Partner</Button>
-              </div>
+              <h3 className="mt-6 font-display text-3xl font-bold tracking-[-0.035em] text-navy">Give Once</h3>
+              <p className="mt-3 flex-1 leading-relaxed text-ink-2">Support a meeting, outreach or ministry project with a one-time gift to the account shown.</p>
             </Reveal>
             <Reveal delay={0.16} className="flex flex-col rounded-[2rem] bg-pale/80 p-8 ring-1 ring-navy/5 md:p-10">
-              <Landmark className="size-9 text-navy" strokeWidth={1.4} aria-hidden="true" />
-              <h3 className="mt-8 font-display text-3xl font-bold tracking-[-0.035em] text-navy">Bank Transfer</h3>
-              <p className="mt-4 flex-1 leading-relaxed text-ink-2">
-                Message us and we&apos;ll send you the ministry&apos;s account details directly. Please confirm the account with us before you transfer.
+              <Repeat className="size-9 text-navy" strokeWidth={1.4} aria-hidden="true" />
+              <h3 className="mt-6 font-display text-3xl font-bold tracking-[-0.035em] text-navy">Become a Partner</h3>
+              <p className="mt-3 flex-1 leading-relaxed text-ink-2">
+                Support the ministry consistently and help us plan for future gatherings, resources and outreach. Let us know you&apos;re partnering so we can pray with you and keep you updated.
               </p>
-              <div className="mt-8">
-                <Button href={whatsappLink("Hello Photizo Global, please send me the ministry's account details for a bank transfer.")} variant="outline">Request account details</Button>
+              <div className="mt-6">
+                <Button href="/contact/?topic=Partnership%20and%20giving" variant="dark">Tell us you&apos;re partnering</Button>
               </div>
-              <p className="mt-4 font-display text-sm text-ink-2">
-                Or call <a href={site.phoneHref} className="font-semibold text-navy hover:underline">{site.phoneDisplay}</a>
-              </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      <section aria-labelledby="impact-heading" className="relative overflow-hidden py-24 md:py-36">
+      <section aria-labelledby="impact-heading" className="relative overflow-hidden py-16 md:py-24">
         <Radiance className="pointer-events-none absolute -right-40 top-1/2 w-[46rem] -translate-y-1/2 text-navy/10" />
         <div className="container-x relative grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">

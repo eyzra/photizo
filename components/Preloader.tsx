@@ -85,7 +85,7 @@ export function Preloader() {
   useEffect(() => {
     if (!document.documentElement.classList.contains("intro-active")) return;
     setActive(true);
-    const step = reduce ? 1300 : 1900;
+    const step = reduce ? 1000 : 1350;
     timers.current = [window.setTimeout(() => setLine(1), step), window.setTimeout(finish, step * 2 + 200)];
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "Enter" || e.key === " ") finish();
@@ -109,9 +109,9 @@ export function Preloader() {
       {/* Video noise: grain, scanlines, a rolling bar and colour bleed */}
       <div className="grain pointer-events-none absolute inset-[-50%] opacity-30 [animation:noise-shift_0.4s_steps(4)_infinite]" />
       <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(0deg,rgb(255_255_255/0.035)_0px,rgb(255_255_255/0.035)_1px,transparent_1px,transparent_3px)]" />
-      {!reduce && <div className="pointer-events-none absolute inset-x-0 h-24 bg-gradient-to-b from-transparent via-cyan/10 to-transparent [animation:roll-bar_2.6s_linear_infinite]" />}
-      <div className="pointer-events-none absolute -left-40 top-1/4 size-[36rem] rounded-full bg-cyan/15 blur-3xl" />
-      <div className="pointer-events-none absolute -right-40 bottom-0 size-[30rem] rounded-full bg-orange/10 blur-3xl" />
+      {!reduce && <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-transparent via-cyan/10 to-transparent [animation:roll-bar_2.6s_linear_infinite]" />}
+      <div className="pointer-events-none absolute -left-40 top-1/4 size-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.24),transparent)]" />
+      <div className="pointer-events-none absolute -right-40 bottom-0 size-[30rem] rounded-full bg-[radial-gradient(closest-side,rgb(245_130_32/0.16),transparent)]" />
 
       <div className="container-x relative" role="status" aria-live="polite">
         <LogoMark className={`mb-10 h-12 w-auto text-white/80 ${reduce ? "" : "[animation:flicker_2.2s_steps(1)_infinite]"}`} />
@@ -133,7 +133,7 @@ export function Preloader() {
             {active && (
               <span
                 className="absolute inset-y-0 left-0 bg-orange"
-                style={{ width: "100%", transformOrigin: "left", animation: `intro-progress ${reduce ? 2.8 : 4}s linear forwards` }}
+                style={{ width: "100%", transformOrigin: "left", animation: `intro-progress ${reduce ? 2.2 : 2.9}s linear forwards` }}
               />
             )}
           </span>

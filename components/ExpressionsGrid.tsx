@@ -12,9 +12,9 @@ export function ExpressionsGrid() {
         <Reveal as="li" key={e.slug} delay={(i % 2) * 0.08}>
           <Link
             href={"href" in e ? e.href : `/expressions/#${e.slug}`}
-            className="group relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden bg-white/85 p-8 backdrop-blur transition-colors duration-700 hover:bg-navy md:p-10"
+            className="group relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden bg-white/85 p-8 transition-colors duration-700 hover:bg-navy md:p-10"
           >
-            <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-cyan/0 blur-3xl transition-colors duration-700 group-hover:bg-cyan/25" />
+            <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.00),transparent)] transition-colors duration-700 group-hover:bg-cyan/25" />
             <div className="relative flex items-start justify-between">
               <ExpressionMark kind={e.slug} className="size-20 text-navy transition-colors duration-700 group-hover:text-white" delay={i * 0.15} />
               <span className="grid size-11 place-items-center rounded-full border border-navy/15 text-navy transition-all duration-500 group-hover:rotate-45 group-hover:border-orange group-hover:bg-orange">

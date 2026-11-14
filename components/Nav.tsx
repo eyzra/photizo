@@ -15,14 +15,12 @@ export function Nav() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // The bar stays put. Once the page moves, it turns to frosted glass.
   useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
-    setScrolled(y > 24);
-    setHidden(y > 420 && y > prev + 4 && !open);
-    if (y < prev - 4) setHidden(false);
+    const next = y > 24;
+    setScrolled((s) => (s === next ? s : next));
   });
 
   useEffect(() => setOpen(false), [pathname]);
@@ -42,14 +40,18 @@ export function Nav() {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-white">
         Skip to content
       </a>
-      <motion.header
-        initial={false}
-        animate={{ y: hidden ? "-110%" : "0%" }}
-        transition={{ duration: 0.5, ease }}
-        className="fixed inset-x-0 top-0 z-50"
-      >
-        <div className={`transition-all duration-500 ${scrolled && !open ? "bg-white/75 shadow-[0_1px_0_rgb(7_29_73_/_0.06)] backdrop-blur-xl backdrop-saturate-150" : "bg-transparent"}`}>
-          <nav aria-label="Main" className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
+      <header className="group/nav fixed inset-x-0 top-0 z-50">
+        <div
+          className={`transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
+            scrolled && !open
+              ? "bg-white/95 shadow-[0_1px_0_rgb(7_29_73_/_0.06)] lg:bg-white/55 lg:shadow-[0_1px_0_rgb(255_255_255_/_0.5),0_10px_30px_-18px_rgb(7_29_73_/_0.25)] lg:backdrop-blur-xl lg:backdrop-saturate-150 lg:hover:bg-white lg:hover:shadow-[0_1px_0_rgb(7_29_73_/_0.06)]"
+              : "bg-transparent"
+          }`}
+        >
+          <nav
+            aria-label="Main"
+            className={`container-x flex h-[4.5rem] items-center justify-between gap-6 transition-opacity duration-500 md:h-20 ${scrolled && !open ? "lg:opacity-80 lg:group-hover/nav:opacity-100 lg:focus-within:opacity-100" : ""}`}
+          >
             <Link href="/" className="group relative z-[60] rounded-md" aria-label={`${site.name} home`}>
               <Logo tone={onDark ? "white" : "navy"} />
             </Link>
@@ -88,7 +90,7 @@ export function Nav() {
             </div>
           </nav>
         </div>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
         {open && (
@@ -104,7 +106,7 @@ export function Nav() {
             className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-navy text-white lg:hidden"
           >
             <div className="grain pointer-events-none absolute inset-0 opacity-20" />
-            <div className="pointer-events-none absolute -right-40 top-1/3 size-[30rem] rounded-full bg-cyan/20 blur-3xl" />
+            <div className="pointer-events-none absolute -right-40 top-1/3 size-[30rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
             <div className="container-x relative flex flex-1 flex-col justify-between pb-10 pt-28">
               <ul className="space-y-1">
                 {[{ label: "Home", href: "/" }, ...primaryNav, { label: "Give", href: "/give/" }].map((item, i) => (

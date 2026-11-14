@@ -7,7 +7,7 @@ import { TextLink } from "@/components/Button";
 export function TeachingEmphasis({ withLink = true }: { withLink?: boolean }) {
   const [biblical, faith, apologetics, discipleship] = teachingEmphasis.areas;
   return (
-    <section aria-labelledby="teaching-heading" className="relative py-28 md:py-40">
+    <section aria-labelledby="teaching-heading" className="relative py-16 md:py-24">
       <div className="container-x">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-8">
@@ -30,9 +30,9 @@ export function TeachingEmphasis({ withLink = true }: { withLink?: boolean }) {
         </div>
 
         {/* 01 and 02 */}
-        <div className="mt-20 grid gap-px overflow-hidden rounded-[2rem] bg-navy/10 ring-1 ring-navy/10 md:grid-cols-2">
+        <div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] bg-navy/10 ring-1 ring-navy/10 md:grid-cols-2">
           {[biblical, faith].map((area, i) => (
-            <Reveal key={area.key} delay={i * 0.1} className="group relative bg-white/85 p-8 backdrop-blur md:p-12">
+            <Reveal key={area.key} delay={i * 0.1} className="group relative bg-white/85 p-8 md:p-12">
               <div className="flex items-start justify-between gap-6">
                 <span className="font-display text-sm font-semibold tracking-[0.2em] text-ink-2">0{i + 1}</span>
                 {i === 0 ? <OpenBook className="w-36 text-navy/60" /> : <FaithMark />}
@@ -51,7 +51,7 @@ export function TeachingEmphasis({ withLink = true }: { withLink?: boolean }) {
         <Reveal className="relative mt-6 overflow-hidden rounded-[2rem] bg-navy text-white">
           <div className="grain pointer-events-none absolute inset-0 opacity-25" />
           <div className="dot-field-light pointer-events-none absolute inset-0 opacity-50" />
-          <div className="pointer-events-none absolute -left-24 bottom-[-30%] size-[32rem] rounded-full bg-cyan/20 blur-3xl" />
+          <div className="pointer-events-none absolute -left-24 bottom-[-30%] size-[32rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_215_237/0.32),transparent)]" />
           <Blueprint className="pointer-events-none absolute -right-20 -top-20 w-[420px] text-white/25" label="fig. 03 reason" />
           <div className="relative grid gap-12 p-8 md:p-14 lg:grid-cols-12 lg:p-16">
             <div className="lg:col-span-6">

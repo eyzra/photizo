@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui";
 
 export function Purpose() {
   return (
-    <section aria-labelledby="purpose-heading" className="relative overflow-hidden py-28 md:py-40">
+    <section aria-labelledby="purpose-heading" className="relative overflow-hidden py-16 md:py-24">
       <Parallax speed={0.18} className="pointer-events-none absolute -left-[18%] top-0 w-[70vw] max-w-[900px] text-navy/15 md:-left-[8%]">
         <Radiance className="w-full" />
       </Parallax>

@@ -25,9 +25,7 @@ export function SunBurst({ className, accent = "orange", delay = 0, strokeWidth 
     <svg viewBox="0 0 400 400" className={className} aria-hidden="true" focusable="false">
       <circle cx="200" cy="200" r="194" fill="none" stroke="currentColor" strokeOpacity=".35" strokeDasharray="1 7" strokeLinecap="round" />
       <g className="animate-spin-slower" style={spinStyle}>
-        {beams.map((d, i) => (
-          <Draw key={i} d={d} delay={delay + 0.5 + i * 0.03} duration={0.9} strokeWidth={strokeWidth} />
-        ))}
+        <Draw d={beams.join(" ")} delay={delay + 0.5} duration={1.8} strokeWidth={strokeWidth} />
       </g>
       <Draw d={wobblyEllipse(200, 200, 48, 48, { seed: seed + 1, sweep: 1.12 })} delay={delay} duration={1.4} strokeWidth={strokeWidth + 0.3} />
       <Draw d={wobblyEllipse(200, 200, 62, 60, { seed: seed + 2, sweep: 0.86, start: 1.2 })} delay={delay + 0.25} duration={1.2} strokeWidth={strokeWidth} style={{ color: accentColor[accent] }} />
@@ -117,16 +115,14 @@ export function Orbits({ className, accent = "orange", delay = 0, strokeWidth = 
 /*  Radiance: light spreading outward in rings and beams               */
 /* ------------------------------------------------------------------ */
 export function Radiance({ className, accent = "orange", delay = 0, strokeWidth = 1.1 }: SketchProps) {
-  const beams = rays(300, 300, 40, 290, 36, 21);
+  const beams = rays(300, 300, 40, 290, 24, 21);
   return (
     <svg viewBox="0 0 600 600" className={className} aria-hidden="true" focusable="false">
       {[70, 120, 175, 235].map((r, i) => (
         <Draw key={r} d={wobblyEllipse(300, 300, r, r, { seed: 70 + i, sweep: 1.02, jitter: 0.02, start: i })} delay={delay + i * 0.22} duration={1.8} strokeWidth={strokeWidth} strokeOpacity={0.9 - i * 0.18} />
       ))}
       <g className="animate-spin-slower" style={spinStyle}>
-        {beams.map((d, i) => (
-          <Draw key={i} d={d} delay={delay + 0.8 + i * 0.02} duration={1} strokeWidth={strokeWidth * 0.8} strokeOpacity={0.45} />
-        ))}
+        <Draw d={beams.join(" ")} delay={delay + 0.8} duration={2} strokeWidth={strokeWidth * 0.8} strokeOpacity={0.45} />
       </g>
       <Draw d={wobblyEllipse(300, 300, 26, 26, { seed: 3, sweep: 1.15 })} delay={delay} strokeWidth={strokeWidth + 0.6} style={{ color: accentColor[accent] }} />
       <circle cx="300" cy="300" r="5" fill={accentColor[accent]} />
@@ -183,9 +179,7 @@ export function Mountains({ className, accent = "orange", delay = 0, strokeWidth
     <svg viewBox="0 0 600 260" className={className} aria-hidden="true" focusable="false">
       <g style={{ color: accentColor[accent] }}>
         <Draw d={wobblyEllipse(372, 86, 34, 34, { seed: 17, sweep: 1.1 })} delay={delay} strokeWidth={strokeWidth} />
-        {rays(372, 86, 44, 74, 12, 8).map((d, i) => (
-          <Draw key={i} d={d} delay={delay + 0.5 + i * 0.05} duration={0.6} strokeWidth={strokeWidth * 0.8} />
-        ))}
+        <Draw d={rays(372, 86, 44, 74, 12, 8).join(" ")} delay={delay + 0.5} duration={1.2} strokeWidth={strokeWidth * 0.8} />
       </g>
       <Draw d="M0 236 C38 214 66 172 104 160 C130 152 146 178 172 166 C214 146 238 96 274 82 C300 72 312 110 338 118 C368 128 384 104 412 116 C452 134 470 172 512 176 C546 180 572 196 600 204" delay={delay + 0.3} duration={2.2} strokeWidth={strokeWidth} />
       <Draw d="M0 250 C60 236 98 206 146 210 C188 214 214 190 250 186 C292 182 318 214 360 212 C410 210 436 186 478 194 C522 202 560 230 600 236" delay={delay + 0.7} duration={2.2} strokeWidth={strokeWidth} strokeOpacity={0.55} />
@@ -214,9 +208,7 @@ export function OpenBook({ className, accent = "orange", delay = 0, strokeWidth 
         </g>
       ))}
       <g style={{ color: accentColor[accent] }}>
-        {fan.map((d, i) => (
-          <Draw key={i} d={d} delay={delay + 1.3 + i * 0.05} duration={0.7} strokeWidth={strokeWidth} />
-        ))}
+        <Draw d={fan.join(" ")} delay={delay + 1.3} duration={1.2} strokeWidth={strokeWidth} />
       </g>
     </svg>
   );
@@ -231,9 +223,7 @@ export function Pathway({ className, accent = "orange", delay = 0, strokeWidth =
       <Draw d="M10 132 C90 128 230 128 310 132" delay={delay} duration={1} strokeWidth={strokeWidth} strokeOpacity={0.6} />
       <g style={{ color: accentColor[accent] }}>
         <Draw d={wobblyEllipse(160, 114, 22, 22, { seed: 31, sweep: 1.1 })} delay={delay + 0.3} strokeWidth={strokeWidth} />
-        {rays(160, 114, 30, 58, 14, 12).map((d, i) => (
-          <Draw key={i} d={d} delay={delay + 0.6 + i * 0.04} duration={0.6} strokeWidth={strokeWidth * 0.8} />
-        ))}
+        <Draw d={rays(160, 114, 30, 58, 14, 12).join(" ")} delay={delay + 0.6} duration={1.2} strokeWidth={strokeWidth * 0.8} />
       </g>
       <Draw d="M152 134 C140 190 90 230 96 286 C100 330 60 362 30 396" delay={delay + 0.4} duration={2} strokeWidth={strokeWidth} />
       <Draw d="M168 134 C184 190 226 228 214 290 C206 334 252 366 290 396" delay={delay + 0.55} duration={2} strokeWidth={strokeWidth} />
@@ -314,12 +304,8 @@ export function Network({ className, accent = "orange", delay = 0, strokeWidth =
   });
   return (
     <svg viewBox="0 0 400 400" className={className} aria-hidden="true" focusable="false">
-      {nodes.map(([x, y], i) => (
-        <Draw key={`l${i}`} d={smooth([[200, 200], [(200 + x) / 2 + (rand() - 0.5) * 18, (200 + y) / 2 + (rand() - 0.5) * 18], [x, y]])} delay={delay + 0.3 + i * 0.06} duration={0.9} strokeWidth={strokeWidth} strokeOpacity={0.55} />
-      ))}
-      {nodes.map(([x, y], i) => (
-        <Draw key={`n${i}`} d={wobblyEllipse(x, y, 6 + (i % 3) * 2, 6 + (i % 3) * 2, { seed: 100 + i, sweep: 1.1 })} delay={delay + 0.9 + i * 0.05} duration={0.5} strokeWidth={strokeWidth} />
-      ))}
+      <Draw d={nodes.map(([x, y]) => smooth([[200, 200], [(200 + x) / 2 + (rand() - 0.5) * 18, (200 + y) / 2 + (rand() - 0.5) * 18], [x, y]])).join(" ")} delay={delay + 0.3} duration={1.6} strokeWidth={strokeWidth} strokeOpacity={0.55} />
+      <Draw d={nodes.map(([x, y], i) => wobblyEllipse(x, y, 6 + (i % 3) * 2, 6 + (i % 3) * 2, { seed: 100 + i, sweep: 1.1 })).join(" ")} delay={delay + 0.9} duration={1.2} strokeWidth={strokeWidth} />
       <g style={{ color: accentColor[accent] }}>
         <Draw d={wobblyEllipse(200, 200, 22, 22, { seed: 6, sweep: 1.14 })} delay={delay} duration={0.9} strokeWidth={strokeWidth + 0.6} />
       </g>
